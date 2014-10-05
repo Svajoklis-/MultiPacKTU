@@ -1,9 +1,9 @@
 MultiPacKTU
 ===========
 
-Pac-Man žaidimas su tinklo galimybėmis.
+Pac-man clone with networking and hotseat capabilities.
 
-Komanda:
+Team:
 
 Vytenis Narušis
 
