@@ -2,8 +2,11 @@
 
 SDL_Window *win = nullptr;
 SDL_Renderer *ren = nullptr;
+SDL_Texture *win_tx = nullptr;
 
 SDL_Rect scr_rect{ 0, 0, scr_w, scr_h };
+SDL_Rect win_rect{ 0, 0, scr_w * scr_scale, scr_h * scr_scale };
+Font_renderer *font_renderer = nullptr;
 
 SDL_Texture* load_image(SDL_Renderer* ren, std::string name)
 {

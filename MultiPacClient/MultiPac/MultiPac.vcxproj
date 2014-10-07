@@ -77,12 +77,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="font_renderer.cpp" />
+    <ClCompile Include="state_menu.cpp" />
     <ClCompile Include="state_test.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="font_renderer.h" />
+    <ClInclude Include="state_menu.h" />
     <ClInclude Include="state_test.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="globals.h" />

@@ -17,7 +17,6 @@ public:
 	void logic();
 	void render();
 
-	static int action(void *ptr);
 	~State_test();
 };
 
