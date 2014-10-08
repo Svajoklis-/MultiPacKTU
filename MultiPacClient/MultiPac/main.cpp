@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 	if (init() != 0)
 		return 2;
 
-	current_state = new State_intro();
+	current_state = new State_menu();
 
 	while (state != st_exit)
 	{

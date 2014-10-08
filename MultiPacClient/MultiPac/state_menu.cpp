@@ -10,6 +10,10 @@ State_menu::State_menu()
 	team_logo = load_image(ren, "res\\img\\team_logo.bmp");
 
 	fun.start();
+
+	menu_items = new string[menu_item_count];
+	menu_items[0] = "SERVER TEST";
+	menu_items[1] = "MAP RENDER";
 }
 
 void State_menu::events()
@@ -47,7 +51,6 @@ void State_menu::render()
 	SDL_Rect dst_rect;
 	int tx_w, tx_h;
 
-	std::stringstream render_msg;
 
 	SDL_QueryTexture(logo, nullptr, nullptr, &tx_w, &tx_h);
 	// x, y, w, h
@@ -62,10 +65,15 @@ void State_menu::render()
 		(scr_w - font_renderer->width("@ GHOSTS, 2014")) / 2,
 		scr_h - font_renderer->height("@ GHOSTS, 2014") - 20);
 
-	render_msg << "PING: " << fun.ticks();
-	font_renderer->render(render_msg.str(),
-		(scr_w - font_renderer->width(render_msg.str())) / 2,
-		scr_h - font_renderer->height(render_msg.str()) - 100);
+	int item_offset = 0;
+	for (int i = 0; i < menu_item_count; i++)
+	{
+		font_renderer->render(menu_items[i],
+			(scr_w - font_renderer->width(menu_items[i])) / 2,
+			scr_h - font_renderer->height(menu_items[i]) - 120 + item_offset);
+
+		item_offset += font_renderer->height(menu_items[i]) + 5;
+	}
 
 	SDL_RenderPresent(ren);
 }
@@ -74,4 +82,6 @@ State_menu::~State_menu()
 {
 	SDL_DestroyTexture(logo);
 	SDL_DestroyTexture(team_logo);
+
+	delete[] menu_items;
 }
