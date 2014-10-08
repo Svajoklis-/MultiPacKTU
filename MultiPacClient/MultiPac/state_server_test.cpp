@@ -1,5 +1,7 @@
 #include "state_server_test.h"
 
+#include <sstream>
+
 State_server_test::State_server_test()
 {
 
@@ -28,7 +30,10 @@ void State_server_test::events()
 
 void State_server_test::logic()
 {
-
+	ping_timer.start();
+	server_num = connection.get_coords();
+	ping = ping_timer.ticks();
+	ping_timer.stop();
 }
 
 void State_server_test::render()
@@ -36,10 +41,27 @@ void State_server_test::render()
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
 
-	//SDL_QueryTexture(logo, nullptr, nullptr, &tx_w, &tx_h);
-	// x, y, w, h
-	//dst_rect = { (scr_w - tx_w) / 2, 40, tx_w, tx_h };
-	//SDL_RenderCopy(ren, logo, nullptr, &dst_rect);
+	std::stringstream text;
+	int x_offset = 20;
+	int y_offset = 20;
+
+	text.str("");
+	text << "PING :" << ping << " MS";
+
+	font_renderer->render(text.str(),
+		x_offset,
+		y_offset);
+
+	y_offset += font_renderer->height(text.str());
+
+	text.str("");
+	text << "MAGIC NUMBER: " << server_num;
+
+	font_renderer->render(text.str(),
+		x_offset,
+		y_offset);
+
+	y_offset += font_renderer->height(text.str());
 
 	SDL_RenderPresent(ren);
 }

@@ -1,9 +1,9 @@
 #include <SDL.h>
-#include <string>
 
 using namespace std;
 
 #include "game_state.h"
+#include "server_connection.h"
 #include "globals.h"
 #include "timer.h"
 
@@ -21,6 +21,11 @@ public:
 	~State_server_test();
 
 private:
+
+	Server_connection connection;
+	int server_num = 0;
+	int ping = 0;
+	Timer ping_timer;
 };
 
 #endif // H_STATE_SERVER_TEST
