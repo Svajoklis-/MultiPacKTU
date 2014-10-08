@@ -25,6 +25,11 @@ private:
 	SDL_Texture *team_logo;
 
 	Timer fun;
+
+	int menu_item_count = 3;
+	string *menu_items;
+	unsigned longest_menu_element = 0;
+	int selected = 0;
 };
 
 #endif // H_STATE_MENU

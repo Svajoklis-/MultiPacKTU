@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E9EBF28-F9E5-440F-A568-D45A7E208AFE}</ProjectGuid>
     <RootNamespace>MultiPac</RootNamespace>
+    <ProjectName>MultiPacClient</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,6 +82,7 @@
     <ClCompile Include="font_renderer.cpp" />
     <ClCompile Include="state_intro.cpp" />
     <ClCompile Include="state_menu.cpp" />
+    <ClCompile Include="state_server_test.cpp" />
     <ClCompile Include="state_test.cpp" />
     <ClCompile Include="globals.cpp" />
     <ClCompile Include="main.cpp" />
@@ -90,6 +92,7 @@
     <ClInclude Include="font_renderer.h" />
     <ClInclude Include="state_intro.h" />
     <ClInclude Include="state_menu.h" />
+    <ClInclude Include="state_server_test.h" />
     <ClInclude Include="state_test.h" />
     <ClInclude Include="game_state.h" />
     <ClInclude Include="globals.h" />

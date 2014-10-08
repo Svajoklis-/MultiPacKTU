@@ -10,6 +10,17 @@ State_menu::State_menu()
 	team_logo = load_image(ren, "res\\img\\team_logo.bmp");
 
 	fun.start();
+
+	menu_items = new string[menu_item_count];
+	menu_items[0] = "REPLAY INTRO";
+	menu_items[1] = "SERVER TEST";
+	menu_items[2] = "MAP RENDER";
+
+	for (int i = 0; i < menu_item_count; i++)
+	{
+		if (menu_items[i].length() > longest_menu_element)
+			longest_menu_element = menu_items[i].length();
+	}
 }
 
 void State_menu::events()
@@ -27,7 +38,33 @@ void State_menu::events()
 			case SDLK_ESCAPE:
 				state = st_exit;
 				break;
+			case SDLK_UP:
+				selected -= 1;
+				if (selected < 0)
+				{
+					selected = menu_item_count - 1;
+				}
+				break;
+
+			case SDLK_DOWN:
+				selected += 1;
+				if (selected >= menu_item_count)
+				{
+					selected = 0;
+				}
+				break;
+
 			case SDLK_RETURN:
+				switch(selected)
+				{
+				case 0:
+					state = st_intro;
+					break;
+				case 1:
+					state = st_server_test;
+				default:
+					break;
+				}
 				break;
 			}
 		}
@@ -47,7 +84,6 @@ void State_menu::render()
 	SDL_Rect dst_rect;
 	int tx_w, tx_h;
 
-	std::stringstream render_msg;
 
 	SDL_QueryTexture(logo, nullptr, nullptr, &tx_w, &tx_h);
 	// x, y, w, h
@@ -62,10 +98,24 @@ void State_menu::render()
 		(scr_w - font_renderer->width("@ GHOSTS, 2014")) / 2,
 		scr_h - font_renderer->height("@ GHOSTS, 2014") - 20);
 
-	render_msg << "PING: " << fun.ticks();
-	font_renderer->render(render_msg.str(),
-		(scr_w - font_renderer->width(render_msg.str())) / 2,
-		scr_h - font_renderer->height(render_msg.str()) - 100);
+	int item_offset = 0;
+	int x_offset = (scr_w - longest_menu_element * (font_renderer->width(" ") + 1) + 3) / 2;
+	for (int i = 0; i < menu_item_count; i++)
+	{
+
+		if (i == selected)
+		{
+			font_renderer->render(">",
+				x_offset,
+				scr_h - font_renderer->height(">") - 120 + item_offset);
+		}
+
+		font_renderer->render(menu_items[i],
+			x_offset + font_renderer->width(" ") + 3,
+			scr_h - font_renderer->height(menu_items[i]) - 120 + item_offset);
+
+		item_offset += font_renderer->height(menu_items[i]) + 5;
+	}
 
 	SDL_RenderPresent(ren);
 }
@@ -74,4 +124,6 @@ State_menu::~State_menu()
 {
 	SDL_DestroyTexture(logo);
 	SDL_DestroyTexture(team_logo);
+
+	delete[] menu_items;
 }
