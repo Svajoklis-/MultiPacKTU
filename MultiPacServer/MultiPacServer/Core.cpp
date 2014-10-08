@@ -97,7 +97,7 @@ int ConsoleControl(void *data){
 		cin >> result;
 		if (result == "joke"){ cout << "YOU SHALL NOT PASS!!!" << endl; }
 		if (result == "clients"){
-			for (int i = 0; i < players.size(); i++){
+			for (unsigned i = 0; i < players.size(); i++){
 				TCPsocket socket = players[i]->GetSocket();
 				IPaddress *remoteIP = SDLNet_TCP_GetPeerAddress(socket);
 				Uint8 *address = (Uint8*)&remoteIP->host;
@@ -157,7 +157,7 @@ int ClientService(void *data){
 				break;
 			case Disconnect:
 				serving = false;
-				for (int i = 0; i < players.size(); i++){
+				for (unsigned i = 0; i < players.size(); i++){
 					if (players[i] == player) players.erase(players.begin() + i);
 				}
 				delete player;
@@ -169,7 +169,7 @@ int ClientService(void *data){
 		}
 		else{
 			serving = false;
-			for (int i = 0; i < players.size(); i++){
+			for (unsigned i = 0; i < players.size(); i++){
 				if (players[i] == player) players.erase(players.begin() + i);
 			}
 			delete player;
@@ -179,7 +179,7 @@ int ClientService(void *data){
 }
 
 Game* AddToGame(Player* player){
-	for (int i = 0; i < games.size(); i++){
+	for (unsigned i = 0; i < games.size(); i++){
 		if (games[i]->GetPlayerCount() < games[i]->maxcount){
 			games[i]->AddPlayer(player);
 			return games[i];
