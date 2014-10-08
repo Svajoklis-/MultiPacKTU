@@ -25,7 +25,6 @@ private:
 	Server_connection connection;
 	int server_num = 0;
 	int ping = 0;
-	Timer ping_timer;
 };
 
 #endif // H_STATE_SERVER_TEST

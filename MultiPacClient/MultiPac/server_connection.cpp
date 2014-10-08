@@ -1,6 +1,7 @@
 #include "server_connection.h"
 
 #include <cstdio>
+#include "timer.h"
 
 Server_connection::Server_connection(){
 	error = "";
@@ -40,7 +41,7 @@ int Server_connection::get_code(int code){
 	return 0;
 }
 
-void Server_connection::get_coords(int *num)
+void Server_connection::get_coords(int *num, int *ping)
 {
 	if (!getting_coords)
 	{
@@ -49,8 +50,10 @@ void Server_connection::get_coords(int *num)
 	}
 }
 
-void Server_connection::thread_get_coords(int *num)
+void Server_connection::thread_get_coords(int *num, int *ping)
 {
+	Timer ping_timer;
+	ping_timer.start();
 	int code = GETCOORDS;
 	int length = sizeof(code);
 	if (SDLNet_TCP_Send(sd, (void *)&code, length) < length)
@@ -61,11 +64,13 @@ void Server_connection::thread_get_coords(int *num)
 	int index = 0;
 	if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
 		*num = index;
+		*ping = ping_timer.ticks();
 		getting_coords = false;
 		return;
 	}
 
 	*num = -1;
+	*ping = ping_timer.ticks();
 	getting_coords = false;
 	return;
 }
