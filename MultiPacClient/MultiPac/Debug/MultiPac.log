@@ -1,17 +1,10 @@
-﻿Build started 2014-10-08 16:46:10.
+﻿Build started 2014-10-08 16:57:17.
      1>Project "D:\Dev\GitHub\MultiPacKTU\MultiPacClient\MultiPac\MultiPac.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt font_renderer.cpp globals.cpp main.cpp state_intro.cpp state_menu.cpp state_test.cpp timer.cpp
-         timer.cpp
-         state_test.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt state_menu.cpp
          state_menu.cpp
-         state_intro.cpp
-         main.cpp
-         globals.cpp
-         font_renderer.cpp
-         Generating Code...
        Link:
-         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.lib" /MACHINE:X86 Debug\font_renderer.obj
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib SDL2_net.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Dev\GitHub\MultiPacKTU\MultiPacClient\Debug\MultiPac.lib" /MACHINE:X86 Debug\font_renderer.obj
          Debug\state_intro.obj
          Debug\state_menu.obj
          Debug\state_test.obj
@@ -23,4 +16,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:03.23
+Time Elapsed 00:00:00.97
