@@ -39,8 +39,9 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)\..\SDL\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)\..\SDL\lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(SolutionDir)\..\SDL\dll;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)\SDL\include;$(IncludePath)</IncludePath>
@@ -78,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="font_renderer.cpp" />
+    <ClCompile Include="state_intro.cpp" />
     <ClCompile Include="state_menu.cpp" />
     <ClCompile Include="state_test.cpp" />
     <ClCompile Include="globals.cpp" />
@@ -86,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="font_renderer.h" />
+    <ClInclude Include="state_intro.h" />
     <ClInclude Include="state_menu.h" />
     <ClInclude Include="state_test.h" />
     <ClInclude Include="game_state.h" />

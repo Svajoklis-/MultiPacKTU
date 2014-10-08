@@ -27,10 +27,13 @@
     <ClCompile Include="state_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="state_menu.cpp">
+    <ClCompile Include="font_renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="font_renderer.cpp">
+    <ClCompile Include="state_intro.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="state_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,10 +50,13 @@
     <ClInclude Include="state_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="state_menu.h">
+    <ClInclude Include="font_renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="font_renderer.h">
+    <ClInclude Include="state_intro.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="state_menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

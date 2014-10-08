@@ -4,7 +4,10 @@
 enum game_states
 {
 	st_exit,
-	st_null
+	st_null,
+
+	st_intro,
+	st_menu
 };
 
 class Game_state

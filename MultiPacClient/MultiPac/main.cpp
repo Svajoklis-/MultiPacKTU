@@ -8,6 +8,7 @@
 #include "globals.h"
 #include "game_state.h"
 #include "state_test.h"
+#include "state_intro.h"
 #include "state_menu.h"
 
 #include "timer.h"
@@ -28,7 +29,7 @@ int main(int argc, char *argv[])
 	if (init() != 0)
 		return 2;
 
-	current_state = new State_menu();
+	current_state = new State_intro();
 
 	while (state != st_exit)
 	{
@@ -54,6 +55,9 @@ int main(int argc, char *argv[])
 			case st_exit:
 				delete current_state;
 				break;
+			case st_menu:
+				delete current_state;
+				current_state = new State_menu();
 			default:
 				state = st_null;
 				break;
