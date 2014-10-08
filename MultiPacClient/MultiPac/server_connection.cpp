@@ -42,7 +42,11 @@ int Server_connection::get_code(int code){
 
 void Server_connection::get_coords(int *num)
 {
-	std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, num);
+	if (!getting_coords)
+	{
+		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, num);
+		getting_coords = true;
+	}
 }
 
 void Server_connection::thread_get_coords(int *num)
@@ -57,9 +61,12 @@ void Server_connection::thread_get_coords(int *num)
 	int index = 0;
 	if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
 		*num = index;
+		getting_coords = false;
+		return;
 	}
-	*num = -1;
 
+	*num = -1;
+	getting_coords = false;
 	return;
 }
 

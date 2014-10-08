@@ -32,6 +32,7 @@ public:
 
 private:
 	void thread_get_coords(int *num);
+	bool getting_coords = false;
 };
 
 #endif
