@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 		return 2;
 
 	// you can set initial state here
-	current_state = new State_menu();
+	current_state = new State_server_test();
 
 	while (state != st_exit)
 	{

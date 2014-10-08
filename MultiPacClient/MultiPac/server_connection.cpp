@@ -1,5 +1,7 @@
 #include "server_connection.h"
 
+#include <cstdio>
+
 Server_connection::Server_connection(){
 	error = "";
 	if (SDLNet_Init() < 0)
@@ -38,21 +40,27 @@ int Server_connection::get_code(int code){
 	return 0;
 }
 
-int Server_connection::get_coords()
+void Server_connection::get_coords(int *num)
+{
+	std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, num);
+}
+
+void Server_connection::thread_get_coords(int *num)
 {
 	int code = GETCOORDS;
-
 	int length = sizeof(code);
 	if (SDLNet_TCP_Send(sd, (void *)&code, length) < length)
 	{
-		return -1;
+		*num = -1;
 	}
 
 	int index = 0;
 	if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
-		return index;
+		*num = index;
 	}
-	return -1;
+	*num = -1;
+
+	return;
 }
 
 Server_connection::~Server_connection(){

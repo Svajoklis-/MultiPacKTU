@@ -1,4 +1,5 @@
 #include <SDL_net.h>
+#include <thread>
 
 #ifndef H_SERVER_CONNECTION
 #define H_SERVER_CONNECTION
@@ -26,8 +27,11 @@ class Server_connection{
 public:
 	Server_connection();
 	int get_code(int code);
-	int get_coords();
+	void get_coords(int *num);
 	~Server_connection();
+
+private:
+	void thread_get_coords(int *num);
 };
 
 #endif

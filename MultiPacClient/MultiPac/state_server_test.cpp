@@ -31,7 +31,7 @@ void State_server_test::events()
 void State_server_test::logic()
 {
 	ping_timer.start();
-	server_num = connection.get_coords();
+	connection.get_coords(&server_num);
 	ping = ping_timer.ticks();
 	ping_timer.stop();
 }
