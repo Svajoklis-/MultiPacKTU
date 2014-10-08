@@ -1,6 +1,6 @@
-#include "map.h"
+#include "state_map.h"
 
-Map::Map()
+State_map::State_map()
 {
 	for (int i = 1; i < 29; i++)
 		for (int j = 1; j < 23; j++)
@@ -10,7 +10,7 @@ Map::Map()
 	assign_tiles();
 }
 
-void Map::events()
+void State_map::events()
 {
 	SDL_Event e;
 
@@ -23,7 +23,7 @@ void Map::events()
 			switch (e.key.keysym.sym)
 			{
 			case SDLK_ESCAPE:
-				state = st_exit;
+				state = st_menu;
 				break;
 			}
 		}
@@ -31,12 +31,12 @@ void Map::events()
 
 }
 
-void Map::logic()
+void State_map::logic()
 {
 
 }
 
-void Map::render()
+void State_map::render()
 {
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
@@ -47,7 +47,7 @@ void Map::render()
 	SDL_RenderPresent(ren);
 }
 
-void Map::read_from_file()
+void State_map::read_from_file()
 {
 	
 	ifstream file;
@@ -59,7 +59,7 @@ void Map::read_from_file()
 
 }
 
-void Map::load_tiles()
+void State_map::load_tiles()
 {
 
 	tile_sprite_sheet = load_image(ren, "res\\img\\tiles.bmp", 255, 0, 255);
@@ -83,7 +83,7 @@ void Map::load_tiles()
 
 }
 
-void Map::assign_tiles()
+void State_map::assign_tiles()
 {	
 	int map_with_tiles[29][23];
 	int neighbourhood[NEIGHBOURS_TOTAL];
@@ -253,13 +253,13 @@ void Map::assign_tiles()
 			map_array[i][j] = map_with_tiles[i][j];
 }
 
-void Map::render_tile(int x, int y, SDL_Rect* clip)
+void State_map::render_tile(int x, int y, SDL_Rect* clip)
 {
 	SDL_Rect tile_rect = { x, y, 8, 8 };
 	SDL_RenderCopy(ren, tile_sprite_sheet, clip, &tile_rect);
 }
 
-Map::~Map()
+State_map::~State_map()
 {
 	SDL_DestroyTexture(tile_sprite_sheet);
 }

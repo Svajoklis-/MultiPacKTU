@@ -8,7 +8,8 @@ enum game_states
 
 	st_intro,
 	st_menu,
-	st_server_test
+	st_server_test,
+	st_map
 };
 
 class Game_state

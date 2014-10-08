@@ -11,6 +11,7 @@
 #include "state_intro.h"
 #include "state_menu.h"
 #include "state_server_test.h"
+#include "state_map.h"
 
 #include "timer.h"
 
@@ -73,6 +74,9 @@ int main(int argc, char *argv[])
 				delete current_state;
 				current_state = new State_server_test();
 				break;
+			case st_map:
+				delete current_state;
+				current_state = new State_map();
 			default:
 				state = st_null;
 				break;

@@ -39,7 +39,7 @@
     <ClCompile Include="state_server_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="map.cpp">
+    <ClCompile Include="state_map.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +68,7 @@
     <ClInclude Include="state_server_test.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="map.h">
+    <ClInclude Include="state_map.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

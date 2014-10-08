@@ -80,7 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="font_renderer.cpp" />
-    <ClCompile Include="map.cpp" />
+    <ClCompile Include="state_map.cpp" />
     <ClCompile Include="state_intro.cpp" />
     <ClCompile Include="state_menu.cpp" />
     <ClCompile Include="state_server_test.cpp" />
@@ -91,7 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="font_renderer.h" />
-    <ClInclude Include="map.h" />
+    <ClInclude Include="state_map.h" />
     <ClInclude Include="state_intro.h" />
     <ClInclude Include="state_menu.h" />
     <ClInclude Include="state_server_test.h" />

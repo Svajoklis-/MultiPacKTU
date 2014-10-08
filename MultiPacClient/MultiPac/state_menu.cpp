@@ -62,6 +62,10 @@ void State_menu::events()
 					break;
 				case 1:
 					state = st_server_test;
+					break;
+				case 2:
+					state = st_map;
+					break;
 				default:
 					break;
 				}

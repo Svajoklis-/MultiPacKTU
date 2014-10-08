@@ -42,10 +42,10 @@ enum Different_Tiles
 };
 
 
-class Map : public Game_state
+class State_map : public Game_state
 {
 public:
-	Map();
+	State_map();
 	void events();
 	void logic();
 	void render();
@@ -55,14 +55,12 @@ public:
 
 	void render_tile(int x, int y, SDL_Rect* clip);
 
-	~Map();
+	~State_map();
 	
 private:
 	int map_array[29][23];
 	SDL_Texture *tile_sprite_sheet;
 	SDL_Rect tile_sprite_clips[TILE_TOTAL];
 	
-
-
 };
 
