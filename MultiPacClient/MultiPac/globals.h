@@ -26,7 +26,7 @@ extern SDL_Rect win_rect;
 
 extern Font_renderer *font_renderer;
 
-const int scr_fps = 5000;
+const int scr_fps = 100;
 
 // loads an image to SDL_Texture
 // second version loads an image with single color alpha channel (eg. magenta background)

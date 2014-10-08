@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E9EBF28-F9E5-440F-A568-D45A7E208AFE}</ProjectGuid>
     <RootNamespace>MultiPac</RootNamespace>
+    <ProjectName>MultiPacClient</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -31,7 +31,31 @@ void State_menu::events()
 			case SDLK_ESCAPE:
 				state = st_exit;
 				break;
+			case SDLK_UP:
+				selected -= 1;
+				if (selected < 0)
+				{
+					selected = menu_item_count - 1;
+				}
+				break;
+
+			case SDLK_DOWN:
+				selected += 1;
+				if (selected >= menu_item_count)
+				{
+					selected = 0;
+				}
+				break;
+
 			case SDLK_RETURN:
+				switch(selected)
+				{
+				case 0:
+					state = st_intro;
+					break;
+				default:
+					break;
+				}
 				break;
 			}
 		}
@@ -66,10 +90,19 @@ void State_menu::render()
 		scr_h - font_renderer->height("@ GHOSTS, 2014") - 20);
 
 	int item_offset = 0;
+	int x_offset = 90;
 	for (int i = 0; i < menu_item_count; i++)
 	{
+
+		if (i == selected)
+		{
+			font_renderer->render(">",
+				x_offset - font_renderer->width(">") - 3,
+				scr_h - font_renderer->height(">") - 120 + item_offset);
+		}
+
 		font_renderer->render(menu_items[i],
-			(scr_w - font_renderer->width(menu_items[i])) / 2,
+			x_offset,
 			scr_h - font_renderer->height(menu_items[i]) - 120 + item_offset);
 
 		item_offset += font_renderer->height(menu_items[i]) + 5;

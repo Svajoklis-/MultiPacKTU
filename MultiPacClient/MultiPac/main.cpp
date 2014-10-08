@@ -55,9 +55,14 @@ int main(int argc, char *argv[])
 			case st_exit:
 				delete current_state;
 				break;
+			case st_intro:
+				delete current_state;
+				current_state = new State_intro();
+				break;
 			case st_menu:
 				delete current_state;
 				current_state = new State_menu();
+				break;
 			default:
 				state = st_null;
 				break;
