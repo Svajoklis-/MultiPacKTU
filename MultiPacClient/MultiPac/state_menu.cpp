@@ -14,7 +14,7 @@ State_menu::State_menu()
 	menu_items = new string[menu_item_count];
 	menu_items[0] = "REPLAY INTRO";
 	menu_items[1] = "SERVER TEST";
-	menu_items[2] = "MAP RENDER";
+	menu_items[2] = "MAP RENDER DEMO";
 
 	for (int i = 0; i < menu_item_count; i++)
 	{
