@@ -19,6 +19,7 @@ void quit();
 game_states state = st_null;
 Game_state *current_state;
 
+// used by frame limiter
 Timer timer;
 
 int main(int argc, char *argv[])
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
 	if (init() != 0)
 		return 2;
 
+	// you can set initial state here
 	current_state = new State_menu();
 
 	while (state != st_exit)
@@ -38,14 +40,17 @@ int main(int argc, char *argv[])
 		current_state->events();
 		current_state->logic();
 
+		// states render to window texture
 		SDL_SetRenderTarget(ren, win_tx);
 		current_state->render();
 
+		// main loop scales rendered texture to window
 		SDL_SetRenderTarget(ren, nullptr);
 		SDL_RenderClear(ren);
 		SDL_RenderCopy(ren, win_tx, &scr_rect, &win_rect);
 		SDL_RenderPresent(ren);
 
+		// check if state hasn't changed
 		state = current_state->get_state();
 
 		if (state != st_null)
@@ -69,13 +74,12 @@ int main(int argc, char *argv[])
 			}
 		}
 
+		// delay if frame finished fast enough
 		if (timer.ticks() < 1000 / scr_fps)
 			SDL_Delay((1000 / scr_fps) - timer.ticks());
 	}
 
 	quit();
-
-	return 0;
 
 	return 0;
 }
@@ -107,6 +111,8 @@ void quit()
 {
 	SDL_DestroyRenderer(ren);
 	SDL_DestroyWindow(win);
+
+	delete font_renderer;
 
 	SDL_Quit();
 }

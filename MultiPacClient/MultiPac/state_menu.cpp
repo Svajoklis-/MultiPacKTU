@@ -14,6 +14,12 @@ State_menu::State_menu()
 	menu_items = new string[menu_item_count];
 	menu_items[0] = "SERVER TEST";
 	menu_items[1] = "MAP RENDER";
+
+	for (int i = 0; i < menu_item_count; i++)
+	{
+		if (menu_items[i].length() > longest_menu_element)
+			longest_menu_element = menu_items[i].length();
+	}
 }
 
 void State_menu::events()
@@ -90,19 +96,19 @@ void State_menu::render()
 		scr_h - font_renderer->height("@ GHOSTS, 2014") - 20);
 
 	int item_offset = 0;
-	int x_offset = 90;
+	int x_offset = (scr_w - longest_menu_element * (font_renderer->width(" ") + 1) + 3) / 2;
 	for (int i = 0; i < menu_item_count; i++)
 	{
 
 		if (i == selected)
 		{
 			font_renderer->render(">",
-				x_offset - font_renderer->width(">") - 3,
+				x_offset,
 				scr_h - font_renderer->height(">") - 120 + item_offset);
 		}
 
 		font_renderer->render(menu_items[i],
-			x_offset,
+			x_offset + font_renderer->width(" ") + 3,
 			scr_h - font_renderer->height(menu_items[i]) - 120 + item_offset);
 
 		item_offset += font_renderer->height(menu_items[i]) + 5;

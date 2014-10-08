@@ -28,6 +28,7 @@ private:
 
 	int menu_item_count = 2;
 	string *menu_items;
+	int longest_menu_element = 0;
 	int selected = 0;
 };
 
