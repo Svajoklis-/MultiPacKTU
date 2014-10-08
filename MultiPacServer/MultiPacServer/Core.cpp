@@ -34,7 +34,8 @@ void AcceptClients();
 int ClientService(void *data);
 int ConsoleControl(void *data);
 int GameLoop(void *data);
-void AddToGame(Player* player);
+Game* AddToGame(Player* player);
+void ReturnPlayersCoords(Game *game);
 void FreeServer();
 
 bool running = true;
@@ -135,9 +136,10 @@ int ClientService(void *data){
 				//sending map if any
 				break;
 			case Ready:
-				AddToGame(player);
+				game = AddToGame(player);
 				break;
 			case GetCoords:
+				game->ReturnPlayersCoords();
 				break;
 			case GoingTop:
 				player->SetNextWay(Player::Top);
@@ -177,11 +179,18 @@ int ClientService(void *data){
 }
 
 Game* AddToGame(Player* player){
-	for (vector<Game*>::iterator it = games.begin(); it != games.end(); ++it)
-	{
-
+	for (int i = 0; i < games.size(); i++){
+		if (games[i]->GetPlayerCount() < games[i]->maxcount){
+			games[i]->AddPlayer(player);
+			return games[i];
+		}
 	}
+	Game *game = new Game();
+	games.push_back(game);
+	game->AddPlayer(player);
+	return game;
 }
+
 
 void FreeServer(){
 	SDLNet_Quit();

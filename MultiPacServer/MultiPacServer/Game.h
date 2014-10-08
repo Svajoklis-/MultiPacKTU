@@ -2,20 +2,30 @@
 
 class Game{
 	vector<Player*> players; //mutex needed
-	static int count;
+	int count;
 public:
+
+	static const int maxcount = 4;
+
 	Game(){
 		count = 0;
+	}
+
+	int GetPlayerCount(){
+		return count;
 	}
 
 	void AddPlayer(Player *player){
 		players.push_back(player);
 	}
 
-	static int RunGame(void *data){
-		while (count > 0){
+	void ReturnPlayersCoords(){
+		int code = 666;
+		int length = sizeof(int);
+		SDLNet_TCP_Send(players[0]->GetSocket(), (void *)&code, length);
+	}
 
-		}
+	static int RunGame(){
 		return 0;
 	}
 
