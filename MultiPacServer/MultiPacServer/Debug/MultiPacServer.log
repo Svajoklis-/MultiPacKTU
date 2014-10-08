@@ -1,0 +1,11 @@
+﻿Build started 10/8/2014 4:59:58 PM.
+     1>Project "D:\Mokslai\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         D:\Programs\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Mokslai\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib SDL2_net.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Mokslai\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Mokslai\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.lib" /MACHINE:X86 Debug\Core.obj
+     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         MultiPacServer.vcxproj -> D:\Mokslai\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe
+     1>Done Building Project "D:\Mokslai\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.68
