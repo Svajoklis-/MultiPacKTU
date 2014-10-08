@@ -12,8 +12,9 @@ State_menu::State_menu()
 	fun.start();
 
 	menu_items = new string[menu_item_count];
-	menu_items[0] = "SERVER TEST";
-	menu_items[1] = "MAP RENDER";
+	menu_items[0] = "REPLAY INTRO";
+	menu_items[1] = "SERVER TEST";
+	menu_items[2] = "MAP RENDER";
 
 	for (int i = 0; i < menu_item_count; i++)
 	{
@@ -59,6 +60,8 @@ void State_menu::events()
 				case 0:
 					state = st_intro;
 					break;
+				case 1:
+					state = st_server_test;
 				default:
 					break;
 				}

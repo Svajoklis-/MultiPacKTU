@@ -10,6 +10,7 @@
 #include "state_test.h"
 #include "state_intro.h"
 #include "state_menu.h"
+#include "state_server_test.h"
 
 #include "timer.h"
 
@@ -67,6 +68,10 @@ int main(int argc, char *argv[])
 			case st_menu:
 				delete current_state;
 				current_state = new State_menu();
+				break;
+			case st_server_test:
+				delete current_state;
+				current_state = new State_server_test();
 				break;
 			default:
 				state = st_null;
