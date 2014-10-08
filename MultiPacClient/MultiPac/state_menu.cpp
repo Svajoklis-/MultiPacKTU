@@ -1,12 +1,15 @@
 #include "state_menu.h"
 
 #include <cstdio>
+#include <sstream>
 
 State_menu::State_menu()
 {
 	logo = load_image(ren, "res\\img\\logo.bmp");
 
 	team_logo = load_image(ren, "res\\img\\team_logo.bmp");
+
+	fun.start();
 }
 
 void State_menu::events()
@@ -44,6 +47,8 @@ void State_menu::render()
 	SDL_Rect dst_rect;
 	int tx_w, tx_h;
 
+	std::stringstream render_msg;
+
 	SDL_QueryTexture(logo, nullptr, nullptr, &tx_w, &tx_h);
 	// x, y, w, h
 	dst_rect = { (scr_w - tx_w) / 2, 40, tx_w, tx_h };
@@ -56,6 +61,11 @@ void State_menu::render()
 	font_renderer->render("@ GHOSTS, 2014",
 		(scr_w - font_renderer->width("@ GHOSTS, 2014")) / 2,
 		scr_h - font_renderer->height("@ GHOSTS, 2014") - 20);
+
+	render_msg << "PING: " << fun.ticks();
+	font_renderer->render(render_msg.str(),
+		(scr_w - font_renderer->width(render_msg.str())) / 2,
+		scr_h - font_renderer->height(render_msg.str()) - 100);
 
 	SDL_RenderPresent(ren);
 }

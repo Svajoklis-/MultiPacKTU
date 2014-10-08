@@ -23,6 +23,8 @@ public:
 private:
 	SDL_Texture *logo;
 	SDL_Texture *team_logo;
+
+	Timer fun;
 };
 
 #endif // H_STATE_MENU
