@@ -1,3 +1,5 @@
+#include "SDL_net.h"
+
 class Player{
 public:
 	enum Way{ Top, Right, Bottom, Left };
@@ -9,42 +11,16 @@ private:
 	Coords coords;		//mutex needed
 
 public:
-	Player(TCPsocket socket){
-		this->socket = socket;
-	}
+	Player(TCPsocket socket) { this->socket = socket; }
 
-	TCPsocket GetSocket(){
-		return socket;
-	}
+	TCPsocket GetSocket() { return socket; }
 
-	void SetNextWay(Way next){
-		this->next = next;
-	}
+	void SetNextWay(Way next) { this->next = next; }
 
-	Coords GetCoords(){
-		return coords;
-	}
+	Coords GetCoords() { return coords; }
 
-	void MakeAMove(bool nextisvalid){
-		if (nextisvalid) current = next;
-		switch (current){
-		case Top:
-			coords.x--;
-			break;
-		case Right:
-			coords.y++;
-			break;
-		case Bottom:
-			coords.x++;
-			break;
-		case Left:
-			coords.y--;
-			break;
-		}
-	}
+	void MakeAMove(bool nextisvalid);
 
-	~Player(){
-		SDLNet_TCP_Close(socket);
-	}
+	~Player() { SDLNet_TCP_Close(socket); }
 
 };

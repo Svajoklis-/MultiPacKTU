@@ -1,37 +1,24 @@
 #include "Player.h"
+#include <vector>
+#include "SDL_net.h"
 
 class Game{
-	vector<Player*> players; //mutex needed
-	int count;
+	std::vector<Player*> players; //mutex needed
 public:
 
 	static const int maxcount = 4;
 
-	Game(){
-		count = 0;
-	}
+	Game(){}
 
-	int GetPlayerCount(){
-		return count;
-	}
+	int GetPlayerCount() { return players.size(); }
 
-	void AddPlayer(Player *player){
-		players.push_back(player);
-	}
+	void AddPlayer(Player *player) { players.push_back(player); }
 
-	void ReturnPlayersCoords(){
-		int code = 666;
-		int length = sizeof(int);
-		SDLNet_TCP_Send(players[0]->GetSocket(), (void *)&code, length);
-	}
+	void ReturnPlayersCoords();
 
-	static int RunGame(){
-		return 0;
-	}
+	static int RunGame();
 
-	bool CheckMap(Player::Coords coords, Player::Way way){
-		return true;
-	}
+	bool CheckMap(Player::Coords coords, Player::Way way);
 
 	~Game(){};
 };
