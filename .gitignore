@@ -24,3 +24,9 @@
 *.exe
 *.out
 *.app
+
+*.pdb
+*.ilk
+*.idb
+*.pdb
+*.sdf
