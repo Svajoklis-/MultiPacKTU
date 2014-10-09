@@ -43,7 +43,7 @@ void State_server_test::render()
 	int y_offset = 20;
 
 	text.str("");
-	text << "PING :" << ping << " MS";
+	text << "PING: " << ping << " MS";
 
 	font_renderer->render(text.str(),
 		x_offset,
