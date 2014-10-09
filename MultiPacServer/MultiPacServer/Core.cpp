@@ -20,6 +20,7 @@ enum ClientPackageIndex{
 	NOP = 0,
 	NewGame = 10,			//send map and stuff
 	Ready = 11,				//loaded everything
+	NUMBEROFTHEDAY = 12,
 	GetCoords = 15,
 	GoingTop = 20,
 	GoingRight = 21,
@@ -39,6 +40,8 @@ void ReturnPlayersCoords(Game *game);
 void FreeServer();
 
 bool running = true;
+
+int daynumber = 666;
 
 TCPsocket serversocket;
 IPaddress ip;
@@ -104,6 +107,7 @@ int ConsoleControl(void *data){
 				printf("Client connected: %d.%d.%d.%d %d\n", (unsigned short)address[0], (unsigned short)address[1], (unsigned short)address[2], (unsigned short)address[3], SDLNet_Read16(&remoteIP->port));
 			}
 		}
+		if (result == "setmagicnumber"){ cin >> daynumber; }
 	}
 	running = false;
 	return 0;
@@ -137,6 +141,9 @@ int ClientService(void *data){
 				break;
 			case Ready:
 				game = AddToGame(player);
+				break;
+			case NUMBEROFTHEDAY:
+				SDLNet_TCP_Send(players[0]->GetSocket(), (void *)&daynumber, sizeof(int));
 				break;
 			case GetCoords:
 				game->ReturnPlayersCoords();

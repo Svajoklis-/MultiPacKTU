@@ -54,7 +54,7 @@ void Server_connection::thread_get_coords(int *num, int *ping)
 {
 	Timer ping_timer;
 	ping_timer.start();
-	int code = GETCOORDS;
+	int code = MESSAGEOFTHEDAY;
 	int length = sizeof(code);
 	if (SDLNet_TCP_Send(sd, (void *)&code, length) < length)
 	{

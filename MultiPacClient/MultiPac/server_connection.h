@@ -8,6 +8,7 @@ enum packet_enum{
 	NOP = 0,
 	NEW_GAME = 10,			//send map and stuff
 	READY = 11,				//loaded everything
+	MESSAGEOFTHEDAY = 12,
 	GETCOORDS = 15,
 	GOINGTOP = 20,
 	GOINGRIGHT = 21,
