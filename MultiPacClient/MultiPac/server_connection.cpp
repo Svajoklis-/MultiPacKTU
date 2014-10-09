@@ -65,13 +65,13 @@ void Server_connection::thread_get_coords(int *num, int *ping)
 	if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
 		*num = index;
 		*ping = ping_timer.ticks();
-		getting_coords = false;
+		this->getting_coords = false;
 		return;
 	}
 
 	*num = -1;
 	*ping = ping_timer.ticks();
-	getting_coords = false;
+	this->getting_coords = false;
 	return;
 }
 
