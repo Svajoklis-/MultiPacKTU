@@ -19,7 +19,7 @@ enum packet_enum{
 };
 
 class Server_connection{
-	char* connectionstring = "192.168.0.69";
+	char* connectionstring = "localhost";
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */
