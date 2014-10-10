@@ -50,7 +50,7 @@ Uint16 port = 2001;
 vector<Player*> players;	//mutex needed
 vector<Game*> games;		//mutex needed
 
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
 	InitServer();
 

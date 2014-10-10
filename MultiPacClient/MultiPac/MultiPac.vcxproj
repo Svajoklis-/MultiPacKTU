@@ -40,13 +40,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)\..\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\..\SDL\lib;$(LibraryPath)</LibraryPath>
-    <ExecutablePath>$(SolutionDir)\..\SDL\dll;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>$(SolutionDir)/../SDL/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)/../SDL/lib;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)\SDL\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)\SDL\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)/../SDL/include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)/../SDL/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -74,7 +74,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_net.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
