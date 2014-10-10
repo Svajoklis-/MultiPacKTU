@@ -7,7 +7,7 @@
 using namespace std;
 
 
-enum Neighbours
+enum neighbours
 {
 	UPPER_LEFT,
 	UPPER_MIDDLE,
@@ -20,7 +20,7 @@ enum Neighbours
 	NEIGHBOURS_TOTAL
 };
 
-enum Different_Tiles
+enum different_tiles
 {
 	TILE_VERTICAL,
 	TILE_HORIZONTAL,
