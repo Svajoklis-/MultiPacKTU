@@ -3,6 +3,7 @@
 #include "game_state.h"
 #include "globals.h"
 #include "map.h"
+#include "pacman.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ public:
 	
 private:
 	Map map;
+	Pacman pacman;
 
 
 

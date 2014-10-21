@@ -34,6 +34,7 @@ void State_map::logic()
 void State_map::render()
 {
 	map.render();
+	pacman.render();
 	
 }
 
