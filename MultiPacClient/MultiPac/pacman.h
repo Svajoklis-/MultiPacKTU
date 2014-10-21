@@ -8,16 +8,6 @@
 using namespace std;
 
 
-enum sprites
-{
-	FULL,
-	ONE_SIXTH,
-	ONE_FOURTH,
-	SPRITES_TOTAL
-};
-
-
-
 
 class Pacman
 {
@@ -31,9 +21,8 @@ private:
 	void load_sprites();
 
 
-	double temporary_scale_var;
 	Timer timer;
 	SDL_Texture *sprite_sheet;
-	SDL_Rect sprite_clips[SPRITES_TOTAL];
+	SDL_Rect sprite_clips[4];
 
 };

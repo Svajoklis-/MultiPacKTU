@@ -13,7 +13,6 @@ void Pacman::render()
 	for (int i = 2; i < 9; i++)
 	for (int j = 2; j < 9; j++)
 		render_sprite((j - 1) * 16 - 12, (i - 1) * 16 - 12 , &sprite_clips[timer.ticks() / 75 % 4]);
-	SDL_RenderPresent(ren);
 }
 
 
@@ -44,4 +43,5 @@ void Pacman::render_sprite(int x, int y, SDL_Rect* clip)
 Pacman::~Pacman()
 {
 	SDL_DestroyTexture(sprite_sheet);
+	timer.stop();
 }
