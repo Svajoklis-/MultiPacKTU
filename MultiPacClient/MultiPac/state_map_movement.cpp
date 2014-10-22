@@ -62,7 +62,7 @@ void State_map_movement::render()
 	pacman.render();
 }
 
-State_map_movement::State_map_movement()
+State_map_movement::~State_map_movement()
 {
 
 }
