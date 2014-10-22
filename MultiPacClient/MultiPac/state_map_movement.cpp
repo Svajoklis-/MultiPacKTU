@@ -2,11 +2,21 @@
 
 State_map_movement::State_map_movement()
 {
-	int **server_map = new int *[connection.dim_x];
+	int **server_map = new int*[connection.dim_x];
 	for (int i = 0; i < connection.dim_x; i++)
 		server_map[i] = new int[connection.dim_y];
 
-	connection.new_game(server_map);
+	int *buffer = new int[connection.dim_x * connection.dim_y];
+
+	connection.new_game(buffer);
+
+	for (int i = 0; i < connection.dim_x; i++)
+	{
+		for (int j = 0; j < connection.dim_y; j++)
+		{
+			server_map[i][j] = buffer[i * connection.dim_x + j];
+		}
+	}
 	
 	map.load_from_memory(server_map);
 
@@ -14,6 +24,8 @@ State_map_movement::State_map_movement()
 		delete[] server_map[i];
 
 	delete[] server_map;
+
+	delete[] buffer;
 }
 
 void State_map_movement::events()
@@ -57,9 +69,14 @@ void State_map_movement::logic()
 
 void State_map_movement::render()
 {
+	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+	SDL_RenderClear(ren);
+
 	map.render();
 
 	pacman.render();
+
+	SDL_RenderPresent(ren);
 }
 
 State_map_movement::~State_map_movement()

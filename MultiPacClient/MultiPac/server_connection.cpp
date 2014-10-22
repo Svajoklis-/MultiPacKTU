@@ -30,7 +30,7 @@ void Server_connection::send_code(int number){
 	}
 }
 
-void Server_connection::new_game(int **map){
+void Server_connection::new_game(int *map){
 	send_code(NEW_GAME);
 	if (SDLNet_TCP_Recv(sd, (void *)map, 27 * 21 * sizeof(int)) <= 0){
 		std::string error(SDLNet_GetError());

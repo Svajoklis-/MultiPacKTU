@@ -29,6 +29,8 @@ private:
 	int coord_count = 0;
 	int ping = 0;
 
+	int dir = 0;
+
 	Map map;
 
 	Pacman pacman;

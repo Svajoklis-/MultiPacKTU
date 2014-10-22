@@ -48,7 +48,7 @@ private:
 
 public:
 	Server_connection();
-	void new_game(int **map);
+	void new_game(int *map);
 	void ready();
 	void going_top();
 	void going_bottom();
