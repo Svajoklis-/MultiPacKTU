@@ -21,7 +21,7 @@ void Map::render()
 	SDL_RenderPresent(ren);
 }
 
-void Map::get_map(int** map)
+void Map::set_map(int** map)
 {
 	for (int i = 1; i < 28; i++)
 		for (int j = 1; j < 22; j++)

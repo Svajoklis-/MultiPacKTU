@@ -47,7 +47,7 @@ class Map
 public:
 	Map();
 	void render();
-	void get_map(int** map);
+	void set_map(int** map);
 	~Map();
 
 private:
