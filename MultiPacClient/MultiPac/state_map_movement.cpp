@@ -14,7 +14,7 @@ State_map_movement::State_map_movement()
 	{
 		for (int j = 0; j < connection.dim_y; j++)
 		{
-			server_map[i][j] = buffer[i * connection.dim_x + j];
+			server_map[i][j] = buffer[i * connection.dim_y + j];
 		}
 	}
 	

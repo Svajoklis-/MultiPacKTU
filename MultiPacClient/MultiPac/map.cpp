@@ -5,9 +5,9 @@ Map::Map()
 	for (int i = 0; i < 29; i++)
 	for (int j = 0; j < 23; j++)
 		map_array[i][j] = 0;
-	read_from_file();
+	//read_from_file();
 	load_tiles();
-	assign_tiles();
+	//assign_tiles();
 }
 
 
@@ -24,8 +24,15 @@ void Map::render()
 void Map::load_from_memory(int** map)
 {
 	for (int i = 1; i < 28; i++)
+	{
 		for (int j = 1; j < 22; j++)
+		{
 			map_array[i][j] = map[i - 1][j - 1];
+		}
+	}
+
+
+	assign_tiles();
 
 }
 
