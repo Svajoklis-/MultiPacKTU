@@ -62,14 +62,15 @@ void State_map::logic()
 	else
 	if (y < lasty)
 		direction = 3;
+
+	pacman.set_coords(x, y, direction);
 }
 
 void State_map::render()
 {
 	map.render();
-	pacman.set_coords(x, y, direction);
-	pacman.render();
 	
+	pacman.render();
 }
 
 

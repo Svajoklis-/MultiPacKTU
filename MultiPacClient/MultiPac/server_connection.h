@@ -48,7 +48,7 @@ private:
 
 public:
 	Server_connection();
-	void new_game(int map[][mapwidth]);
+	void new_game(int **map);
 	void ready();
 	void going_top();
 	void going_bottom();
@@ -58,6 +58,8 @@ public:
 	void disconnect(){ send_code(DISCONNECT); }
 	void get_coords(Coords *coords, int *count, int *ping);		//isoreje turi coords masyva, int count ir int ping taip kaip tu darei
 	~Server_connection();
+
+	int dim_x = 27, dim_y = 21;
 
 private:
 

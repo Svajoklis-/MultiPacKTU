@@ -33,7 +33,6 @@ void Map::set_map(int** map)
 
 void Map::read_from_file()
 {
-
 	ifstream file;
 	file.open("res\\map\\map.txt");
 	for (int i = 1; i < 28; i++)

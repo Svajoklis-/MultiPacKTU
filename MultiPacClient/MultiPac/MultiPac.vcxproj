@@ -85,6 +85,7 @@
     <ClCompile Include="server_connection.cpp" />
     <ClCompile Include="state_map.cpp" />
     <ClCompile Include="state_intro.cpp" />
+    <ClCompile Include="state_map_movement.cpp" />
     <ClCompile Include="state_menu.cpp" />
     <ClCompile Include="state_server_test.cpp" />
     <ClCompile Include="state_test.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="pacman.h" />
     <ClInclude Include="state_map.h" />
     <ClInclude Include="state_intro.h" />
+    <ClInclude Include="state_map_movement.h" />
     <ClInclude Include="state_menu.h" />
     <ClInclude Include="state_server_test.h" />
     <ClInclude Include="state_test.h" />
