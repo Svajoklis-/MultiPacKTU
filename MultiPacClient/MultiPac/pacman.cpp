@@ -12,17 +12,19 @@ Pacman::Pacman()
 
 void Pacman::render()
 {
-	if (direction == 0)
-	render_sprite(x - 4, y - 4, &sprite_clips[timer.ticks() / 75 % 4]);
-	else
-	if (direction == 1)
-	render_sprite(x - 4, y - 4, &sprite_clips[(timer.ticks() / 75 % 4) + 4]);
-	else
-	if (direction == 2)
-	render_sprite(x - 4, y - 4, &sprite_clips[(timer.ticks() / 75 % 4) + 8]);
-	else
-	if (direction == 3)
-	render_sprite(x - 4, y - 4, &sprite_clips[(timer.ticks() / 75 % 4) + 12]);
+	render_sprite(x - 4, y - 4, &sprite_clips[frame + direction * 4]);
+
+	int timer_ticks = timer.ticks();
+	if (timer_ticks >= frame_interval)
+	{
+		for (int i = 0; i < timer_ticks / frame_interval; i++)
+		{
+			frame += 1;
+			if (frame >= frame_count)
+				frame = 0;
+		}
+		timer.restart();
+	}
 
 }
 void Pacman::set_coords(int x_axis, int y_axis, int direction_num)
@@ -73,14 +75,13 @@ void Pacman::load_sprites()
 		sprite_clips[i].h = 16;
 	}
 	sprite_clips[15] = sprite_clips[13];
-
 }
+
 void Pacman::render_sprite(int x, int y, SDL_Rect* clip)
 {
 	SDL_Rect tile_rect = { x, y, 16, 16 };
 	SDL_RenderCopy(ren, sprite_sheet, clip, &tile_rect);
 }
-
 
 Pacman::~Pacman()
 {

@@ -23,6 +23,7 @@ private:
 	int x, y, direction;
 
 	Timer timer;
+	int frame = 0, frame_count = 4, frame_interval = 100;
 	SDL_Texture *sprite_sheet;
 	SDL_Rect sprite_clips[16];
 
