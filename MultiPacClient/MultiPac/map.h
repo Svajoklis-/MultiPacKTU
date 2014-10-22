@@ -48,12 +48,13 @@ public:
 	Map();
 	void render();
 	void load_from_memory(int** map);
+	void read_from_file();
+	void assign_tiles();
 	~Map();
 
 private:
 	void render_tile(int x, int y, SDL_Rect* clip);
-	void read_from_file();
-	void assign_tiles();
+	
 	void load_tiles();
 
 

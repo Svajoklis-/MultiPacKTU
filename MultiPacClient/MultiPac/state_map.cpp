@@ -68,6 +68,8 @@ void State_map::logic()
 
 void State_map::render()
 {
+	map.read_from_file();
+	map.assign_tiles();
 	map.render();
 	
 	pacman.render();
