@@ -9,18 +9,22 @@ private:
 	TCPsocket socket;
 	Way current, next;	//mutexezz needed
 	Coords coords;		//mutex needed
+	bool playing;
 
 public:
-	Player(TCPsocket socket) { this->socket = socket; }
+
+	Player(TCPsocket socket) { this->socket = socket; playing = false; coords.x = 0; coords.y = 0; next = Top; }
 
 	TCPsocket GetSocket() { return socket; }
+	Way GetNextWay() { return next; }
+	Coords GetCoords() { return coords; }
+	bool IsPlaying() { return playing; }
 
 	void SetNextWay(Way next) { this->next = next; }
-
-	Coords GetCoords() { return coords; }
-
-	void MakeAMove(bool nextisvalid);
+	void SetCoords(Coords coords) { this->coords = coords; }
+	void SetPlaying(bool playing) { this->playing = playing; }
 
 	~Player() { SDLNet_TCP_Close(socket); }
 
+	void MakeAMove(bool nextisvalid);
 };

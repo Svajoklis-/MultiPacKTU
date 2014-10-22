@@ -66,29 +66,34 @@ int main(int argc, char *argv[])
 void InitServer(){
 	if (SDL_Init(0) < 0)
 	{
+		//kazkaip erorus suhandlinti
 		fprintf(stderr, "SDL_Init: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
 	if (SDLNet_Init() < 0)
 	{
+		//kazkaip erorus suhandlinti
 		fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
 
 	if (!SDL_CreateThread(ConsoleControl, "PacmanConsoleControl", (void *)NULL))
 	{
+		//kazkaip erorus suhandlinti
 		fprintf(stderr, "Creating Console Control: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
 
 	if (SDLNet_ResolveHost(&ip, NULL, port) < 0)
 	{
+		//kazkaip erorus suhandlinti
 		fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
 
 	if (!(serversocket = SDLNet_TCP_Open(&ip)))
 	{
+		//kazkaip erorus suhandlinti
 		fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
@@ -121,7 +126,8 @@ void AcceptClients(){
 		players.push_back(player);
 		if (!SDL_CreateThread(ClientService, "PackmanClientService", (void *)player))
 		{
-			fprintf(stderr, "Creating Console Control: %s\n", SDLNet_GetError());
+			//kazkaip erorus suhandlinti
+			fprintf(stderr, "Creating Client Service: %s\n", SDLNet_GetError());
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -137,13 +143,17 @@ int ClientService(void *data){
 			switch (index)
 			{
 			case NewGame:
-				//sending map if any
+				game = AddToGame(player);
+				int map[27][21];
+				game->GetMap(map);
+				SDLNet_TCP_Send(player->GetSocket(), (void *)map, 27 * 21 * sizeof(int));
+				//return map somehow
 				break;
 			case Ready:
-				game = AddToGame(player);
+				player->SetPlaying(true);
 				break;
 			case NUMBEROFTHEDAY:
-				SDLNet_TCP_Send(players[0]->GetSocket(), (void *)&daynumber, sizeof(int));
+				SDLNet_TCP_Send(player->GetSocket(), (void *)&daynumber, sizeof(int));
 				break;
 			case GetCoords:
 				game->ReturnPlayersCoords();
@@ -161,13 +171,12 @@ int ClientService(void *data){
 				player->SetNextWay(Player::Left);
 				break;
 			case ExitGame:
+				game->RemovePlayer(player);
+				game = NULL;
 				break;
 			case Disconnect:
 				serving = false;
-				for (unsigned i = 0; i < players.size(); i++){
-					if (players[i] == player) players.erase(players.begin() + i);
-				}
-				delete player;
+				if (game) { game->RemovePlayer(player); }
 				break;
 			default:
 				printf("Got unknown numbah %d from client MUHAHAHA\n", index);
@@ -175,13 +184,15 @@ int ClientService(void *data){
 			}
 		}
 		else{
+			//kazkaip erorus suhandlinti, jeigu tcp nutruko pasalinam zaideja
 			serving = false;
-			for (unsigned i = 0; i < players.size(); i++){
-				if (players[i] == player) players.erase(players.begin() + i);
-			}
-			delete player;
+			if (game) { game->RemovePlayer(player); }
 		}
 	}
+	for (unsigned i = 0; i < players.size(); i++){
+		if (players[i] == player) players.erase(players.begin() + i);
+	}
+	delete player;
 	return 0;
 }
 
@@ -195,14 +206,29 @@ Game* AddToGame(Player* player){
 	Game *game = new Game();
 	games.push_back(game);
 	game->AddPlayer(player);
+	if (!SDL_CreateThread(GameLoop, "GameLoopService", (void *)game))
+	{
+		//kazkaip erorus suhandlinti
+		fprintf(stderr, "Creating Game Service: %s\n", SDLNet_GetError());
+		exit(EXIT_FAILURE);
+	}
 	return game;
 }
 
+int GameLoop(void *data){
+	Game *game = static_cast<Game*>(data);
+	while (game->IsRunning()){
+		game->Update();
+		SDL_Delay(30);
+	}
+	for (unsigned i = 0; i < games.size(); i++){
+		if (games[i] == game) games.erase(games.begin() + i);
+	}
+	delete game;
+	return 0;
+}
 
 void FreeServer(){
 	SDLNet_Quit();
 	SDL_Quit();
 }
-
-
-
