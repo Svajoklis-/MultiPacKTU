@@ -21,6 +21,16 @@ void Map::render()
 	SDL_RenderPresent(ren);
 }
 
+void Map::get_map(int** map)
+{
+	for (int i = 1; i < 28; i++)
+		for (int j = 1; j < 22; j++)
+			map_array[i][j] = map[i - 1][j - 1];
+
+}
+
+
+
 void Map::read_from_file()
 {
 
