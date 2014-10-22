@@ -3,6 +3,9 @@
 State_map::State_map()
 {
 
+	x = 8;
+	y = 8;
+	direction = 0;
 }
 
 void State_map::events()
@@ -20,6 +23,26 @@ void State_map::events()
 			case SDLK_ESCAPE:
 				state = st_menu;
 				break;
+			case SDLK_UP:
+				lasty = y;
+				lastx = x;
+				y -= 4;
+				break;
+			case SDLK_DOWN:
+				lasty = y;
+				lastx = x;
+				y += 4;
+				break;
+			case SDLK_LEFT:
+				lasty = y;
+				lastx = x;
+				x -= 4;
+				break;
+			case SDLK_RIGHT:
+				lasty = y;
+				lastx = x;
+				x += 4;
+				break;
 			}
 		}
 	}
@@ -28,12 +51,23 @@ void State_map::events()
 
 void State_map::logic()
 {
-
+	if (x > lastx)
+		direction = 0;
+	else
+	if (x < lastx)
+		direction = 2;
+	else
+	if (y > lasty)
+		direction = 1;
+	else
+	if (y < lasty)
+		direction = 3;
 }
 
 void State_map::render()
 {
 	map.render();
+	pacman.set_coords(x, y, direction);
 	pacman.render();
 	
 }

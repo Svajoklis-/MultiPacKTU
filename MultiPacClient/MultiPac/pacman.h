@@ -14,15 +14,16 @@ class Pacman
 public:
 	Pacman();
 	void render();
+	void set_coords(int x, int y, int direction);
 	~Pacman();
 
 private:
 	void render_sprite(int x, int y, SDL_Rect* clip);
 	void load_sprites();
-
+	int x, y, direction;
 
 	Timer timer;
 	SDL_Texture *sprite_sheet;
-	SDL_Rect sprite_clips[4];
+	SDL_Rect sprite_clips[16];
 
 };
