@@ -9,6 +9,7 @@ State_map_movement::State_map_movement()
 	int *buffer = new int[connection.dim_x * connection.dim_y];
 
 	connection.new_game(buffer);
+	
 
 	for (int i = 0; i < connection.dim_x; i++)
 	{
@@ -26,6 +27,8 @@ State_map_movement::State_map_movement()
 	delete[] server_map;
 
 	delete[] buffer;
+
+	connection.ready();
 }
 
 void State_map_movement::events()
@@ -81,5 +84,5 @@ void State_map_movement::render()
 
 State_map_movement::~State_map_movement()
 {
-
+	connection.exit_game();
 }
