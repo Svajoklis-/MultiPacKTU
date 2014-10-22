@@ -24,6 +24,9 @@ public:
 private:
 	Map map;
 	Pacman pacman;
+	int x, y;
+	int lastx, lasty;
+	int degrees;
 
 
 

@@ -7,12 +7,17 @@ Pacman::Pacman()
 }
 
 
-void Pacman::render()
+void Pacman::render(int x, int y, int degrees)
 {
+	
 
-	for (int i = 2; i < 9; i++)
-	for (int j = 2; j < 9; j++)
-		render_sprite((j - 1) * 16 - 12, (i - 1) * 16 - 12 , &sprite_clips[timer.ticks() / 75 % 4]);
+	
+
+
+	render_sprite(x - 4, y - 4, &sprite_clips[timer.ticks() / 75 % 4], degrees);
+	
+
+
 }
 
 
@@ -33,10 +38,12 @@ void Pacman::load_sprites()
 	
 
 }
-void Pacman::render_sprite(int x, int y, SDL_Rect* clip)
+void Pacman::render_sprite(int x, int y, SDL_Rect* clip, double angle)
 {
 	SDL_Rect tile_rect = { x, y, 16, 16 };
-	SDL_RenderCopy(ren, sprite_sheet, clip, &tile_rect);
+
+	SDL_RenderCopyEx(ren, sprite_sheet, clip, &tile_rect, angle, NULL, SDL_FLIP_NONE);
+	//SDL_RenderCopy(ren, sprite_sheet, clip, &tile_rect);
 }
 
 
