@@ -2,12 +2,12 @@
 
 class Player{
 public:
-	enum Way{ Top, Right, Bottom, Left };
-	struct Coords{ int x; int y; };
+	enum Way{ Right, Bottom, Left, Top };
+	struct Coords{ int x; int y; Way way; };
 
 private:
 	TCPsocket socket;
-	Way current, next;	//mutexezz needed
+	Way next;			//mutexezz needed
 	Coords coords;		//mutex needed
 	bool playing;
 

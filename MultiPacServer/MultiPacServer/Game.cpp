@@ -1,9 +1,13 @@
 #include "Game.h"
+#include <fstream>
 
 Game::Game(){
+	std::ifstream file;
+	file.open("map\\map.txt");
 	for (int i = 0; i < mapheight; i++)
 		for (int j = 0; j < mapwidth; j++)
-			map[i][j] = 1;
+			file >> map[i][j];
+	file.close();
 }
 
 void Game::GetMap(int map[][mapwidth]){
@@ -35,7 +39,24 @@ void Game::ReturnPlayersCoords(){
 bool Game::CheckMap(Player *player){
 	//all the map checking
 	//returns if next player instruction is valid
-	return true;
+	Player::Coords coords = player->GetCoords();
+	Player::Way next = player->GetNextWay();
+	switch (next)
+	{
+	case Player::Right:
+		if (map[coords.y / 8][(coords.x + 8) / 8] == 0) return true;
+		break;
+	case Player::Bottom:
+		if (map[(coords.y + 8) / 8][coords.x / 8] == 0) return true;
+		break;
+	case Player::Left:
+		if (map[coords.y / 8][(coords.x - 8) / 8] == 0) return true;
+		break;
+	case Player::Top:
+		if (map[(coords.y - 8) / 8][coords.x / 8] == 0) return true;
+		break;
+	}
+	return false;
 }
 
 void Game::RemovePlayer(Player *player){

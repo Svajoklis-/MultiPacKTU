@@ -35,7 +35,8 @@ enum packet_enum{
 
 class Server_connection{
 public:
-	struct Coords{ int x; int y; };
+	enum Way{ Right, Bottom, Left, Top };
+	struct Coords{ int x; int y; Way way; };
 	static const int mapheight = 27;
 	static const int mapwidth = 21;
 
