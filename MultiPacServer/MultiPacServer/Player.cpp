@@ -4,12 +4,14 @@ Player::Player(TCPsocket socket) {
 	this->socket = socket; 
 	playing = false; 
 	coords.x = 8; 
-	coords.y = 8; 
+	coords.y = 8;
+	coords.way = Top;
 	next = Top; 
 }
 
-void Player::MakeAMove(bool nextisvalid){
+void Player::MakeAMove(bool currentisvalid, bool nextisvalid){
 	if (nextisvalid) coords.way = next;
+	else if (!currentisvalid) return;
 	switch (coords.way){
 	case Top:
 		coords.y--;

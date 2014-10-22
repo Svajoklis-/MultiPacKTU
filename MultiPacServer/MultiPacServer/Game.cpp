@@ -36,12 +36,11 @@ void Game::ReturnPlayersCoords(){
 	}
 }
 
-bool Game::CheckMap(Player *player){
+bool Game::CheckMap(Player *player, Player::Way way){
 	//all the map checking
 	//returns if next player instruction is valid
 	Player::Coords coords = player->GetCoords();
-	Player::Way next = player->GetNextWay();
-	switch (next)
+	switch (way)
 	{
 	case Player::Right:
 		if (map[coords.y / 8][(coords.x + 8) / 8] == 0) return true;
@@ -71,7 +70,7 @@ void Game::Update(){
 	for each (Player *player in players)
 	{
 		if (player->IsPlaying()){
-			player->MakeAMove(CheckMap(player));
+			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
 		}
 	}
 }

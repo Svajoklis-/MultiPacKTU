@@ -26,5 +26,5 @@ public:
 
 	~Player() { SDLNet_TCP_Close(socket); }
 
-	void MakeAMove(bool nextisvalid);
+	void MakeAMove(bool currentisvalid, bool nextisvalid);
 };

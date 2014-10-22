@@ -21,7 +21,7 @@ public:
 	void RemovePlayer(Player *player);
 	void ReturnPlayersCoords();
 
-	bool CheckMap(Player *player);
+	bool CheckMap(Player *player, Player::Way way);
 	bool IsRunning(){ return players.size() > 0; }
 	void Update();
 
