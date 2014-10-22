@@ -2,7 +2,8 @@
 
 State_map::State_map()
 {
-
+	map.read_from_file();
+	map.assign_tiles();
 	x = 8;
 	y = 8;
 	direction = 0;
@@ -68,8 +69,7 @@ void State_map::logic()
 
 void State_map::render()
 {
-	map.read_from_file();
-	map.assign_tiles();
+	
 	map.render();
 	
 	pacman.render();
