@@ -1,5 +1,13 @@
 #include "Player.h"
 
+Player::Player(TCPsocket socket) { 
+	this->socket = socket; 
+	playing = false; 
+	coords.x = 0; 
+	coords.y = 0; 
+	next = Top; 
+}
+
 void Player::MakeAMove(bool nextisvalid){
 	if (nextisvalid) current = next;
 	switch (current){

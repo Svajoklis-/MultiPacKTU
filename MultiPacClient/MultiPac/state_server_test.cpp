@@ -30,7 +30,8 @@ void State_server_test::events()
 
 void State_server_test::logic()
 {
-	connection.get_coords(&server_num, &ping);
+
+	connection.get_coords(coords, &count, &ping);
 }
 
 void State_server_test::render()
@@ -52,7 +53,7 @@ void State_server_test::render()
 	y_offset += font_renderer->height(text.str());
 
 	text.str("");
-	text << "MAGIC NUMBER: " << server_num;
+	//text << "MAGIC NUMBER: " << server_num;	//nenorejau nieko keist :D KK
 
 	font_renderer->render(text.str(),
 		x_offset,

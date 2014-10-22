@@ -144,7 +144,7 @@ int ClientService(void *data){
 			{
 			case NewGame:
 				game = AddToGame(player);
-				int map[27][21];
+				int map[Game::mapheight][Game::mapwidth];
 				game->GetMap(map);
 				SDLNet_TCP_Send(player->GetSocket(), (void *)map, 27 * 21 * sizeof(int));
 				//return map somehow

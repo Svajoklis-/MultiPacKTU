@@ -23,7 +23,8 @@ public:
 private:
 
 	Server_connection connection;
-	int server_num = 0;
+	Server_connection::Coords coords[4];
+	int count = 0;
 	int ping = 0;
 };
 

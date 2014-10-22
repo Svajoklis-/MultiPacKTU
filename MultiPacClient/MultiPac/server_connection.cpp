@@ -1,76 +1,94 @@
 #include "server_connection.h"
 
-#include <cstdio>
-#include "timer.h"
-
 Server_connection::Server_connection(){
-	error = "";
 	if (SDLNet_Init() < 0)
 	{
-		//error = SDLNet_GetError();
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't initialize SDL_net" + error);
 	}
 
-	/* Resolve the host we are connecting to */
 	if (SDLNet_ResolveHost(&ip, connectionstring, port) < 0)
 	{
-		//error = SDLNet_GetError();
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't resolvehost: " + error);
 	}
 
-	/* Open a connection with the IP provided (listen on the host's port) */
 	if (!(sd = SDLNet_TCP_Open(&ip)))
 	{
-		//error = SDLNet_GetError();
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't open TCP sock: " + error);
 	}
 }
 
-
-int Server_connection::get_code(int code){
+void Server_connection::send_code(int number){
+	int code = number;
 	int length = sizeof(code);
 	if (SDLNet_TCP_Send(sd, (void *)&code, length) < length)
 	{
-		return -1;
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't request server: " + error);
 	}
-
-	if (code == 15){
-		int index = 0;
-		if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
-			return index;
-		}
-		return -1;
-	}
-	return 0;
 }
 
-void Server_connection::get_coords(int *num, int *ping)
+void Server_connection::new_game(int map[][21]){
+	send_code(NEW_GAME);
+	if (SDLNet_TCP_Recv(sd, (void *)map, 27 * 21 * sizeof(int)) <= 0){
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't receive map: " + error);
+	}
+}
+
+void Server_connection::ready(){
+	send_code(READY);
+}
+
+void Server_connection::going_top(){
+	send_code(GOINGTOP);
+}
+
+void Server_connection::going_bottom(){
+	send_code(GOINGBOTTOM);
+}
+
+void Server_connection::going_right(){
+	send_code(GOINGRIGHT);
+}
+
+void Server_connection::going_left(){
+	send_code(GOINGLEFT);
+}
+
+void Server_connection::exit_game(){
+	send_code(EXITGAME);
+}
+
+void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 {
 	if (!getting_coords)
 	{
-		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, num, ping);
+		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, coords, count, ping);
 		getting_coords = true;
 	}
 }
 
-void Server_connection::thread_get_coords(int *num, int *ping)
+void Server_connection::thread_get_coords(Coords *coords, int *count, int *ping)
 {
+	std::this_thread::sleep_for(std::chrono::milliseconds(30)); //cia pabandymui kad per daznai nesiust
 	Timer ping_timer;
 	ping_timer.start();
-	int code = MESSAGEOFTHEDAY;
-	int length = sizeof(code);
-	if (SDLNet_TCP_Send(sd, (void *)&code, length) < length)
-	{
-		*num = -1;
+	send_code(GETCOORDS);
+	if (SDLNet_TCP_Recv(sd, (void *)count, sizeof(int)) <= 0){
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't receive coord count: " + error);
 	}
 
-	int index = 0;
-	if (SDLNet_TCP_Recv(sd, (void *)&index, sizeof(int)) > 0){
-		*num = index;
-		*ping = ping_timer.ticks();
-		this->getting_coords = false;
-		return;
+	*ping = ping_timer.ticks();		//is esmes cia ping gauni, nors server side dar atliekami skaciavimai tai jis nera tikras :D
+
+	if (SDLNet_TCP_Recv(sd, (void *)coords, *count*sizeof(Coords)) <= 0){
+		std::string error(SDLNet_GetError());
+		throw std::runtime_error("Couldn't receive coords: " + error);
 	}
 
-	*num = -1;
-	*ping = ping_timer.ticks();
 	this->getting_coords = false;
 	return;
 }

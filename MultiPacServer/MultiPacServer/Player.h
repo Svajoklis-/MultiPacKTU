@@ -13,7 +13,7 @@ private:
 
 public:
 
-	Player(TCPsocket socket) { this->socket = socket; playing = false; coords.x = 0; coords.y = 0; next = Top; }
+	Player(TCPsocket socket);
 
 	TCPsocket GetSocket() { return socket; }
 	Way GetNextWay() { return next; }

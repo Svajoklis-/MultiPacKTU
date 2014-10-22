@@ -1,5 +1,17 @@
 #include "Game.h"
 
+Game::Game(){
+	for (int i = 0; i < mapheight; i++)
+		for (int j = 0; j < mapwidth; j++)
+			map[i][j] = 1;
+}
+
+void Game::GetMap(int map[][mapwidth]){
+	for (int i = 0; i < mapheight; i++)
+		for (int j = 0; j < mapwidth; j++)
+			map[i][j] = this->map[i][j];
+}
+
 void Game::ReturnPlayersCoords(){
 	int count = 0;
 	Player::Coords coords[maxcount];
