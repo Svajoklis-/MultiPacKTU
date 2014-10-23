@@ -67,7 +67,11 @@ void State_map_movement::events()
 void State_map_movement::logic()
 {
 	connection.get_coords(coords, &coord_count, &ping);
-	pacman.set_coords(coords[0].x, coords[0].y, coords[0].way);
+
+	for (int i = 0; i < coord_count; i++)
+	{
+		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
+	}
 }
 
 void State_map_movement::render()
@@ -77,7 +81,8 @@ void State_map_movement::render()
 
 	map.render();
 
-	pacman.render();
+	for (int i = 0; i < coord_count; i++)
+		pacman[i].render();
 
 	SDL_RenderPresent(ren);
 }

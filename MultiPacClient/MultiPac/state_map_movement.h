@@ -33,7 +33,7 @@ private:
 
 	Map map;
 
-	Pacman pacman;
+	Pacman pacman[4];
 };
 
 #endif // H_STATE_MAP_MOVEMENT
