@@ -43,16 +43,16 @@ bool Game::CheckMap(Player *player, Player::Way way){
 	switch (way)
 	{
 	case Player::Right:
-		if (map[coords.y / 8][(coords.x + 8) / 8] == 0) return true;
+		if (map[coords.y / 8][coords.x / 8 + 1] == 0 && coords.y % 8 == 0) return true;
 		break;
 	case Player::Bottom:
-		if (map[(coords.y + 8) / 8][coords.x / 8] == 0) return true;
+		if (map[coords.y / 8 + 1][coords.x / 8] == 0 && coords.x % 8 == 0) return true;
 		break;
 	case Player::Left:
-		if (map[coords.y / 8][(coords.x - 8) / 8] == 0) return true;
+		if (map[coords.y / 8][(coords.x - 1) / 8] == 0 && coords.y % 8 == 0) return true;
 		break;
 	case Player::Top:
-		if (map[(coords.y - 8) / 8][coords.x / 8] == 0) return true;
+		if (map[(coords.y - 1) / 8][coords.x / 8] == 0 && coords.x % 8 == 0) return true;
 		break;
 	}
 	return false;
