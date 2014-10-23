@@ -73,7 +73,7 @@ void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 
 void Server_connection::thread_get_coords(Coords *coords, int *count, int *ping)
 {
-	std::this_thread::sleep_for(std::chrono::milliseconds(30)); //cia pabandymui kad per daznai nesiust
+	//std::this_thread::sleep_for(std::chrono::milliseconds(30)); //cia pabandymui kad per daznai nesiust
 	Timer ping_timer;
 	ping_timer.start();
 	send_code(GETCOORDS);

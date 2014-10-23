@@ -41,7 +41,7 @@ public:
 	static const int mapwidth = 21;
 
 private:
-	char* connectionstring = "localhost";
+	char* connectionstring = "192.168.0.2";
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */

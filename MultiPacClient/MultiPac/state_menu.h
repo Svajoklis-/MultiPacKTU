@@ -26,7 +26,7 @@ private:
 
 	Timer fun;
 
-	int menu_item_count = 4;
+	int menu_item_count = 3;
 	string *menu_items;
 	unsigned longest_menu_element = 0;
 	int selected = 0;

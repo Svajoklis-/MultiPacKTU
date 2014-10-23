@@ -13,9 +13,8 @@ State_menu::State_menu()
 
 	menu_items = new string[menu_item_count];
 	menu_items[0] = "REPLAY INTRO";
-	menu_items[1] = "SERVER TEST";
-	menu_items[2] = "MAP RENDER DEMO";
-	menu_items[3] = "MAP MOVEMENT TEST";
+	menu_items[1] = "MAP RENDER DEMO";
+	menu_items[2] = "MAP MOVEMENT TEST";
 
 	for (int i = 0; i < menu_item_count; i++)
 	{
@@ -62,12 +61,9 @@ void State_menu::events()
 					state = st_intro;
 					break;
 				case 1:
-					state = st_server_test;
-					break;
-				case 2:
 					state = st_map;
 					break;
-				case 3:
+				case 2:
 					state = st_map_movement;
 					break;
 				default:
