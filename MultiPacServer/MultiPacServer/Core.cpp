@@ -10,6 +10,7 @@ using namespace std;
 #include "Game.h"
 #include "SDL.h"
 #include "SDL_thread.h"
+#include "timer.h"
 
 
 enum ServerPackageIndex{
@@ -208,7 +209,7 @@ Game* AddToGame(Player* player){
 	game->AddPlayer(player);
 	if (!SDL_CreateThread(GameLoop, "GameLoopService", (void *)game))
 	{
-		//kazkaip erorus suhandlinti
+		// kaþkaip suhandlinti errorus
 		fprintf(stderr, "Creating Game Service: %s\n", SDLNet_GetError());
 		exit(EXIT_FAILURE);
 	}
@@ -217,10 +218,23 @@ Game* AddToGame(Player* player){
 
 int GameLoop(void *data){
 	Game *game = static_cast<Game*>(data);
+	Timer game_tick;
+	game_tick.start();
+
+	// kiek laiko (ms) skiriama vienam þaidimo tick
+	int tick_duration = 50;
+
 	while (game->IsRunning()){
+		game_tick.restart();
+
 		game->Update();
-		SDL_Delay(30);
+
+		if (game_tick.ticks() < tick_duration)
+		{
+			SDL_Delay(tick_duration - game_tick.ticks());
+		}
 	}
+
 	for (unsigned i = 0; i < games.size(); i++){
 		if (games[i] == game) games.erase(games.begin() + i);
 	}
