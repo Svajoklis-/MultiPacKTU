@@ -11,13 +11,13 @@ Map::Map()
 }
 
 
-void Map::render()
+void Map::render(int x_offset, int y_offset)
 {
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
 	for (int i = 1; i < 28; i++)
 	for (int j = 1; j < 22; j++)
-		render_tile((j - 1) * 8, (i - 1) * 8, &tile_sprite_clips[map_array[i][j]]);
+		render_tile((j - 1) * 8 + x_offset, (i - 1) * 8 + y_offset, &tile_sprite_clips[map_array[i][j]]);
 	SDL_RenderPresent(ren);
 }
 

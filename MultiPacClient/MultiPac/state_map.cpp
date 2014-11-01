@@ -70,9 +70,9 @@ void State_map::logic()
 void State_map::render()
 {
 	
-	map.render();
+	map.render(0, 0);
 	
-	pacman.render();
+	pacman.render(0, 0);
 }
 
 

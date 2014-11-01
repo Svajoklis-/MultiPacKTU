@@ -79,10 +79,10 @@ void State_map_movement::render()
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
 
-	map.render();
+	map.render(0, 0);
 
 	for (int i = 0; i < coord_count; i++)
-		pacman[i].render();
+		pacman[i].render(0, 0);
 
 	SDL_RenderPresent(ren);
 }

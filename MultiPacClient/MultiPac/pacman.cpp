@@ -10,9 +10,9 @@ Pacman::Pacman()
 }
 
 
-void Pacman::render()
+void Pacman::render(int x_offset, int y_offset)
 {
-	render_sprite(x - 4, y - 4, &sprite_clips[frame + direction * 4]);
+	render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 4]);
 
 	int timer_ticks = timer.ticks();
 	if (timer_ticks >= frame_interval)

@@ -46,7 +46,7 @@ class Map
 {
 public:
 	Map();
-	void render();
+	void render(int x_offset, int y_offset);
 	void load_from_memory(int** map);
 	void read_from_file();
 	void assign_tiles();

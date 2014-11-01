@@ -13,7 +13,7 @@ class Pacman
 {
 public:
 	Pacman();
-	void render();
+	void render(int x_offset, int y_offset);
 	void set_coords(int x, int y, int direction);
 	~Pacman();
 
