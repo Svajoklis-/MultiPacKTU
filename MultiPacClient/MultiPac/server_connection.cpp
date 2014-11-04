@@ -64,10 +64,10 @@ void Server_connection::exit_game(){
 
 void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 {
-	if (!getting_coords)
+	if (!this->getting_coords)
 	{
+		this->getting_coords = true;
 		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, coords, count, ping);
-		getting_coords = true;
 	}
 }
 
@@ -84,7 +84,7 @@ void Server_connection::thread_get_coords(Coords *coords, int *count, int *ping)
 
 	*ping = ping_timer.ticks();		//is esmes cia ping gauni, nors server side dar atliekami skaciavimai tai jis nera tikras :D
 
-	if (SDLNet_TCP_Recv(sd, (void *)coords, *count*sizeof(Coords)) <= 0){
+	if (SDLNet_TCP_Recv(sd, (void *)coords, (*count)*sizeof(Coords)) <= 0){
 		std::string error(SDLNet_GetError());
 		throw std::runtime_error("Couldn't receive coords: " + error);
 	}
