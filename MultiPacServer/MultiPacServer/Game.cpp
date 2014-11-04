@@ -16,22 +16,12 @@ void Game::GetMap(int map[][mapwidth]){
 			map[i][j] = this->map[i][j];
 }
 
-void Game::ReturnPlayersCoords(){
-	int count = 0;
-	Player::Coords coords[maxcount];
+void Game::ReturnPlayersCoords(Player::Coords coords[], int &count){
 	for each (Player *player in players)
 	{
 		if (player->IsPlaying()){
 			coords[count] = player->GetCoords();
 			count++;
-		}
-	}
-	for each (Player *player in players)
-	{
-		if (player->IsPlaying()){
-			//kazkaip erorus suhandlinti
-			SDLNet_TCP_Send(player->GetSocket(), (void *)&count, sizeof(int));
-			SDLNet_TCP_Send(player->GetSocket(), (void *)&coords, count*sizeof(Player::Coords));
 		}
 	}
 }

@@ -19,7 +19,7 @@ public:
 	void GetMap(int map[][mapwidth]);
 	void AddPlayer(Player *player) { players.push_back(player); }
 	void RemovePlayer(Player *player);
-	void ReturnPlayersCoords();
+	void ReturnPlayersCoords(Player::Coords coords[], int &count);
 
 	bool CheckMap(Player *player, Player::Way way);
 	bool IsRunning(){ return players.size() > 0; }

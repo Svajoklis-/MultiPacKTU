@@ -138,6 +138,7 @@ int ClientService(void *data){
 	bool serving = true;
 	Player *player = static_cast<Player*>(data);
 	Game *game = NULL;
+	int count;
 	while (running && serving){
 		ClientPackageIndex index = NOP;
 		if (SDLNet_TCP_Recv(player->GetSocket(), (void *)&index, sizeof(int)) > 0){
@@ -157,7 +158,12 @@ int ClientService(void *data){
 				SDLNet_TCP_Send(player->GetSocket(), (void *)&daynumber, sizeof(int));
 				break;
 			case GetCoords:
-				game->ReturnPlayersCoords();
+				count = 0;
+				Player::Coords coords[Game::maxcount];
+				game->ReturnPlayersCoords(coords, count);
+				if (SDLNet_TCP_Send(player->GetSocket(), (void *)&count, sizeof(int)) == sizeof(int)){
+					SDLNet_TCP_Send(player->GetSocket(), (void *)&coords, count*sizeof(Player::Coords));
+				}
 				break;
 			case GoingTop:
 				player->SetNextWay(Player::Top);
@@ -222,7 +228,7 @@ int GameLoop(void *data){
 	game_tick.start();
 
 	// kiek laiko (ms) skiriama vienam þaidimo tick
-	int tick_duration = 50;
+	int tick_duration = 30;
 
 	while (game->IsRunning()){
 		game_tick.restart();

@@ -45,6 +45,7 @@ private:
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */
+	SDLNet_SocketSet set;
 
 public:
 	Server_connection();
