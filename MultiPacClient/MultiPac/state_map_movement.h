@@ -33,6 +33,8 @@ private:
 
 	Map map;
 
+	bool dir_sent = false;
+
 	Pacman pacman[4];
 };
 

@@ -47,16 +47,49 @@ void State_map_movement::events()
 				state = st_menu;
 				break;
 			case SDLK_UP:
-				connection.going_top();
+				if (!dir_sent)
+				{
+					connection.going_top();
+					dir_sent = true;
+				}
 				break;
 			case SDLK_DOWN:
-				connection.going_bottom();
+				if (!dir_sent)
+				{
+					connection.going_bottom();
+					dir_sent = true;
+				}
 				break;
 			case SDLK_LEFT:
-				connection.going_left();
+				if (!dir_sent)
+				{
+					connection.going_left();
+					dir_sent = true;
+				}
 				break;
 			case SDLK_RIGHT:
-				connection.going_right();
+				if (!dir_sent)
+				{
+					connection.going_right();
+					dir_sent = true;
+				}
+				break;
+			}
+		}
+
+		if (e.type == SDL_KEYUP)
+		{
+			switch (e.key.keysym.sym)
+			{
+			case SDLK_UP:
+			case SDLK_DOWN:
+			case SDLK_LEFT:
+			case SDLK_RIGHT:
+				if (dir_sent)
+				{
+					connection.dir_reset();
+					dir_sent = false;
+				}
 				break;
 			}
 		}
