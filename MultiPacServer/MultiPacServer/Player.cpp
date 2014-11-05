@@ -7,6 +7,8 @@ Player::Player(TCPsocket socket) {
 	coords.y = 8;
 	coords.way = Top;
 	next = Top; 
+	score = 666;
+	lives = 3;
 }
 
 void Player::MakeAMove(bool currentisvalid, bool nextisvalid){

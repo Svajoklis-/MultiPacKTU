@@ -12,17 +12,15 @@ using namespace std;
 #include "SDL_thread.h"
 #include "timer.h"
 
-
-enum ServerPackageIndex{
-
-};
-
 enum ClientPackageIndex{
 	NOP = 0,
 	NewGame = 10,			//send map and stuff
 	Ready = 11,				//loaded everything
 	NUMBEROFTHEDAY = 12,
 	GetCoords = 15,
+	GetMap = 16,
+	GetScore = 17,
+	GetStatePacket = 18,	//future is here
 	GoingTop = 20,
 	GoingRight = 21,
 	GoingBottom = 22,
@@ -140,6 +138,7 @@ int ClientService(void *data){
 	Player *player = static_cast<Player*>(data);
 	Game *game = NULL;
 	int count;
+	Game::State_Packet packet;
 	while (running && serving){
 		ClientPackageIndex index = NOP;
 		if (SDLNet_TCP_Recv(player->GetSocket(), (void *)&index, sizeof(int)) > 0){
@@ -160,11 +159,17 @@ int ClientService(void *data){
 				break;
 			case GetCoords:
 				count = 0;
-				Player::Coords coords[Game::maxcount];
+				Player::Coords coords[Game::maxplayercount];
 				game->ReturnPlayersCoords(coords, count);
 				if (SDLNet_TCP_Send(player->GetSocket(), (void *)&count, sizeof(int)) == sizeof(int)){
 					SDLNet_TCP_Send(player->GetSocket(), (void *)&coords, count*sizeof(Player::Coords));
 				}
+				break;
+			case GetStatePacket:
+				packet = game->GetStatePacket();
+				packet.lives = player->GetLives();
+				packet.score = player->GetScore();
+				SDLNet_TCP_Send(player->GetSocket(), (void *)&packet, sizeof(Game::State_Packet));
 				break;
 			case GoingTop:
 				player->SetNextWay(Player::Top);
@@ -209,7 +214,7 @@ int ClientService(void *data){
 
 Game* AddToGame(Player* player){
 	for (unsigned i = 0; i < games.size(); i++){
-		if (games[i]->GetPlayerCount() < games[i]->maxcount){
+		if (games[i]->GetPlayerCount() < games[i]->maxplayercount){
 			games[i]->AddPlayer(player);
 			return games[i];
 		}

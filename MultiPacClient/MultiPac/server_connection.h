@@ -25,6 +25,9 @@ enum packet_enum{
 	READY = 11,				//loaded everything
 	MESSAGEOFTHEDAY = 12,
 	GETCOORDS = 15,
+	GETMAP = 16,
+	GETSCORE = 17,
+	GETSTATEPACKET = 18,	//future is here
 	GOINGTOP = 20,
 	GOINGRIGHT = 21,
 	GOINGBOTTOM = 22,
@@ -36,11 +39,22 @@ enum packet_enum{
 
 class Server_connection{
 public:
-	enum Way{ Right, Bottom, Left, Top };
-	struct Coords{ int x; int y; Way way; };
 	static const int mapheight = 27;
 	static const int mapwidth = 21;
-
+	static const int maxplayercount = 4;
+	static const int maxghostcount = 8;
+	enum Way{ Right, Bottom, Left, Top };
+	struct Coords{ int x; int y; Way way; };
+	struct State_Packet{
+		int player_count;
+		int ghost_count;
+		int score;
+		int lives;
+		Coords players[maxplayercount];
+		Coords ghosts[maxghostcount];
+		int map[mapheight][mapwidth];
+	};
+	
 private:
 	char* connectionstring = "localhost";
 	int port = 2001;
@@ -58,17 +72,15 @@ public:
 	void going_left();
 	void exit_game();
 	void disconnect(){ send_code(DISCONNECT); }
+
 	void get_coords(Coords *coords, int *count, int *ping);		//isoreje turi coords masyva, int count ir int ping taip kaip tu darei
+	void get_state_packet(State_Packet *data, int *ping);
+
 	void dir_reset(){ send_code(RESETDIR); }
 	~Server_connection();
 
-	int dim_x = 27, dim_y = 21;
-
 private:
-
 	void send_code(int code);
-
-	void thread_get_coords(Coords *coords, int *count, int *ping);
 	bool getting_coords = false;
 };
 

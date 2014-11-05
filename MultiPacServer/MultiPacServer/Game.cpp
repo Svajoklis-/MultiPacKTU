@@ -5,8 +5,10 @@ Game::Game(){
 	std::ifstream file;
 	file.open("map\\map.txt");
 	for (int i = 0; i < mapheight; i++)
-		for (int j = 0; j < mapwidth; j++)
+		for (int j = 0; j < mapwidth; j++){
 			file >> map[i][j];
+			data.map[i][j] = map[i][j];
+		}
 	file.close();
 }
 
@@ -57,10 +59,13 @@ void Game::RemovePlayer(Player *player){
 }
 
 void Game::Update(){
+	data.player_count = 0;
 	for each (Player *player in players)
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
+			data.players[data.player_count] = player->GetCoords();
+			data.player_count++;
 		}
 	}
 }

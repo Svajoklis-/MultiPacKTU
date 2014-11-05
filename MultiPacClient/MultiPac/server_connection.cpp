@@ -101,34 +101,28 @@ void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 			getting_coords = false;
 		}
 	}
-	
-	/*if (!getting_coords)
-	{
-		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, coords, count, ping);
-		getting_coords = true;
-	}*/
 }
 
-void Server_connection::thread_get_coords(Coords *coords, int *count, int *ping)
+void Server_connection::get_state_packet(State_Packet *data, int *ping)
 {
-	//std::this_thread::sleep_for(std::chrono::milliseconds(30)); //cia pabandymui kad per daznai nesiust
 	Timer ping_timer;
-	ping_timer.start();
-	send_code(GETCOORDS);
-	if (SDLNet_TCP_Recv(sd, (void *)count, sizeof(int)) <= 0){
-		std::string error(SDLNet_GetError());
-		throw std::runtime_error("Couldn't receive coord count: " + error);
+	if (!getting_coords){
+		ping_timer.start();
+		send_code(GETSTATEPACKET);
 	}
+	if (SDLNet_CheckSockets(set, 0) == 1)
+	{
+		if (SDLNet_SocketReady(sd) != 0){
+			if (SDLNet_TCP_Recv(sd, (void *)data, sizeof(State_Packet)) <= 0){
+				std::string error(SDLNet_GetError());
+				throw std::runtime_error("Couldn't receive coord count: " + error);
+			}
 
-	*ping = ping_timer.ticks();		//is esmes cia ping gauni, nors server side dar atliekami skaciavimai tai jis nera tikras :D
+			*ping = ping_timer.ticks();		//is esmes cia ping gauni, nors server side dar atliekami skaciavimai tai jis nera tikras :D
 
-	if (SDLNet_TCP_Recv(sd, (void *)coords, *count*sizeof(Coords)) <= 0){
-		std::string error(SDLNet_GetError());
-		throw std::runtime_error("Couldn't receive coords: " + error);
+			getting_coords = false;
+		}
 	}
-
-	this->getting_coords = false;
-	return;
 }
 
 Server_connection::~Server_connection(){

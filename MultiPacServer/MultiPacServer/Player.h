@@ -10,6 +10,8 @@ private:
 	Way next;			//mutexezz needed
 	Coords coords;		//mutex needed
 	bool playing;
+	int score;
+	int lives;
 
 public:
 
@@ -18,6 +20,8 @@ public:
 	TCPsocket GetSocket() { return socket; }
 	Way GetNextWay() { return next; }
 	Coords GetCoords() { return coords; }
+	int GetScore(){ return score; }
+	int GetLives(){ return lives; }
 	bool IsPlaying() { return playing; }
 
 	void SetNextWay(Way next) { this->next = next; }
