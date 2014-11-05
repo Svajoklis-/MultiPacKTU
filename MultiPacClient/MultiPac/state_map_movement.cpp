@@ -107,9 +107,7 @@ void State_map_movement::logic()
 		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
 	}
 
-	int scorei;
-	connection.get_score(&scorei);
-	score.set_score(scorei);
+	score.set_score(data.score);
 }
 
 void State_map_movement::render()
