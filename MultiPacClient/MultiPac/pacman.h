@@ -3,7 +3,6 @@
 #include "globals.h"
 #include "timer.h"
 #include<fstream>
-//#include<iostream>
 using namespace std;
 
 

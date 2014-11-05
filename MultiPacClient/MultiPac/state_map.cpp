@@ -1,5 +1,4 @@
 #include "state_map.h"
-#include <string>
 
 State_map::State_map()
 {
