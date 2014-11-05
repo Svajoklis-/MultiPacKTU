@@ -29,6 +29,7 @@ enum packet_enum{
 	GOINGRIGHT = 21,
 	GOINGBOTTOM = 22,
 	GOINGLEFT = 23,
+	RESETDIR = 24,		//atstato pasirinkta krypti (onkeypress-"go x way", keyrelease-"reset direction")
 	EXITGAME = 25,
 	DISCONNECT = 30
 };
@@ -58,6 +59,7 @@ public:
 	void exit_game();
 	void disconnect(){ send_code(DISCONNECT); }
 	void get_coords(Coords *coords, int *count, int *ping);		//isoreje turi coords masyva, int count ir int ping taip kaip tu darei
+	void dir_reset(){ send_code(RESETDIR); }
 	~Server_connection();
 
 	int dim_x = 27, dim_y = 21;

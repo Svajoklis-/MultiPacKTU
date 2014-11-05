@@ -27,6 +27,7 @@ enum ClientPackageIndex{
 	GoingRight = 21,
 	GoingBottom = 22,
 	GoingLeft = 23,
+	ResetDir = 24,
 	ExitGame = 25,
 	Disconnect = 30
 };
@@ -176,6 +177,9 @@ int ClientService(void *data){
 				break;
 			case GoingLeft:
 				player->SetNextWay(Player::Left);
+				break;
+			case ResetDir:
+				player->SetNextWay(player->GetCoords().way);
 				break;
 			case ExitGame:
 				game->RemovePlayer(player);
