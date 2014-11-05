@@ -25,6 +25,7 @@ enum packet_enum{
 	READY = 11,				//loaded everything
 	MESSAGEOFTHEDAY = 12,
 	GETCOORDS = 15,
+	GETSCORE = 17,
 	GOINGTOP = 20,
 	GOINGRIGHT = 21,
 	GOINGBOTTOM = 22,
@@ -59,6 +60,7 @@ public:
 	void exit_game();
 	void disconnect(){ send_code(DISCONNECT); }
 	void get_coords(Coords *coords, int *count, int *ping);		//isoreje turi coords masyva, int count ir int ping taip kaip tu darei
+	void get_score(int *score);
 	void dir_reset(){ send_code(RESETDIR); }
 	~Server_connection();
 

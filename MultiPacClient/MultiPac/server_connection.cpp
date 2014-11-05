@@ -75,10 +75,10 @@ void Server_connection::exit_game(){
 void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 {
 	Timer ping_timer;
-	if (!getting_coords){
+	//if (!getting_coords){
 		ping_timer.start();
 		send_code(GETCOORDS);
-	}
+	//}
 	if (SDLNet_CheckSockets(set, 0) == 1)
 	{
 		if (SDLNet_SocketReady(sd) != 0){
@@ -101,12 +101,21 @@ void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 			getting_coords = false;
 		}
 	}
+}
+
+void Server_connection::get_score(int *score)
+{
+	send_code(GETSCORE);
 	
-	/*if (!getting_coords)
+	if (SDLNet_CheckSockets(set, 0) == 1)
 	{
-		std::thread *run_thread = new std::thread(&Server_connection::thread_get_coords, this, coords, count, ping);
-		getting_coords = true;
-	}*/
+		if (SDLNet_SocketReady(sd) != 0){
+			if (SDLNet_TCP_Recv(sd, (void *)score, sizeof(int)) <= 0){
+				std::string error(SDLNet_GetError());
+				throw std::runtime_error("Couldn't receive score count: " + error);
+			}
+		}
+	}
 }
 
 void Server_connection::thread_get_coords(Coords *coords, int *count, int *ping)

@@ -9,7 +9,6 @@ State_map_movement::State_map_movement()
 	int *buffer = new int[connection.dim_x * connection.dim_y];
 
 	connection.new_game(buffer);
-	
 
 	for (int i = 0; i < connection.dim_x; i++)
 	{
@@ -46,55 +45,51 @@ void State_map_movement::events()
 			case SDLK_ESCAPE:
 				state = st_menu;
 				break;
-			case SDLK_UP:
-				if (!dir_sent)
-				{
-					connection.going_top();
-					dir_sent = true;
-				}
-				break;
-			case SDLK_DOWN:
-				if (!dir_sent)
-				{
-					connection.going_bottom();
-					dir_sent = true;
-				}
-				break;
-			case SDLK_LEFT:
-				if (!dir_sent)
-				{
-					connection.going_left();
-					dir_sent = true;
-				}
-				break;
-			case SDLK_RIGHT:
-				if (!dir_sent)
-				{
-					connection.going_right();
-					dir_sent = true;
-				}
-				break;
-			}
-		}
-
-		if (e.type == SDL_KEYUP)
-		{
-			switch (e.key.keysym.sym)
-			{
-			case SDLK_UP:
-			case SDLK_DOWN:
-			case SDLK_LEFT:
-			case SDLK_RIGHT:
-				if (dir_sent)
-				{
-					connection.dir_reset();
-					dir_sent = false;
-				}
-				break;
 			}
 		}
 	}
 
+	const Uint8 *keyb_state = SDL_GetKeyboardState(NULL);
+
+	int now = keyb_state[SDL_SCANCODE_UP] | keyb_state[SDL_SCANCODE_DOWN] | keyb_state[SDL_SCANCODE_LEFT] | keyb_state[SDL_SCANCODE_RIGHT];
+
+	// -1 no, 0 up, 1 right, 2 down, 3 left
+	int send_key = -1;
+
+	if (now == 0) 
+		send_key = -1;
+	else if (keyb_state[SDL_SCANCODE_UP] == 1)
+		send_key = 0;
+	else if (keyb_state[SDL_SCANCODE_RIGHT] == 1)
+		send_key = 1;
+	else if (keyb_state[SDL_SCANCODE_DOWN] == 1)
+		send_key = 2;
+	else if (keyb_state[SDL_SCANCODE_LEFT] == 1)
+		send_key = 3;
+
+	if (last_sent != send_key)
+	{
+		switch (send_key)
+		{
+		case -1:
+			connection.dir_reset();
+			break;
+		case 0:
+			connection.going_top();
+			break;
+		case 1:
+			connection.going_right();
+			break;
+		case 2:
+			connection.going_bottom();
+			break;
+		case 3:
+			connection.going_left();
+			break;
+		}
+
+		last_sent = send_key;
+	}
 }
 
 void State_map_movement::logic()
@@ -105,6 +100,10 @@ void State_map_movement::logic()
 	{
 		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
 	}
+
+	int scorei;
+	connection.get_score(&scorei);
+	score.set_score(scorei);
 }
 
 void State_map_movement::render()

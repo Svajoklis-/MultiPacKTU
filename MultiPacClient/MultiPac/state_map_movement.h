@@ -28,13 +28,15 @@ private:
 	Server_connection connection;
 	Server_connection::Coords coords[4];
 	int coord_count = 0;
+
 	int ping = 0;
 
 	int dir = 0;
 
 	Map map;
 
-	bool dir_sent = false;
+	// -1 no, 0 up, 1 right, 2 down, 3 left
+	int last_sent = -1;
 
 	Pacman pacman[4];
 	Score score;
