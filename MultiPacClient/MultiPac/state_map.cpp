@@ -1,4 +1,5 @@
 #include "state_map.h"
+#include <string>
 
 State_map::State_map()
 {
@@ -69,10 +70,18 @@ void State_map::logic()
 
 void State_map::render()
 {
-	
+	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
+	SDL_RenderClear(ren);
+
+
 	map.render(0, 0);
 	
 	pacman.render(0, 0);
+
+	score.render(0, 0);
+
+	SDL_RenderPresent(ren);
+
 }
 
 

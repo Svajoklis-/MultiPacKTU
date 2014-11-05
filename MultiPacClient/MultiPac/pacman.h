@@ -1,10 +1,9 @@
 #pragma once
 #include <SDL.h>
-#include "game_state.h"
 #include "globals.h"
 #include "timer.h"
 #include<fstream>
-#include<iostream>
+//#include<iostream>
 using namespace std;
 
 

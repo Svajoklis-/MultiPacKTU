@@ -117,6 +117,8 @@ void State_map_movement::render()
 	for (int i = 0; i < coord_count; i++)
 		pacman[i].render(0, 0);
 
+	score.render(0, 0);
+
 	SDL_RenderPresent(ren);
 }
 

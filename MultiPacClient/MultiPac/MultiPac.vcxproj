@@ -82,6 +82,7 @@
     <ClCompile Include="font_renderer.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="pacman.cpp" />
+    <ClCompile Include="score.cpp" />
     <ClCompile Include="server_connection.cpp" />
     <ClCompile Include="state_map.cpp" />
     <ClCompile Include="state_intro.cpp" />
@@ -96,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="font_renderer.h" />
     <ClInclude Include="map.h" />
+    <ClInclude Include="score.h" />
     <ClInclude Include="server_connection.h" />
     <ClInclude Include="pacman.h" />
     <ClInclude Include="state_map.h" />

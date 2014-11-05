@@ -8,6 +8,7 @@ using namespace std;
 #include "timer.h"
 #include "map.h"
 #include "pacman.h"
+#include "score.h"
 
 #ifndef H_STATE_MAP_MOVEMENT
 #define H_STATE_MAP_MOVEMENT
@@ -36,6 +37,7 @@ private:
 	bool dir_sent = false;
 
 	Pacman pacman[4];
+	Score score;
 };
 
 #endif // H_STATE_MAP_MOVEMENT

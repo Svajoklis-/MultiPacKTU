@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "map.h"
 #include "pacman.h"
+#include "score.h"
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 private:
 	Map map;
 	Pacman pacman;
+	Score score;
 	int x, y;
 	int lastx, lasty;
 	int direction;
