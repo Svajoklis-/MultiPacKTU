@@ -5,6 +5,7 @@
 #include "map.h"
 #include "pacman.h"
 #include "score.h"
+#include "ghost.h"
 
 using namespace std;
 
@@ -24,7 +25,8 @@ public:
 	
 private:
 	Map map;
-	Pacman pacman;
+	//Pacman pacman;
+	Ghost ghost;
 	Score score;
 	int x, y;
 	int lastx, lasty;

@@ -80,6 +80,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="font_renderer.cpp" />
+    <ClCompile Include="ghost.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="pacman.cpp" />
     <ClCompile Include="score.cpp" />
@@ -96,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="font_renderer.h" />
+    <ClInclude Include="ghost.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="score.h" />
     <ClInclude Include="server_connection.h" />

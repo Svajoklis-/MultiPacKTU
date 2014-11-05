@@ -63,8 +63,8 @@ void State_map::logic()
 	else
 	if (y < lasty)
 		direction = 3;
-
-	pacman.set_coords(x, y, direction);
+	//pacman.set_coords(x, y, direction);
+	ghost.set_coords(x, y, direction);
 }
 
 void State_map::render()
@@ -74,8 +74,10 @@ void State_map::render()
 
 
 	map.render(0, 0);
-	
-	pacman.render(0, 0);
+
+	//pacman.render(0, 0);
+
+	ghost.render(0, 0);
 
 	score.render(0, 0);
 
