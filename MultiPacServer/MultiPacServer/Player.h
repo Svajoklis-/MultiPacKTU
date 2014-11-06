@@ -27,6 +27,8 @@ public:
 	void SetNextWay(Way next) { this->next = next; }
 	void SetCoords(Coords coords) { this->coords = coords; }
 	void SetPlaying(bool playing) { this->playing = playing; }
+	void IncScore(){ score++; }
+	void SetScore(int score){ this->score = score; }
 
 	~Player() { SDLNet_TCP_Close(socket); }
 

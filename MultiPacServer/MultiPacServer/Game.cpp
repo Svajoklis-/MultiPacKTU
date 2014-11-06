@@ -64,6 +64,7 @@ void Game::Update(){
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
+			player->IncScore();
 			data.players[data.player_count] = player->GetCoords();
 			data.player_count++;
 		}
