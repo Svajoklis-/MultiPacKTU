@@ -7,28 +7,46 @@ Pacman::Pacman()
 	direction = 0;
 	load_sprites();
 	timer.start();
+
+	stop_timer.start();
 }
 
 
 void Pacman::render(int x_offset, int y_offset)
 {
+	
 	render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 4]);
 
 	int timer_ticks = timer.ticks();
 	if (timer_ticks >= frame_interval)
 	{
-		for (int i = 0; i < timer_ticks / frame_interval; i++)
+		if (stop_timer.ticks() < 20)
 		{
-			frame += 1;
-			if (frame >= frame_count)
-				frame = 0;
+			for (int i = 0; i < timer_ticks / frame_interval; i++)
+			{
+				frame += 1;
+				if (frame >= frame_count)
+				{
+					frame = 0;
+				}
+			}
+			timer.restart();
 		}
-		timer.restart();
 	}
 
 }
+
 void Pacman::set_coords(int x_axis, int y_axis, int direction_num)
 {
+	if (x_axis == x && y_axis == y)
+	{
+		
+	}
+	else
+	{
+		stop_timer.restart();
+	}
+
 	x = x_axis;
 	y = y_axis;
 	direction = direction_num;

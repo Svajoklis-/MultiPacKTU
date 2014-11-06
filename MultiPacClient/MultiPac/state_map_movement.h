@@ -28,6 +28,7 @@ private:
 	Server_connection connection;
 	Server_connection::Coords coords[4];
 	int coord_count = 0;
+	Server_connection::State_Packet data;
 
 	int ping = 0;
 

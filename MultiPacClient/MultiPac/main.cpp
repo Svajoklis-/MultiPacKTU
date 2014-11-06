@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
 		return 2;
 
 	// you can set initial state here
-	current_state = new State_intro();
+	current_state = new State_map_movement();
 
 	while (state != st_exit)
 	{

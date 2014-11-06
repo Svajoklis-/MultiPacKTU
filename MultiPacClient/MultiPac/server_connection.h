@@ -56,7 +56,8 @@ public:
 	};
 	
 private:
-	char* connectionstring = "localhost";
+	//char* connectionstring = "localhost";
+	char *connectionstring = "localhost";
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */

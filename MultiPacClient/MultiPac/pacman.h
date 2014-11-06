@@ -25,4 +25,6 @@ private:
 	SDL_Texture *sprite_sheet;
 	SDL_Rect sprite_clips[16];
 
+	Timer stop_timer;
+
 };

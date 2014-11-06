@@ -95,7 +95,7 @@ void State_map_movement::events()
 void State_map_movement::logic()
 {
 	//connection.get_coords(coords, &coord_count, &ping);
-	Server_connection::State_Packet data;			//cia visi duomenys gal dar visu neatsiunci bet bus
+				//cia visi duomenys gal dar visu neatsiunci bet bus
 	connection.get_state_packet(&data, &ping);		//cia naujas gavimas kiti bus deprecated
 	coord_count = data.player_count;
 	for (int i = 0; i < coord_count; i++){			//cia kad neapsiverktu kita tavo kodo dalis susitvarkysi
@@ -108,6 +108,7 @@ void State_map_movement::logic()
 	}
 
 	score.set_score(data.score);
+	//score.set_score(ping);
 }
 
 void State_map_movement::render()
@@ -115,10 +116,10 @@ void State_map_movement::render()
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
 
-	map.render(0, 0);
+	map.render(10, 13);
 
 	for (int i = 0; i < coord_count; i++)
-		pacman[i].render(0, 0);
+		pacman[i].render(10, 13);
 
 	score.render(0, 0);
 
