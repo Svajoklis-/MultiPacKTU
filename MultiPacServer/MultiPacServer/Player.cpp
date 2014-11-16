@@ -3,29 +3,11 @@
 Player::Player(TCPsocket socket) { 
 	this->socket = socket; 
 	playing = false; 
-	coords.x = 8; 
-	coords.y = 8;
+	coords.x = 80; 
+	coords.y = 120;
 	coords.way = Top;
 	next = Top; 
-	score = 666;
+	score = 0;
 	lives = 3;
-}
-
-void Player::MakeAMove(bool currentisvalid, bool nextisvalid){
-	if (nextisvalid) coords.way = next;
-	else if (!currentisvalid) return;
-	switch (coords.way){
-	case Top:
-		coords.y--;
-		break;
-	case Right:
-		coords.x++;
-		break;
-	case Bottom:
-		coords.y++;
-		break;
-	case Left:
-		coords.x--;
-		break;
-	}
+	speed = 2;
 }

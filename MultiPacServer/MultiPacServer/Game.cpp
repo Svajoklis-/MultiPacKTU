@@ -18,6 +18,11 @@ void Game::GetMap(int map[][mapwidth]){
 			map[i][j] = this->map[i][j];
 }
 
+void Game::AddPlayer(Player *player){
+	players.push_back(player);
+
+}
+
 void Game::ReturnPlayersCoords(Player::Coords coords[], int &count){
 	for each (Player *player in players)
 	{
@@ -28,26 +33,54 @@ void Game::ReturnPlayersCoords(Player::Coords coords[], int &count){
 	}
 }
 
-bool Game::CheckMap(Player *player, Player::Way way){
+bool Game::CheckMap(Entity *entity, Entity::Way way){
 	//all the map checking
 	//returns if next player instruction is valid
-	Player::Coords coords = player->GetCoords();
+	Entity::Coords coords = entity->GetCoords();
 	switch (way)
 	{
-	case Player::Right:
-		if (map[coords.y / 8][coords.x / 8 + 1] == 0 && coords.y % 8 == 0) return true;
+	case Entity::Right:
+		if (map[coords.y / tile][coords.x / tile + 1] != Entity::Wall && coords.y % tile == 0) return true;
 		break;
-	case Player::Bottom:
-		if (map[coords.y / 8 + 1][coords.x / 8] == 0 && coords.x % 8 == 0) return true;
+	case Entity::Bottom:
+		if (map[coords.y / tile + 1][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
 		break;
-	case Player::Left:
-		if (map[coords.y / 8][(coords.x - 1) / 8] == 0 && coords.y % 8 == 0) return true;
+	case Entity::Left:
+		if (map[coords.y / tile][(coords.x - 1) / tile] != Entity::Wall && coords.y % tile == 0) return true;
 		break;
-	case Player::Top:
-		if (map[(coords.y - 1) / 8][coords.x / 8] == 0 && coords.x % 8 == 0) return true;
+	case Entity::Top:
+		if (map[(coords.y - 1) / tile][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
 		break;
 	}
 	return false;
+}
+
+bool Game::CheckCollision(Entity *entity){
+	if (typeid(*entity) == typeid(Player)){
+		//patikrinam su kitais zaidejais - atsokam
+		//patikrinam su vaiduokliais - mirstam arba valgom
+	}
+	else{
+		//patikrinama su zaidejais - mirsta arba mirsta
+	}
+
+	return true;
+}
+
+void Game::CheckPellets(Player *player){
+	Entity::Coords coords = player->GetCoords();
+	if (coords.x % tile == 0 && coords.y % tile == 0){	//jeigu vidury tailo
+		switch (map[coords.y / tile][coords.x / tile])
+		{
+		case Entity::NormalPellet:
+			map[coords.y / tile][coords.x / tile] = Entity::Blank;
+			player->IncScore();
+			break;
+		case Entity::PowerPellet:
+			break;
+		}
+	}
+	
 }
 
 void Game::RemovePlayer(Player *player){
@@ -64,7 +97,8 @@ void Game::Update(){
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
-			player->IncScore();
+			//CheckCollision(player);
+			CheckPellets(player);
 			data.players[data.player_count] = player->GetCoords();
 			data.player_count++;
 		}

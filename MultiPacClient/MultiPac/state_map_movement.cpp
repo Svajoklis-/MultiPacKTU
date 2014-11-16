@@ -128,5 +128,5 @@ void State_map_movement::render()
 
 State_map_movement::~State_map_movement()
 {
-	connection.exit_game();
+	connection.disconnect();
 }

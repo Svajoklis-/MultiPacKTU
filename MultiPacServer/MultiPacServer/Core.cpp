@@ -39,6 +39,7 @@ void ReturnPlayersCoords(Game *game);
 void FreeServer();
 
 bool running = true;
+int servertickduration = 30;	// kiek laiko (ms) skiriama vienam zaidimo tick
 
 TCPsocket serversocket;
 IPaddress ip;
@@ -114,6 +115,12 @@ int ConsoleControl(void *data){
 				players[i]->SetScore(0);
 			}
 		}
+		if (result == "setgamespeed"){
+			cin >> servertickduration;
+		}
+		if (result == "help"){
+			cout << "resetscore\nsetgamespeed\nclients\nquit\n";
+		}
 	}
 	running = false;
 	return 0;
@@ -150,7 +157,6 @@ int ClientService(void *data){
 				int map[Game::mapheight][Game::mapwidth];
 				game->GetMap(map);
 				SDLNet_TCP_Send(player->GetSocket(), (void *)map, 27 * 21 * sizeof(int));
-				//return map somehow
 				break;
 			case Ready:
 				player->SetPlaying(true);
@@ -167,6 +173,7 @@ int ClientService(void *data){
 				packet = game->GetStatePacket();
 				packet.lives = player->GetLives();
 				packet.score = player->GetScore();
+				packet.playing = player->IsPlaying();
 				SDLNet_TCP_Send(player->GetSocket(), (void *)&packet, sizeof(Game::State_Packet));
 				break;
 			case GoingTop:
@@ -182,7 +189,7 @@ int ClientService(void *data){
 				player->SetNextWay(Player::Left);
 				break;
 			case ResetDir:
-				player->SetNextWay(player->GetCoords().way);
+				//player->SetNextWay(player->GetCoords().way);		//sitas mane uzkniso - KKarolis
 				break;
 			case ExitGame:
 				game->RemovePlayer(player);
@@ -234,17 +241,14 @@ int GameLoop(void *data){
 	Timer game_tick;
 	game_tick.start();
 
-	// kiek laiko (ms) skiriama vienam þaidimo tick
-	int tick_duration = 30;
-
 	while (game->IsRunning()){
 		game_tick.restart();
 
 		game->Update();
 
-		if (game_tick.ticks() < tick_duration)
+		if (game_tick.ticks() < servertickduration)
 		{
-			SDL_Delay(tick_duration - game_tick.ticks());
+			SDL_Delay(servertickduration - game_tick.ticks());
 		}
 	}
 

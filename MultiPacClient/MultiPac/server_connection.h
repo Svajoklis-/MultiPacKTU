@@ -50,14 +50,15 @@ public:
 		int ghost_count;
 		int score;
 		int lives;
+		bool playing;
 		Coords players[maxplayercount];
 		Coords ghosts[maxghostcount];
 		int map[mapheight][mapwidth];
 	};
 	
 private:
-	//char* connectionstring = "localhost";
-	char *connectionstring = "localhost";
+	char* connectionstring = "localhost";
+	//char *connectionstring = "192.168.173.1";
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */
