@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_mixer.h>
 
 using namespace std;
 
@@ -41,6 +42,12 @@ private:
 
 	Pacman pacman[4];
 	Score score;
+
+	// sounds
+
+	Mix_Chunk *snd_chomping;
+	int chomp_channel;
+	Mix_Chunk *snd_pause;
 };
 
 #endif // H_STATE_MAP_MOVEMENT

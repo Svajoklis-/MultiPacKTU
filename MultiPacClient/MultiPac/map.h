@@ -21,7 +21,7 @@ enum neighbours
 
 enum different_tiles
 {
-	TILE_VERTICAL,
+	TILE_VERTICAL = 0,
 	TILE_HORIZONTAL,
 	TILE_LEFT_DOWN,
 	TILE_LEFT_UP,
@@ -37,6 +37,8 @@ enum different_tiles
 	TILE_T_LEFT,
 	TILE_ALL_SIDES,
 	TILE_FREE,
+	TILE_PELLET,
+	TILE_POWER_PELLET,
 	TILE_TOTAL
 };
 
@@ -56,10 +58,8 @@ private:
 	
 	void load_tiles();
 
-
-
 	int map_array[29][23];
 	SDL_Texture *tile_sprite_sheet;
 	SDL_Rect tile_sprite_clips[TILE_TOTAL];
-
+	SDL_Rect tile_pellet_clips[2];
 };

@@ -27,6 +27,10 @@ State_map_movement::State_map_movement()
 
 	delete[] buffer;
 
+
+	snd_chomping = Mix_LoadWAV("res\\snd\\chomping.wav");
+	snd_pause = Mix_LoadWAV("res\\snd\\pause.wav");
+
 	connection.ready();
 }
 
@@ -45,6 +49,14 @@ void State_map_movement::events()
 			case SDLK_ESCAPE:
 				state = st_menu;
 				break;
+			case SDLK_a:
+				chomp_channel = Mix_PlayChannel(-1, snd_chomping, -1);
+				break;
+			case SDLK_s:
+				Mix_FadeOutChannel(chomp_channel, 1000);
+				break;
+			case SDLK_d:
+				Mix_PlayChannel(-1, snd_pause, 0);
 			}
 		}
 	}

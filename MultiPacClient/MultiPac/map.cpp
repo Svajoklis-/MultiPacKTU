@@ -68,6 +68,8 @@ void Map::load_tiles()
 		tile_sprite_clips[i + 8].h = 8;
 	}
 
+	tile_pellet_clips[0] = { 0, 0, 8, 8 };
+	tile_pellet_clips[1] = { 8, 0, 8, 8 };
 }
 
 void Map::assign_tiles()
@@ -83,6 +85,7 @@ void Map::assign_tiles()
 		{
 			if (map_array[i][j] != 0)
 			{
+
 				neighbourhood[UPPER_LEFT] = map_array[i - 1][j - 1];
 				neighbourhood[UPPER_MIDDLE] = map_array[i - 1][j];
 				neighbourhood[UPPER_RIGHT] = map_array[i - 1][j + 1];

@@ -33,6 +33,12 @@ int main(int argc, char *argv[])
 	if (init() != 0)
 		return 2;
 
+	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 1024);
+
+	int mix_init_flags = 0;
+	if (Mix_Init(mix_init_flags) != mix_init_flags)
+		return 3;
+
 	// you can set initial state here
 	current_state = new State_map_movement();
 
@@ -129,5 +135,7 @@ void quit()
 
 	delete font_renderer;
 
+	Mix_CloseAudio();
+	Mix_Quit();
 	SDL_Quit();
 }
