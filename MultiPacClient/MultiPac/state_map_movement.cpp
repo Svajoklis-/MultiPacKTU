@@ -17,7 +17,8 @@ State_map_movement::State_map_movement()
 			server_map[i][j] = buffer[i * connection.mapwidth + j];
 		}
 	}
-	
+
+	items.load_from_memory(server_map);
 	map.load_from_memory(server_map);
 
 	for (int i = 0; i < connection.mapheight; i++)
@@ -129,6 +130,7 @@ void State_map_movement::render()
 	SDL_RenderClear(ren);
 
 	map.render(10, 13);
+	items.render(10, 13);
 
 	for (int i = 0; i < coord_count; i++)
 		pacman[i].render(10, 13);

@@ -3,6 +3,7 @@
 #include "game_state.h"
 #include "globals.h"
 #include "map.h"
+#include "items.h"
 #include "pacman.h"
 #include "score.h"
 #include "ghost.h"
@@ -25,6 +26,7 @@ public:
 	
 private:
 	Map map;
+	Items items;
 	//Pacman pacman;
 	Ghost ghost;
 	Score score;

@@ -40,8 +40,14 @@ void Map::read_from_file()
 	ifstream file;
 	file.open("res\\map\\map.txt");
 	for (int i = 1; i < 28; i++)
-	for (int j = 1; j < 22; j++)
-		file >> map_array[i][j];
+	{
+		for (int j = 1; j < 22; j++)
+		{
+			file >> map_array[i][j];
+			if (map_array[i][j] > 1)
+				map_array[i][j] = 0;
+		}
+	}
 	file.close();
 
 }

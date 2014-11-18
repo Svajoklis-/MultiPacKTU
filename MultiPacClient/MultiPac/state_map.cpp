@@ -2,6 +2,7 @@
 
 State_map::State_map()
 {
+	items.read_from_file();
 	map.read_from_file();
 	map.assign_tiles();
 	x = 8;
@@ -74,6 +75,7 @@ void State_map::render()
 
 
 	map.render(0, 0);
+	items.render(0, 0);
 
 	//pacman.render(0, 0);
 

@@ -8,6 +8,7 @@ using namespace std;
 #include "globals.h"
 #include "timer.h"
 #include "map.h"
+#include "items.h"
 #include "pacman.h"
 #include "score.h"
 
@@ -36,6 +37,7 @@ private:
 	int dir = 0;
 
 	Map map;
+	Items items;
 
 	// -1 no, 0 up, 1 right, 2 down, 3 left
 	int last_sent = -1;
