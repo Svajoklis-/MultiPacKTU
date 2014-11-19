@@ -28,6 +28,8 @@ private:
 	int map[mapheight][mapwidth];
 	State_Packet data;
 
+	void UpdateMap();
+
 public:
 	Game();
 

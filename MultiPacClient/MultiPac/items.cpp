@@ -58,6 +58,9 @@ void Items::load_from_memory(int** map)
 				item_array[i][j] = map[i - 1][j - 1] - 1;
 				map[i - 1][j - 1] = 0;
 			}
+			else{
+				item_array[i][j] = 0;
+			}
 		}
 	}
 

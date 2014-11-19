@@ -74,6 +74,7 @@ void Game::CheckPellets(Player *player){
 		{
 		case Entity::NormalPellet:
 			map[coords.y / tile][coords.x / tile] = Entity::Blank;
+			UpdateMap();
 			player->IncScore();
 			break;
 		case Entity::PowerPellet:
@@ -81,6 +82,12 @@ void Game::CheckPellets(Player *player){
 		}
 	}
 	
+}
+
+void Game::UpdateMap(){
+	for (int i = 0; i < mapheight; i++)
+		for (int j = 0; j < mapwidth; j++)
+			data.map[i][j] = map[i][j];
 }
 
 void Game::RemovePlayer(Player *player){
@@ -97,10 +104,24 @@ void Game::Update(){
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
-			//CheckCollision(player);
 			CheckPellets(player);
+			
 			data.players[data.player_count] = player->GetCoords();
 			data.player_count++;
 		}
 	}
+	/*for each (Ghost *ghost in ghosts)
+	{
+		ghost->MakeAMove(CheckMap(ghost, ghost->GetCoords().way), CheckMap(ghost, ghost->));
+	}
+	for each (Player *player in players)
+	{
+		if (player->IsPlaying()){
+			CheckCollision(player);
+		}
+	}
+	for each (Ghost *ghost in ghosts)
+	{
+		CheckCollision(ghost);
+	}*/
 }
