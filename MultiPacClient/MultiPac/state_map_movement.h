@@ -51,6 +51,8 @@ private:
 	bool chomping = false;
 	int chomp_channel;
 	Mix_Chunk *snd_pause;
+	Mix_Chunk *snd_eat_low, *snd_eat_high;
+	bool played_low = false;
 };
 
 #endif // H_STATE_MAP_MOVEMENT

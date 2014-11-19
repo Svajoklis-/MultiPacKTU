@@ -1,11 +1,11 @@
-﻿Build started 2014-11-17 10:19:58.
+﻿Build started 2014-11-19 19:32:40.
      1>Project "D:\Dev\GitHub\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Core.cpp Entity.cpp Game.cpp Ghost.cpp Player.cpp
-         Player.cpp
+         D:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Core.cpp Game.cpp Ghost.cpp
          Ghost.cpp
          Game.cpp
-         Entity.cpp
+         Generating Code...
+         Compiling...
          Core.cpp
          Generating Code...
        Link:
@@ -20,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.28
+Time Elapsed 00:00:10.03

@@ -31,6 +31,8 @@ State_map_movement::State_map_movement()
 
 	snd_chomping = Mix_LoadWAV("res\\snd\\chomping.wav");
 	snd_pause = Mix_LoadWAV("res\\snd\\pause.wav");
+	snd_eat_low = Mix_LoadWAV("res\\snd\\eat_low.wav");
+	snd_eat_high = Mix_LoadWAV("res\\snd\\eat_high.wav");
 
 	connection.ready();
 }
@@ -141,7 +143,19 @@ void State_map_movement::logic()
 		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
 	}
 
-	if (score.get_score() < data.score) Mix_PlayChannel(-1, snd_pause, 0);
+	if (score.get_score() < data.score)
+	{
+		if (!played_low)
+		{
+			Mix_PlayChannel(-1, snd_eat_low, 0);
+			played_low = true;
+		}
+		else
+		{
+			Mix_PlayChannel(-1, snd_eat_high, 0);
+			played_low = false;
+		}
+	}
 
 	score.set_score(data.score);
 }
