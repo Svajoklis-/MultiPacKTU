@@ -5,9 +5,7 @@ Map::Map()
 	for (int i = 0; i < 29; i++)
 	for (int j = 0; j < 23; j++)
 		map_array[i][j] = 0;
-	//read_from_file();
 	load_tiles();
-	//assign_tiles();
 }
 
 
@@ -71,9 +69,6 @@ void Map::load_tiles()
 		tile_sprite_clips[i + 8].w = 8;
 		tile_sprite_clips[i + 8].h = 8;
 	}
-
-	tile_pellet_clips[0] = { 0, 0, 8, 8 };
-	tile_pellet_clips[1] = { 8, 0, 8, 8 };
 }
 
 void Map::assign_tiles()

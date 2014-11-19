@@ -61,5 +61,4 @@ private:
 	int map_array[29][23];
 	SDL_Texture *tile_sprite_sheet;
 	SDL_Rect tile_sprite_clips[TILE_TOTAL];
-	SDL_Rect tile_pellet_clips[2];
 };
