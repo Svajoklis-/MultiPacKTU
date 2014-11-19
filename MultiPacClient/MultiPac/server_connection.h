@@ -53,7 +53,7 @@ public:
 		bool playing;
 		Coords players[maxplayercount];
 		Coords ghosts[maxghostcount];
-		int map[mapheight*mapwidth];
+		int map[mapheight][mapwidth];
 	};
 	
 private:

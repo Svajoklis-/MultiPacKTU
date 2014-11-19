@@ -122,23 +122,10 @@ void State_map_movement::logic()
 
 	int **server_map = new int*[connection.mapheight];
 	for (int i = 0; i < connection.mapheight; i++)
-		server_map[i] = new int[connection.mapwidth];
-
-	int *buffer = data.map;
-
-	for (int i = 0; i < connection.mapheight; i++)
-	{
-		for (int j = 0; j < connection.mapwidth; j++)
-		{
-			server_map[i][j] = buffer[i * connection.mapwidth + j];
-		}
-	}
+		server_map[i] = &data.map[i][0];
 
 	items.load_from_memory(server_map);
 	map.load_from_memory(server_map);
-
-	for (int i = 0; i < connection.mapheight; i++)
-		delete[] server_map[i];
 
 	delete[] server_map;
 	
