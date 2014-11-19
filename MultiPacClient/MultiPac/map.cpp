@@ -28,9 +28,7 @@ void Map::load_from_memory(int** map)
 		}
 	}
 
-
 	assign_tiles();
-
 }
 
 

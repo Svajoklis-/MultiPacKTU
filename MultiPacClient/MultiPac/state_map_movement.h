@@ -48,6 +48,7 @@ private:
 	// sounds
 
 	Mix_Chunk *snd_chomping;
+	bool chomping = false;
 	int chomp_channel;
 	Mix_Chunk *snd_pause;
 };
