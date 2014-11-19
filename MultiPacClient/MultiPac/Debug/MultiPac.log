@@ -1,14 +1,10 @@
-﻿Build started 2014.11.19 17:36:08.
+﻿Build started 2014.11.19 17:47:49.
      1>Project "H:\Program Files\MultiPacKTU\MultiPacClient\MultiPac\MultiPac.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(381,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (MultiPac.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         H:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp map.cpp state_map.cpp state_map_movement.cpp
-         map.cpp
-         Generating Code...
-         Compiling...
-         state_map_movement.cpp
+         H:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ghost.cpp state_map.cpp
          state_map.cpp
-         main.cpp
+         ghost.cpp
          Generating Code...
        Link:
          H:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\Program Files\MultiPacKTU\MultiPacClient\Debug\MultiPacClient.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib SDL2_net.lib SDL2_mixer.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"H:\Program Files\MultiPacKTU\MultiPacClient\Debug\MultiPacClient.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\Program Files\MultiPacKTU\MultiPacClient\Debug\MultiPacClient.lib" /MACHINE:X86 Debug\font_renderer.obj
@@ -32,4 +28,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.38
+Time Elapsed 00:00:00.73

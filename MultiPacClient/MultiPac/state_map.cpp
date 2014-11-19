@@ -8,6 +8,7 @@ State_map::State_map()
 	x = 8;
 	y = 8;
 	direction = 0;
+	ghost.turn_vulnerable();
 }
 
 void State_map::events()

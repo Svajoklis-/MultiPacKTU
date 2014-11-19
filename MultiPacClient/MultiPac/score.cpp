@@ -4,6 +4,7 @@
 Score::Score()
 {
 	score = 0;
+	lives = 3;
 }
 
 void Score::render(int x_offset, int y_offset)
@@ -26,10 +27,26 @@ void Score::render(int x_offset, int y_offset)
 		scr_w - 11 - font_renderer->width(to_string(score)) + x_offset,
 		char_height * 3 + y_offset);
 
+
+
+	title = "LIVES";
+	font_renderer->render(title,
+		205,
+		58);
+
+	font_renderer->render(to_string(score),
+		scr_w - 11 - font_renderer->width(to_string(score)) + x_offset,
+		char_height * 9 + y_offset);
+
 }
 void Score::set_score(int sc)
 {
 	score = sc;
+}
+void Score::set_score(int sc, int lv)
+{
+	score = sc;
+	lives = lv;
 }
 int Score::get_score()
 {

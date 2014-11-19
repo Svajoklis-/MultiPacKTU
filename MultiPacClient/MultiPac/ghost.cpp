@@ -10,7 +10,6 @@ Ghost::Ghost()
 	direction = 0;
 	load_sprites();
 	timer.start();
-	turn_vulnerable();
 }
 
 
