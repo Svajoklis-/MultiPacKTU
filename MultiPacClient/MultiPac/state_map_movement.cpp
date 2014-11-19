@@ -154,8 +154,9 @@ void State_map_movement::logic()
 		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
 	}
 
+	if (score.get_score() < data.score) Mix_PlayChannel(-1, snd_pause, 0);
+
 	score.set_score(data.score);
-	//score.set_score(ping);
 }
 
 void State_map_movement::render()

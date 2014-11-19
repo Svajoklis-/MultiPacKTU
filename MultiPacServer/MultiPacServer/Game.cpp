@@ -74,7 +74,7 @@ void Game::CheckPellets(Player *player){
 		{
 		case Entity::NormalPellet:
 			map[coords.y / tile][coords.x / tile] = Entity::Blank;
-			UpdateMap();
+			data.map[coords.y / tile][coords.x / tile] = Entity::Blank;
 			player->IncScore();
 			break;
 		case Entity::PowerPellet:
@@ -82,12 +82,6 @@ void Game::CheckPellets(Player *player){
 		}
 	}
 	
-}
-
-void Game::UpdateMap(){
-	for (int i = 0; i < mapheight; i++)
-		for (int j = 0; j < mapwidth; j++)
-			data.map[i][j] = map[i][j];
 }
 
 void Game::RemovePlayer(Player *player){
