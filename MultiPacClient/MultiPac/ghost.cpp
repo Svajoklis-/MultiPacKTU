@@ -146,6 +146,7 @@ void Ghost::render_blink_sprite(int x, int y, SDL_Rect* clip)
 Ghost::~Ghost()
 {
 	SDL_DestroyTexture(sprite_sheet);
+	SDL_DestroyTexture(blink_sheet);
 	timer.stop();
 }
 

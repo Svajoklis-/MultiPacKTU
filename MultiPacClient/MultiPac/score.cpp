@@ -35,7 +35,7 @@ void Score::render(int x_offset, int y_offset)
 		58);
 
 	font_renderer->render(to_string(lives),
-		scr_w - 11 - font_renderer->width(to_string(score)) + x_offset,
+		scr_w - 11 - font_renderer->width(to_string(lives)) + x_offset,
 		char_height * 9 + y_offset);
 
 }
