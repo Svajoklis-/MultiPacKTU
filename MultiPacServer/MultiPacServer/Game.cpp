@@ -35,7 +35,7 @@ void Game::ReturnPlayersCoords(Player::Coords coords[], int &count){
 
 bool Game::CheckMap(Entity *entity, Entity::Way way){
 	//all the map checking
-	//returns if next player instruction is valid
+	//returns if instruction is valid
 	Entity::Coords coords = entity->GetCoords();
 	switch (way)
 	{
@@ -56,13 +56,35 @@ bool Game::CheckMap(Entity *entity, Entity::Way way){
 }
 
 bool Game::CheckCollision(Entity *entity){
-	if (typeid(*entity) == typeid(Player)){
+	Entity::Coords host = entity->GetCoords();
+	for each (Player *player in players){
+		Entity::Coords guest = player->GetCoords();
+		if ((abs(host.x - guest.x) < 6) && (abs(host.y - guest.y) < 6)){
+			if (typeid(*entity) == typeid(Player)){
+				Player *collider = (Player *)entity;
+				if (collider != player && !collider->IsInactive() && !player->IsInactive()){
+					if(host.way != guest.way) guest.way = player->ReverseWay(guest.way);
+					player->SetCoords(guest);
+					player->SetInactive();
+					player->SetNextWay(player->GetCoords().way);
+					host.way = collider->ReverseWay(host.way);
+					collider->SetCoords(host);
+					collider->SetInactive();
+					collider->SetNextWay(collider->GetCoords().way);
+				}
+			}
+			else{
+				//player dies or eats
+			}
+		}
+	}
+	/*if (typeid(*entity) == typeid(Player)){
 		//patikrinam su kitais zaidejais - atsokam
 		//patikrinam su vaiduokliais - mirstam arba valgom
 	}
 	else{
 		//patikrinama su zaidejais - mirsta arba mirsta
-	}
+	}*/
 
 	return true;
 }
@@ -99,9 +121,18 @@ void Game::Update(){
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
 			CheckPellets(player);
-			
-			data.players[data.player_count] = player->GetCoords();
+			CheckCollision(player);
+			if (player->IsInactive()){
+				Entity::Coords coords = player->GetCoords();
+				coords.way = player->ReverseWay(coords.way);
+				data.players[data.player_count] = coords;
+			}
+			else
+			{
+				data.players[data.player_count] = player->GetCoords();
+			}
 			data.player_count++;
+
 		}
 	}
 	/*for each (Ghost *ghost in ghosts)

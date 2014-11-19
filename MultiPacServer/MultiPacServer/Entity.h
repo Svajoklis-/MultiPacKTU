@@ -19,7 +19,9 @@ public:
 	void SetNextWay(Way next) { this->next = next; }
 	void SetCoords(Coords coords) { this->coords = coords; }
 
-	void MakeAMove(bool currentisvalid, bool nextisvalid);
+	virtual void MakeAMove(bool currentisvalid, bool nextisvalid);
+
+	Way ReverseWay(Way input);
 };
 
 #endif

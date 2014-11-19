@@ -10,4 +10,21 @@ Player::Player(TCPsocket socket) {
 	score = 0;
 	lives = 3;
 	speed = 2;
+	inactive = 0;
+}
+
+void Player::MakeAMove(bool currentisvalid, bool nextisvalid){
+	if (inactive > 0){
+		if (currentisvalid){
+			Entity::MakeAMove(currentisvalid, false);
+			inactive--;
+			if (inactive == 5) speed -= 2;
+			return;
+		}
+		else{
+			inactive = 0;
+			speed = 2;
+		}
+	}
+	Entity::MakeAMove(currentisvalid, nextisvalid);
 }

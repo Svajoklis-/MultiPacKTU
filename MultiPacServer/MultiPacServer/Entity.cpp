@@ -18,3 +18,12 @@ void Entity::MakeAMove(bool currentisvalid, bool nextisvalid){
 		break;
 	}
 }
+
+Entity::Way Entity::ReverseWay(Way input){
+	switch (input){
+	case Top: return Bottom;
+	case Right: return Left;
+	case Bottom: return Top;
+	case Left: return Right;
+	}
+}
