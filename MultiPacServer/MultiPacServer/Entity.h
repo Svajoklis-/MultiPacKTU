@@ -21,7 +21,7 @@ public:
 
 	virtual void MakeAMove(bool currentisvalid, bool nextisvalid);
 
-	Way ReverseWay(Way input);
+	static Way ReverseWay(Way input);
 };
 
 #endif

@@ -178,5 +178,6 @@ void State_map_movement::render()
 
 State_map_movement::~State_map_movement()
 {
-	connection.disconnect();
+	try{connection.disconnect();}
+	catch (const runtime_error& error){}
 }

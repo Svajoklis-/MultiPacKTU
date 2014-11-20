@@ -46,8 +46,15 @@ int main(int argc, char *argv[])
 	{
 		timer.restart();
 
-		current_state->events();
-		current_state->logic();
+		try{
+			current_state->events();
+			current_state->logic();	
+		}
+		catch (const runtime_error& error){
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Unexpected error", error.what(), NULL);
+			delete current_state;
+			current_state = new State_menu();
+		}
 
 		// states render to window texture
 		SDL_SetRenderTarget(ren, win_tx);
@@ -87,14 +94,20 @@ int main(int argc, char *argv[])
 				break;
 			case st_map_movement:
 				delete current_state;
-				current_state = new State_map_movement();
+				try{
+					current_state = new State_map_movement();
+				}
+				catch (const runtime_error& error){
+					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Unexpected error", error.what(), NULL);
+					//paskui papasakosiu kodel memory leaks nera (neturetu buti :D) arba pats pasiskaitysi
+					current_state = new State_menu();
+				}
 				break;
 			default:
 				state = st_null;
 				break;
 			}
 		}
-
 		// delay if frame finished fast enough
 		if (timer.ticks() < 1000 / scr_fps)
 			SDL_Delay((1000 / scr_fps) - timer.ticks());

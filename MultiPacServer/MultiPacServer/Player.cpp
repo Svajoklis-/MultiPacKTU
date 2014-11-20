@@ -3,8 +3,8 @@
 Player::Player(TCPsocket socket) { 
 	this->socket = socket; 
 	playing = false; 
-	coords.x = 80; 
-	coords.y = 120;
+	coords.x = startingx; 
+	coords.y = startingy;
 	coords.way = Top;
 	next = Top; 
 	score = 0;

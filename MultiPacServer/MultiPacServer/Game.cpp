@@ -65,19 +65,21 @@ bool Game::CheckMap(Entity *entity, Entity::Way way){
 bool Game::CheckCollision(Entity *entity){
 	Entity::Coords host = entity->GetCoords();
 	for each (Player *player in players){
-		Entity::Coords guest = player->GetCoords();
-		if ((abs(host.x - guest.x) < 6) && (abs(host.y - guest.y) < 6)){
-			if (typeid(*entity) == typeid(Player)){
+		Entity::Coords target = player->GetCoords();
+		if ((abs(host.x - target.x) <= 4) && (abs(host.y - target.y) <= 4)){
+			if (typeid(*entity) == typeid(Player)){												//if its a player
 				Player *collider = (Player *)entity;
-				if (collider != player && !collider->IsInactive() && !player->IsInactive()){
-					if(host.way != guest.way) guest.way = player->ReverseWay(guest.way);
-					player->SetCoords(guest);
+				if (collider != player && !collider->IsInactive() && !player->IsInactive() &&	//if not the same player and both active
+					(!(target.x == Player::startingx && target.y == Player::startingy) &&		//and target isnt at starting position
+					!(host.x == Player::startingx && host.y == Player::startingy))){			//and collider isnt at the starting position
+					if (host.way != target.way) target.way = Entity::ReverseWay(target.way);	//if it comes from behind do not flip
+					player->SetCoords(target);
 					player->SetInactive();
-					player->SetNextWay(player->GetCoords().way);
-					host.way = collider->ReverseWay(host.way);
+					player->SetNextWay(target.way);
+					host.way = Entity::ReverseWay(host.way);
 					collider->SetCoords(host);
 					collider->SetInactive();
-					collider->SetNextWay(collider->GetCoords().way);
+					collider->SetNextWay(host.way);
 				}
 			}
 			else{
@@ -127,27 +129,33 @@ void Game::Update(){
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
-			Entity::Coords coords = player->GetCoords();
-			if (coords.x <= 0){
-				coords.x = mapwidth*tile - tile;
-				player->SetCoords(coords);
-			}else if (coords.x >= mapwidth*tile - tile){
-				coords.x = 0;
-				player->SetCoords(coords);
+			
+			//Teleporting---------------------------
+			Entity::Coords tcoords = player->GetCoords();
+			if (tcoords.x <= 0){
+				tcoords.x = mapwidth*tile - tile;
+				player->SetCoords(tcoords);
+			}else if (tcoords.x >= mapwidth*tile - tile){
+				tcoords.x = 0;
+				player->SetCoords(tcoords);
 			}
+			//--------------------------------------
+
 			CheckPellets(player);
 			CheckCollision(player);
+
+			//Updating state packet-----------------
+			Entity::Coords scoords = player->GetCoords();
 			if (player->IsInactive()){
-				Entity::Coords coords = player->GetCoords();
-				coords.way = player->ReverseWay(coords.way);
-				data.players[data.player_count] = coords;
+				scoords.way = Entity::ReverseWay(scoords.way);
+				data.players[data.player_count] = scoords;
 			}
 			else
 			{
-				data.players[data.player_count] = player->GetCoords();
+				data.players[data.player_count] = scoords;
 			}
 			data.player_count++;
-
+			//-------------------------------------
 		}
 	}
 	/*for each (Ghost *ghost in ghosts)

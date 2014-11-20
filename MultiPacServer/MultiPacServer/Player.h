@@ -2,6 +2,9 @@
 #include "Entity.h"
 
 class Player : public Entity{
+public:
+	static const int startingx = 80;
+	static const int startingy = 120;
 private:
 	TCPsocket socket;
 	bool playing;
