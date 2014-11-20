@@ -27,6 +27,7 @@ private:
 	std::vector<Ghost*> ghosts;		//mutex needed
 	int map[mapheight][mapwidth];
 	State_Packet data;
+	int pellets;
 
 	void UpdateMap();
 

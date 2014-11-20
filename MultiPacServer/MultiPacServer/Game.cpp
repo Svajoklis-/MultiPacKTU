@@ -7,15 +7,22 @@ Game::Game(){
 	for (int i = 0; i < mapheight; i++)
 		for (int j = 0; j < mapwidth; j++){
 			file >> map[i][j];
-			data.map[i][j] = map[i][j];
 		}
 	file.close();
+	UpdateMap();
 }
 
 void Game::GetMap(int map[][mapwidth]){
 	for (int i = 0; i < mapheight; i++)
 		for (int j = 0; j < mapwidth; j++)
 			map[i][j] = this->map[i][j];
+}
+
+void Game::UpdateMap(){
+	for (int i = 0; i < mapheight; i++)
+		for (int j = 0; j < mapwidth; j++)
+			data.map[i][j] = map[i][j];
+	pellets = 200;
 }
 
 void Game::AddPlayer(Player *player){
@@ -40,16 +47,16 @@ bool Game::CheckMap(Entity *entity, Entity::Way way){
 	switch (way)
 	{
 	case Entity::Right:
-		if (map[coords.y / tile][coords.x / tile + 1] != Entity::Wall && coords.y % tile == 0) return true;
+		if (data.map[coords.y / tile][coords.x / tile + 1] != Entity::Wall && coords.y % tile == 0) return true;
 		break;
 	case Entity::Bottom:
-		if (map[coords.y / tile + 1][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
+		if (data.map[coords.y / tile + 1][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
 		break;
 	case Entity::Left:
-		if (map[coords.y / tile][(coords.x - 1) / tile] != Entity::Wall && coords.y % tile == 0) return true;
+		if (data.map[coords.y / tile][(coords.x - 1) / tile] != Entity::Wall && coords.y % tile == 0) return true;
 		break;
 	case Entity::Top:
-		if (map[(coords.y - 1) / tile][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
+		if (data.map[(coords.y - 1) / tile][coords.x / tile] != Entity::Wall && coords.x % tile == 0) return true;
 		break;
 	}
 	return false;
@@ -92,11 +99,11 @@ bool Game::CheckCollision(Entity *entity){
 void Game::CheckPellets(Player *player){
 	Entity::Coords coords = player->GetCoords();
 	if (coords.x % tile == 0 && coords.y % tile == 0){	//jeigu vidury tailo
-		switch (map[coords.y / tile][coords.x / tile])
+		switch (data.map[coords.y / tile][coords.x / tile])
 		{
 		case Entity::NormalPellet:
-			map[coords.y / tile][coords.x / tile] = Entity::Blank;
 			data.map[coords.y / tile][coords.x / tile] = Entity::Blank;
+			pellets--;
 			player->IncScore();
 			break;
 		case Entity::PowerPellet:
@@ -120,6 +127,14 @@ void Game::Update(){
 	{
 		if (player->IsPlaying()){
 			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
+			Entity::Coords coords = player->GetCoords();
+			if (coords.x <= 0){
+				coords.x = mapwidth*tile - tile;
+				player->SetCoords(coords);
+			}else if (coords.x >= mapwidth*tile - tile){
+				coords.x = 0;
+				player->SetCoords(coords);
+			}
 			CheckPellets(player);
 			CheckCollision(player);
 			if (player->IsInactive()){
@@ -149,4 +164,5 @@ void Game::Update(){
 	{
 		CheckCollision(ghost);
 	}*/
+	if (pellets == 0) UpdateMap();
 }
