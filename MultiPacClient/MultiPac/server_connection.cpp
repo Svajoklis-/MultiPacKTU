@@ -81,7 +81,7 @@ void Server_connection::get_coords(Coords *coords, int *count, int *ping)
 	}
 	if (SDLNet_CheckSockets(set, 0) == 1)
 	{
-		if (SDLNet_SocketReady(sd) != 0){
+		while (SDLNet_SocketReady(sd) != 0){
 			if (SDLNet_TCP_Recv(sd, (void *)count, sizeof(int)) <= 0){
 				std::string error(SDLNet_GetError());
 				throw std::runtime_error("Couldn't receive coord count: " + error);

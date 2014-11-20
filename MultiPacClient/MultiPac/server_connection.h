@@ -58,7 +58,7 @@ public:
 	
 private:
 	char* connectionstring = "localhost";
-	//char *connectionstring = "192.168.173.1";
+	//char *connectionstring = "192.168.43.6";
 	int port = 2001;
 	IPaddress ip;		/* Server address */
 	TCPsocket sd;		/* Socket descriptor */
