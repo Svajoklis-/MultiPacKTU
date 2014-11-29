@@ -116,7 +116,7 @@ void State_map_movement::events()
 
 void State_map_movement::logic()
 {
-	//connection.get_coords(coords, &coord_count, &ping);
+	//connection.get_coords(coords, &data.player_count, &ping);
 				//cia visi duomenys gal dar visu neatsiunci bet bus
 	connection.get_state_packet(&data, &ping);		//cia naujas gavimas kiti bus deprecated
 
@@ -133,14 +133,16 @@ void State_map_movement::logic()
 	
 	// -------------------------
 
-	coord_count = data.player_count;
-	for (int i = 0; i < coord_count; i++){			//cia kad neapsiverktu kita tavo kodo dalis susitvarkysi
-		coords[i] = data.players[i];
+
+	for (int i = 0; i < data.player_count; i++)
+	{
+		pacman[i].set_coords(data.players[i].x, data.players[i].y, data.players[i].way);
 	}
 
-	for (int i = 0; i < coord_count; i++)
+	for (int i = 0; i < data.ghost_count; i++)
 	{
-		pacman[i].set_coords(coords[i].x, coords[i].y, coords[i].way);
+		ghost[i].set_coords(data.ghosts[i].x, data.ghosts[i].y, data.ghosts[i].way);
+		//reikia nustatyti vaiduoklio tipa tipai yra enumas mano interveide kaip nors pritrauksit
 	}
 
 	if (score.get_score() < data.score)
@@ -168,8 +170,11 @@ void State_map_movement::render()
 	map.render(10, 13);
 	items.render(10, 13);
 
-	for (int i = 0; i < coord_count; i++)
+	for (int i = 0; i < data.player_count; i++)
 		pacman[i].render(10, 13);
+
+	for (int i = 0; i < data.ghost_count; i++)
+		ghost[i].render(10, 13);
 
 	score.render(0, 0);
 

@@ -10,6 +10,7 @@ using namespace std;
 #include "map.h"
 #include "items.h"
 #include "pacman.h"
+#include "ghost.h"
 #include "score.h"
 
 #ifndef H_STATE_MAP_MOVEMENT
@@ -28,8 +29,8 @@ public:
 private:
 
 	Server_connection connection;
-	Server_connection::Coords coords[4];
-	int coord_count = 0;
+	Server_connection::Coords coords[4];	//deprecated?
+	int coord_count = 0;					//deprecated?
 	Server_connection::State_Packet data;
 
 	int ping = 0;
@@ -43,6 +44,7 @@ private:
 	int last_sent = -1;
 
 	Pacman pacman[4];
+	Ghost ghost[8];
 	Score score;
 
 	// sounds

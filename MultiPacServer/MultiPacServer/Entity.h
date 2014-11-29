@@ -13,15 +13,18 @@ protected:
 	int speed;
 
 public:
-	Way GetNextWay() { return next; }
-	Coords GetCoords() { return coords; }
+	Way GetNextWay();
+	Coords GetCoords();
+	int GetSpeed();
 
-	void SetNextWay(Way next) { this->next = next; }
-	void SetCoords(Coords coords) { this->coords = coords; }
+	void SetNextWay(Way next);
+	void SetCoords(Coords coords);
 
 	virtual void MakeAMove(bool currentisvalid, bool nextisvalid);
 
 	static Way ReverseWay(Way input);
+	static int ManhattansDistance(Coords from, Coords to);
+	static Coords CoordsAfterMoving(Entity *entity, int turns);
 };
 
 #endif

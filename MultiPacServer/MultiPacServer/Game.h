@@ -17,8 +17,9 @@ public:
 		int score;
 		int lives;
 		bool playing;
-		Player::Coords players[maxplayercount];
-		Player::Coords ghosts[maxghostcount];
+		Entity::Coords players[maxplayercount];
+		Entity::Coords ghosts[maxghostcount];
+		Ghost::Personality ghostmodel[maxghostcount];
 		int map[mapheight][mapwidth];
 	};
 
@@ -30,21 +31,23 @@ private:
 	int pellets;
 
 	void UpdateMap();
+	bool CheckMap(Entity *entity, Entity::Way way);
+	void CheckPellets(Player *player);
+	void CheckCollision(Entity *entity);
+	void CheckTeleport(Entity *entity);
+	void CheckGhostBrain(Ghost *ghost);
 
 public:
 	Game();
 
-	int GetPlayerCount() { return players.size(); }
+	int GetPlayerCount();
 	void GetMap(int map[][mapwidth]);
 	void AddPlayer(Player *player);
 	void RemovePlayer(Player *player);
 	void ReturnPlayersCoords(Player::Coords coords[], int &count);
-	State_Packet GetStatePacket(){ return data; }
+	State_Packet GetStatePacket();
 
-	bool CheckMap(Entity *entity, Entity::Way way);
-	void CheckPellets(Player *player);
-	bool CheckCollision(Entity *entity);
-	bool IsRunning(){ return players.size() > 0; }
+	bool IsRunning();
 	void Update();
 
 	~Game(){};

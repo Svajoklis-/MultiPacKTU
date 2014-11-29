@@ -2,22 +2,27 @@
 
 class Ghost : public Entity{
 public:
-	enum Personality{ Blinky, Pinky, Inky, ClydeorSue };	//originaliam tai Clyde
+	static const int homex = 80;
+	static const int homey = 104;
+	static const int frightimer = 350; //~10 secs
+	enum Personality{ Blinky, Pinky, Inky, Sue, FrightBlue, FrightWhite, Eyes };
 
 private:
 	Personality type;
+	Personality current;
 	Coords target;
-	bool frightened;
+	int frightened;
 
 	int ManhattansDistance(Coords from, Coords to);
 
 public:
-	Ghost(Personality person);
+	Ghost(Personality type);
 
-	Personality GetPersonality(){ return type; }
+	Personality GetPersonality();
+	void SetPersonality(Personality person);
 
-	void Think();
+	void Frighten();
+	void MakeAMove(bool currentisvalid, bool nextisvalid);
 
-	void Frighten(){ frightened = true; }
-	void MakeNormal(){ frightened = false; }
+	void Tick();
 };

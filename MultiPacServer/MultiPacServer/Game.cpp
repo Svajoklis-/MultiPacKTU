@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <fstream>
+#include <cstdlib>
 
 Game::Game(){
 	std::ifstream file;
@@ -26,14 +27,18 @@ void Game::UpdateMap(){
 }
 
 void Game::AddPlayer(Player *player){
+	//add some ghosts
+	Ghost *ghost = new Ghost((Ghost::Personality)players.size());
+	ghosts.push_back(ghost);
+	//add player
 	players.push_back(player);
-
 }
 
+//deprecated
 void Game::ReturnPlayersCoords(Player::Coords coords[], int &count){
 	for each (Player *player in players)
 	{
-		if (player->IsPlaying()){
+		if (player->IsAlive()){
 			coords[count] = player->GetCoords();
 			count++;
 		}
@@ -62,40 +67,129 @@ bool Game::CheckMap(Entity *entity, Entity::Way way){
 	return false;
 }
 
-bool Game::CheckCollision(Entity *entity){
+int Game::GetPlayerCount() { return players.size(); }
+
+Game::State_Packet Game::GetStatePacket(){ return data; }
+
+bool Game::IsRunning(){ return players.size() > 0; }
+
+void Game::CheckCollision(Entity *entity){
 	Entity::Coords host = entity->GetCoords();
 	for each (Player *player in players){
 		Entity::Coords target = player->GetCoords();
 		if ((abs(host.x - target.x) <= 4) && (abs(host.y - target.y) <= 4)){
 			if (typeid(*entity) == typeid(Player)){												//if its a player
 				Player *collider = (Player *)entity;
-				if (collider != player && !collider->IsInactive() && !player->IsInactive() &&	//if not the same player and both active
+				if (collider != player && collider->IsActive() && player->IsActive() &&	//if not the same player and both active
 					(!(target.x == Player::startingx && target.y == Player::startingy) &&		//and target isnt at starting position
 					!(host.x == Player::startingx && host.y == Player::startingy))){			//and collider isnt at the starting position
 					if (host.way != target.way) target.way = Entity::ReverseWay(target.way);	//if it comes from behind do not flip
 					player->SetCoords(target);
-					player->SetInactive();
+					player->Deactivate();
 					player->SetNextWay(target.way);
 					host.way = Entity::ReverseWay(host.way);
 					collider->SetCoords(host);
-					collider->SetInactive();
+					collider->Deactivate();
 					collider->SetNextWay(host.way);
 				}
 			}
 			else{
-				//player dies or eats
+				Ghost *collider = (Ghost *)entity;
+				Ghost::Personality current = collider->GetPersonality();
+				if (current != Ghost::Eyes){	//if ghost isnt dead
+					//if ghosts are not frightened
+					if (current != Ghost::FrightBlue && current != Ghost::FrightWhite){
+						//kill pacman
+						player->Kill();
+					}
+					else{
+						//ghost dies
+						collider->SetPersonality(Ghost::Eyes);
+						player->IncScore(200);
+					}
+				}	
 			}
 		}
 	}
-	/*if (typeid(*entity) == typeid(Player)){
-		//patikrinam su kitais zaidejais - atsokam
-		//patikrinam su vaiduokliais - mirstam arba valgom
-	}
-	else{
-		//patikrinama su zaidejais - mirsta arba mirsta
-	}*/
+}
 
-	return true;
+void Game::CheckGhostBrain(Ghost *ghost){
+	Entity::Coords coords = ghost->GetCoords();
+	//if its in the middle of the tile - able to turn (or not) and not in pacman domain
+	if (coords.x % tile == 0 && coords.y % tile == 0 && coords.y != Player::startingy){		
+		Entity::Way banned = Entity::ReverseWay(coords.way);	//ghost (almost) never turn back
+		std::vector<Entity::Way> selection;
+		int choice;
+		int mindistance = (mapheight + mapwidth) * tile;
+		Ghost::Personality current = ghost->GetPersonality();
+		bool homebanned = coords.x == 80 && current != Ghost::Eyes; //cant go home if ure not dead
+		if (CheckMap(ghost, Entity::Top) && banned != Entity::Top) selection.push_back(Entity::Top);
+		if (CheckMap(ghost, Entity::Bottom) && banned != Entity::Bottom && !homebanned) selection.push_back(Entity::Bottom);
+		if (CheckMap(ghost, Entity::Right) && banned != Entity::Right) selection.push_back(Entity::Right);
+		if (CheckMap(ghost, Entity::Left) && banned != Entity::Left) selection.push_back(Entity::Left);
+		
+		switch (current)
+		{
+		case Ghost::Blinky:
+		case Ghost::Pinky:
+		case Ghost::Inky:
+			for (unsigned i = 0; i < selection.size(); i++){
+				Entity::Coords temp = coords;
+				temp.way = selection[i];
+				ghost->SetCoords(temp);
+				temp = Entity::CoordsAfterMoving(ghost, tile);
+				for each(Player *player in players){
+					int distance;
+					Entity::Coords pacman = player->GetCoords();
+					switch (current)
+					{
+					case Ghost::Blinky:		//goes to closest pacman location
+						distance = Entity::ManhattansDistance(temp, pacman);
+						break;
+					case Ghost::Pinky:		//goes to closest pacman location after 4 turns
+						pacman = Entity::CoordsAfterMoving(player, 4*tile);
+						distance = Entity::ManhattansDistance(temp, pacman);
+						break;
+					case Ghost::Inky:		//if its further than 6 tiles goes to closest pacman otherwise random
+						distance = Entity::ManhattansDistance(temp, pacman);
+						if (distance < 6*tile){
+							distance = (mapheight + mapwidth) * tile;
+							choice = std::rand() % selection.size();
+						}
+						break;
+					}
+					if (distance < mindistance){
+						mindistance = distance;
+						choice = i;
+					}
+				}
+				ghost->SetCoords(coords);
+			}
+			break;
+		case Ghost::Eyes:		//goes to the ghost house
+			for (unsigned i = 0; i < selection.size(); i++){	
+				Entity::Coords home = { Ghost::homex, Ghost::homey, Entity::Top };
+				Entity::Coords temp = coords;
+				temp.way = selection[i];
+				ghost->SetCoords(temp);
+				temp = Entity::CoordsAfterMoving(ghost, 1);
+				int distance = Entity::ManhattansDistance(temp, home);
+				if (distance < mindistance){
+					mindistance = distance;
+					choice = i;
+				}
+				ghost->SetCoords(coords);
+			}
+			break;
+		case Ghost::Sue:		//roams randomly
+		case Ghost::FrightBlue: //roams randomly
+		case Ghost::FrightWhite://roams randomly
+			choice = std::rand() % selection.size();
+			break;	
+		}
+		coords.way = selection[choice];
+		ghost->SetCoords(coords);
+	}
 }
 
 void Game::CheckPellets(Player *player){
@@ -103,16 +197,46 @@ void Game::CheckPellets(Player *player){
 	if (coords.x % tile == 0 && coords.y % tile == 0){	//jeigu vidury tailo
 		switch (data.map[coords.y / tile][coords.x / tile])
 		{
+		case Entity::Blank:
+			break;
 		case Entity::NormalPellet:
 			data.map[coords.y / tile][coords.x / tile] = Entity::Blank;
 			pellets--;
-			player->IncScore();
+			player->IncScore(10);
 			break;
 		case Entity::PowerPellet:
+			data.map[coords.y / tile][coords.x / tile] = Entity::Blank;
+			for each (Ghost *ghost in ghosts){
+				Entity::Coords coords2 = ghost->GetCoords();
+				coords2.way = Entity::ReverseWay(coords2.way);
+				ghost->SetPersonality(Ghost::FrightBlue);
+				ghost->SetCoords(coords2);
+				ghost->Frighten();
+			}		
+			player->IncScore(50);
 			break;
 		}
 	}
 	
+}
+
+void Game::CheckTeleport(Entity *entity){
+	Entity::Coords tcoords = entity->GetCoords();
+	if (tcoords.x <= 0){
+		tcoords.x = mapwidth*tile - tile;
+		entity->SetCoords(tcoords);
+	}else if (tcoords.x >= mapwidth*tile - tile){
+		tcoords.x = 0;
+		entity->SetCoords(tcoords);
+	}
+	if (tcoords.y <= 0){
+		tcoords.y = mapheight*tile - tile;
+		entity->SetCoords(tcoords);
+	}
+	else if (tcoords.y >= mapheight*tile - tile){
+		tcoords.y = 0;
+		entity->SetCoords(tcoords);
+	}
 }
 
 void Game::RemovePlayer(Player *player){
@@ -125,28 +249,20 @@ void Game::RemovePlayer(Player *player){
 
 void Game::Update(){
 	data.player_count = 0;
+	data.ghost_count = 0;
 	for each (Player *player in players)
 	{
-		if (player->IsPlaying()){
-			player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
-			
-			//Teleporting---------------------------
-			Entity::Coords tcoords = player->GetCoords();
-			if (tcoords.x <= 0){
-				tcoords.x = mapwidth*tile - tile;
-				player->SetCoords(tcoords);
-			}else if (tcoords.x >= mapwidth*tile - tile){
-				tcoords.x = 0;
-				player->SetCoords(tcoords);
+		if (player->IsAlive()){
+			for (int i = 0; i < player->GetSpeed(); i++){
+				player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
+				CheckTeleport(player);
+				CheckPellets(player);
+				CheckCollision(player);
 			}
-			//--------------------------------------
-
-			CheckPellets(player);
-			CheckCollision(player);
 
 			//Updating state packet-----------------
 			Entity::Coords scoords = player->GetCoords();
-			if (player->IsInactive()){
+			if (!player->IsActive()){	//if player is inactive reverse way for flying effect
 				scoords.way = Entity::ReverseWay(scoords.way);
 				data.players[data.player_count] = scoords;
 			}
@@ -157,20 +273,26 @@ void Game::Update(){
 			data.player_count++;
 			//-------------------------------------
 		}
+		player->Tick();
 	}
-	/*for each (Ghost *ghost in ghosts)
-	{
-		ghost->MakeAMove(CheckMap(ghost, ghost->GetCoords().way), CheckMap(ghost, ghost->));
-	}
-	for each (Player *player in players)
-	{
-		if (player->IsPlaying()){
-			CheckCollision(player);
-		}
-	}
+	
 	for each (Ghost *ghost in ghosts)
 	{
-		CheckCollision(ghost);
-	}*/
+		for (int i = 0; i < ghost->GetSpeed(); i++){
+			CheckGhostBrain(ghost);
+			ghost->MakeAMove(true, false);
+			CheckTeleport(ghost);
+			CheckCollision(ghost);
+		}
+
+		//Updating state packet------------
+		data.ghosts[data.ghost_count] = ghost->GetCoords();
+		data.ghostmodel[data.ghost_count] = ghost->GetPersonality();
+		data.ghost_count++;
+		//---------------------------------
+
+		ghost->Tick();
+	}
+
 	if (pellets == 0) UpdateMap();
 }
