@@ -137,13 +137,16 @@ void State_map_movement::logic()
 	for (int i = 0; i < data.player_count; i++)
 	{
 		pacman[i].set_coords(data.players[i].x, data.players[i].y, data.players[i].way);
+		//pacman[i].set_state(data.players[i].state);
+		//reikia per state packet paduot death state
+		//jei 0, pacman alive
+		//nuo 1 iki 10 death frames
 	}
 
 	for (int i = 0; i < data.ghost_count; i++)
 	{
 		ghost[i].set_coords(data.ghosts[i].x, data.ghosts[i].y, data.ghosts[i].way);
 		ghost[i].set_ghost_id(data.ghostmodel[i]);
-		//reikia nustatyti vaiduoklio tipa tipai yra enumas mano interveide kaip nors pritrauksit
 	}
 
 	if (score.get_score() < data.score)

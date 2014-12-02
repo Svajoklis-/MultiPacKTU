@@ -2,6 +2,7 @@
 
 Pacman::Pacman()
 {
+	state = 0;
 	x = 8;
 	y = 8;
 	direction = 0;
@@ -14,8 +15,14 @@ Pacman::Pacman()
 
 void Pacman::render(int x_offset, int y_offset)
 {
-	
-	render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 4]);
+	if (state != 0)
+	{
+		render_death_sprite(x - 4 + x_offset, y - 4 + y_offset, &death_clips[state - 1]);
+	}
+	else
+	{
+		render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 4]);
+	}
 
 	int timer_ticks = timer.ticks();
 	if (timer_ticks >= frame_interval)
@@ -52,6 +59,10 @@ void Pacman::set_coords(int x_axis, int y_axis, int direction_num)
 	direction = direction_num;
 }
 
+void Pacman::set_state(int st)
+{
+	state = st;
+}
 
 void Pacman::load_sprites()
 {
@@ -93,6 +104,18 @@ void Pacman::load_sprites()
 		sprite_clips[i].h = 16;
 	}
 	sprite_clips[15] = sprite_clips[13];
+
+
+	y = 0;
+	death_sheet = load_image(ren, "res\\img\\pac_die.bmp", 255, 0, 255);
+	for (int i = 0; i < 10; i++)
+	{
+		death_clips[i].x = i * 16;
+		death_clips[i].y = y;
+		death_clips[i].w = 16;
+		death_clips[i].h = 16;
+	}
+
 }
 
 void Pacman::render_sprite(int x, int y, SDL_Rect* clip)
@@ -101,8 +124,15 @@ void Pacman::render_sprite(int x, int y, SDL_Rect* clip)
 	SDL_RenderCopy(ren, sprite_sheet, clip, &tile_rect);
 }
 
+void Pacman::render_death_sprite(int x, int y, SDL_Rect* clip)
+{
+	SDL_Rect tile_rect = { x, y, 16, 16 };
+	SDL_RenderCopy(ren, death_sheet, clip, &tile_rect);
+}
+
 Pacman::~Pacman()
 {
 	SDL_DestroyTexture(sprite_sheet);
+	SDL_DestroyTexture(death_sheet);
 	timer.stop();
 }

@@ -136,6 +136,7 @@ Ghost::~Ghost()
 {
 	SDL_DestroyTexture(sprite_sheet);
 	SDL_DestroyTexture(blink_sheet);
+	SDL_DestroyTexture(eyes_sheet);
 	timer.stop();
 }
 
