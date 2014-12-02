@@ -142,6 +142,7 @@ void State_map_movement::logic()
 	for (int i = 0; i < data.ghost_count; i++)
 	{
 		ghost[i].set_coords(data.ghosts[i].x, data.ghosts[i].y, data.ghosts[i].way);
+		ghost[i].set_ghost_id(data.ghostmodel[i]);
 		//reikia nustatyti vaiduoklio tipa tipai yra enumas mano interveide kaip nors pritrauksit
 	}
 

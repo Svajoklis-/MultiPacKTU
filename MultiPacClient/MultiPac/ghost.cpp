@@ -1,10 +1,9 @@
 #include "ghost.h"
 
-
 Ghost::Ghost()
 {
-	ghost_id = 1;
-	vulnerable = false;
+	ghost_id = 0;
+	
 	x = 8;
 	y = 8;
 	direction = 0;
@@ -15,32 +14,25 @@ Ghost::Ghost()
 
 void Ghost::render(int x_offset, int y_offset)
 {
-	if (!vulnerable)
+	if (ghost_id < 4)
 	{
-		render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 2]);
+		render_sprite(x - 4 + x_offset, y - 4 + y_offset, &sprite_clips[frame + direction * 2 + ghost_id * 8]);
 	}
 	else
 	{
-		int vulnerability_ticks = vulnerability_timer.ticks();
-
-		if (vulnerability_ticks > vulnerability_time)
+		if (ghost_id == 4)
 		{
-			vulnerability_timer.stop();
-			vulnerable = false;
+			render_blink_sprite(x - 4 + x_offset, y - 4 + y_offset, &blink_clips[frame]);
 		}
-		else
+		if (ghost_id == 5)
 		{
-			if (vulnerability_ticks < vulnerability_time / 2 || (vulnerability_ticks % blinking_interval) < blinking_interval/2)
-			{
-				render_blink_sprite(x - 4 + x_offset, y - 4 + y_offset, &blink_clips[frame]);
-			}
-			else
-			{
-				render_blink_sprite(x - 4 + x_offset, y - 4 + y_offset, &blink_clips[frame+2]);
-			}
+			render_blink_sprite(x - 4 + x_offset, y - 4 + y_offset, &blink_clips[frame + 2]);
+		}
+		if (ghost_id == 6)
+		{
+			render_eyes_sprite(x - 4 + x_offset, y - 4 + y_offset, &eyes_clips[direction]);
 		}
 	}
-	
 
 	int timer_ticks = timer.ticks();
 	if (timer_ticks >= frame_interval)
@@ -62,72 +54,64 @@ void Ghost::set_coords(int x_axis, int y_axis, int direction_num)
 	direction = direction_num;
 }
 
-void Ghost::turn_vulnerable()
+void Ghost::set_ghost_id(int id)
 {
-	vulnerability_timer.start();
-	vulnerable = true;
-	
+	ghost_id = id;
 }
+
 
 
 
 
 void Ghost::load_sprites()
 {
-	int y = ghost_id * 64;
+	int y = -16;
 	sprite_sheet = load_image(ren, "res\\img\\ghosts.bmp", 255, 0, 255);
+	int counter = 0;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 32; i++)
 	{
-		sprite_clips[i].x = i * 16;
+		if (counter % 2 == 0)
+		{
+			sprite_clips[i].x = (i - counter) * 16;
+			y += 16;
+		}
+		else
+			sprite_clips[i].x = (i - counter + 1) * 16;
 		sprite_clips[i].y = y;
 		sprite_clips[i].w = 16;
 		sprite_clips[i].h = 16;
-	}
-	y += 16;
-	for (int i = 2; i < 4; i++)
-	{
-		sprite_clips[i].x = (i - 2) * 16;
-		sprite_clips[i].y = y;
-		sprite_clips[i].w = 16;
-		sprite_clips[i].h = 16;
-	}
-	y += 16;
-	for (int i = 4; i < 6; i++)
-	{
-		sprite_clips[i].x = (i - 4) * 16;
-		sprite_clips[i].y = y;
-		sprite_clips[i].w = 16;
-		sprite_clips[i].h = 16;
-	}
-	y += 16;
-	for (int i = 6; i < 8; i++)
-	{
-		sprite_clips[i].x = (i - 6) * 16;
-		sprite_clips[i].y = y;
-		sprite_clips[i].w = 16;
-		sprite_clips[i].h = 16;
+		counter++;
 	}
 
 	blink_sheet = load_image(ren, "res\\img\\blinking.bmp", 255, 0, 255);
+    y = -16;
+	counter = 0;
+	for (int i = 0; i < 4; i++)
+	{
+
+		if (counter % 2 == 0)
+		{
+			blink_clips[i].x = (i - counter) * 16;
+			y += 16;
+		}
+		else
+			blink_clips[i].x = (i - counter + 1) * 16;
+		blink_clips[i].y = y;
+		blink_clips[i].w = 16;
+		blink_clips[i].h = 16;
+		counter++;
+	}
+
+	eyes_sheet = load_image(ren, "res\\img\\eyes.bmp", 255, 0, 255);
 	y = 0;
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		blink_clips[i].x = i * 16;
-		blink_clips[i].y = y;
-		blink_clips[i].w = 16;
-		blink_clips[i].h = 16;
+		eyes_clips[i].x = i * 16;
+		eyes_clips[i].y = y;
+		eyes_clips[i].w = 16;
+		eyes_clips[i].h = 16;
 	}
-	y += 16;
-	for (int i = 2; i < 4; i++)
-	{
-		blink_clips[i].x = (i - 2) * 16;
-		blink_clips[i].y = y;
-		blink_clips[i].w = 16;
-		blink_clips[i].h = 16;
-	}
-
-
 
 }
 
@@ -141,6 +125,11 @@ void Ghost::render_blink_sprite(int x, int y, SDL_Rect* clip)
 {
 	SDL_Rect tile_rect = { x, y, 16, 16 };
 	SDL_RenderCopy(ren, blink_sheet, clip, &tile_rect);
+}
+void Ghost::render_eyes_sprite(int x, int y, SDL_Rect* clip)
+{
+	SDL_Rect tile_rect = { x, y, 16, 16 };
+	SDL_RenderCopy(ren, eyes_sheet, clip, &tile_rect);
 }
 
 Ghost::~Ghost()
