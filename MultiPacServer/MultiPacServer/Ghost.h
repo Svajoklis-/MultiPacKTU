@@ -5,6 +5,7 @@ public:
 	static const int homex = 80;
 	static const int homey = 104;
 	static const int frightimer = 350; //~10 secs
+	static const int flashtimer = 50;
 	enum Personality{ Blinky, Pinky, Inky, Sue, FrightBlue, FrightWhite, Eyes };
 
 private:

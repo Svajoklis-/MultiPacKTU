@@ -100,7 +100,7 @@ void Game::CheckCollision(Entity *entity){
 					//if ghosts are not frightened
 					if (current != Ghost::FrightBlue && current != Ghost::FrightWhite){
 						//kill pacman
-						player->Kill();
+						if (player->IsAlive()) player->Kill();
 					}
 					else{
 						//ghost dies
@@ -252,27 +252,26 @@ void Game::Update(){
 	data.ghost_count = 0;
 	for each (Player *player in players)
 	{
-		if (player->IsAlive()){
-			for (int i = 0; i < player->GetSpeed(); i++){
-				player->MakeAMove(CheckMap(player, player->GetCoords().way), CheckMap(player, player->GetNextWay()));
-				CheckTeleport(player);
-				CheckPellets(player);
-				CheckCollision(player);
-			}
-
-			//Updating state packet-----------------
-			Entity::Coords scoords = player->GetCoords();
-			if (!player->IsActive()){	//if player is inactive reverse way for flying effect
-				scoords.way = Entity::ReverseWay(scoords.way);
-				data.players[data.player_count] = scoords;
-			}
-			else
-			{
-				data.players[data.player_count] = scoords;
-			}
-			data.player_count++;
-			//-------------------------------------
+		bool alive = player->IsAlive();
+		for (int i = 0; i < player->GetSpeed(); i++){
+			player->MakeAMove(CheckMap(player, player->GetCoords().way)&&alive, CheckMap(player, player->GetNextWay())&&alive);
+			CheckTeleport(player);
+			CheckPellets(player);
+			CheckCollision(player);
 		}
+
+		//Updating state packet-----------------
+		Entity::Coords scoords = player->GetCoords();
+		if (!player->IsActive()){	//if player is inactive reverse way for flying effect
+			scoords.way = Entity::ReverseWay(scoords.way);
+			data.players[data.player_count] = scoords;
+		}
+		else
+		{
+			data.players[data.player_count] = scoords;
+		}
+		data.player_count++;
+		//-------------------------------------
 		player->Tick();
 	}
 	

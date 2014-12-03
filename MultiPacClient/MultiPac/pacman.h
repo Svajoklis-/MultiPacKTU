@@ -13,7 +13,7 @@ public:
 	Pacman();
 	void render(int x_offset, int y_offset);
 	void set_coords(int x, int y, int direction);
-	void set_state(int state);
+	void set_state(bool alive);
 	~Pacman();
 
 private:

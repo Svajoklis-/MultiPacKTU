@@ -25,6 +25,12 @@ void Player::Tick(){
 	}
 	if (dead > 0){
 		dead--;
+		if (dead == 0){
+			coords.x = startingx;
+			coords.y = startingy;
+			coords.way = Top;
+			next = Top;
+		}
 	}
 }
 
@@ -64,10 +70,6 @@ void Player::Kill(){
 	}
 	dead = dietime;
 	lives--;
-	coords.x = startingx;
-	coords.y = startingy;
-	coords.way = Top;
-	next = Top;
 }
 
 void Player::Deactivate(){

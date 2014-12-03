@@ -137,6 +137,7 @@ void State_map_movement::logic()
 	for (int i = 0; i < data.player_count; i++)
 	{
 		pacman[i].set_coords(data.players[i].x, data.players[i].y, data.players[i].way);
+		pacman[i].set_state(data.playing);
 		//pacman[i].set_state(data.players[i].state);
 		//reikia per state packet paduot death state
 		//jei 0, pacman alive
@@ -163,7 +164,7 @@ void State_map_movement::logic()
 		}
 	}
 
-	score.set_score(data.score);
+	score.set_score(data.score, data.lives);
 }
 
 void State_map_movement::render()
