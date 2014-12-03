@@ -1,24 +1,18 @@
-﻿Build started 2014.12.02 03:45:08.
-     1>Project "h:\Program Files\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" on node 2 (Build target(s)).
+﻿Build started 12/3/2014 2:32:06 PM.
+     1>Project "D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         H:\Program Files\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Core.cpp Entity.cpp Game.cpp Ghost.cpp Player.cpp
-         Player.cpp
-         Ghost.cpp
+         D:\Programs\Visual Studio 2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Game.cpp
          Game.cpp
-         Entity.cpp
-         Core.cpp
-     1>h:\program files\multipacktu\multipacserver\multipacserver\core.cpp : warning C4819: The file contains a character that cannot be represented in the current code page (932). Save the file in Unicode format to prevent data loss
-         Generating Code...
        Link:
-         H:\Program Files\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"H:\Program Files\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib SDL2_net.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"H:\Program Files\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"H:\Program Files\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.lib" /MACHINE:X86 Debug\Core.obj
+         D:\Programs\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe" /INCREMENTAL /NOLOGO SDL2.lib SDL2main.lib SDL2_net.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.lib" /MACHINE:X86 Debug\Core.obj
          Debug\Entity.obj
          Debug\Game.obj
          Debug\Ghost.obj
          Debug\Player.obj
          Debug\timer.obj
-         MultiPacServer.vcxproj -> H:\Program Files\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe
-     1>Done Building Project "h:\Program Files\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" (Build target(s)).
+         MultiPacServer.vcxproj -> D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\Debug\MultiPacServer.exe
+     1>Done Building Project "D:\Mokslai\MultiPacKtu(v3)\MultiPacKTU\MultiPacServer\MultiPacServer\MultiPacServer.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.43
+Time Elapsed 00:00:00.93

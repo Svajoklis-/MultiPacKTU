@@ -59,9 +59,10 @@ void Pacman::set_coords(int x_axis, int y_axis, int direction_num)
 	direction = direction_num;
 }
 
-void Pacman::set_state(int st)
+void Pacman::set_state(bool alive)
 {
-	state = st;
+	if (alive) state = 0;
+	else if (state < 10) state++;
 }
 
 void Pacman::load_sprites()

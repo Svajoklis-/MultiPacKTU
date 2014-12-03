@@ -38,6 +38,7 @@ void Ghost::SetPersonality(Personality person){
 	case Ghost::Pinky:
 	case Ghost::Inky:
 	case Ghost::Sue:
+		frightened = 0;
 		speed = 2;
 		break;
 	case Ghost::FrightBlue:
@@ -45,7 +46,8 @@ void Ghost::SetPersonality(Personality person){
 		speed = 1;
 		break;
 	case Ghost::Eyes:
-		speed = 4;
+		frightened = 0;
+		speed = 3;
 		break;
 	}
 }
@@ -68,7 +70,7 @@ void Ghost::Tick(){
 			speed = 2;
 		}
 	}
-	if (frightened > 0 && frightened < 10){
+	if (frightened > 0 && frightened < flashtimer){
 		if (current == FrightBlue) current = FrightWhite;
 		else current = FrightBlue;
 	}
