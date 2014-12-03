@@ -40,12 +40,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)/../SDL/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/../SDL/include;$(SolutionDir)/../iniread;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)/../SDL/lib;$(LibraryPath)</LibraryPath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)/../SDL/include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)/../SDL/include;$(SolutionDir)/../iniread;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)/../SDL/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

@@ -13,6 +13,7 @@
 #include "state_server_test.h"
 #include "state_map.h"
 #include "state_map_movement.h"
+#include <INIReader.h>
 
 #include "timer.h"
 
