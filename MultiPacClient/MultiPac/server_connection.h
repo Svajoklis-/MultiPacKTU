@@ -59,7 +59,7 @@ public:
 	};
 	
 private:
-	char* connectionstring = "localhost";
+	char* connectionstring;
 	//char *connectionstring = "192.168.43.6";
 	int port = 2001;
 	IPaddress ip;		/* Server address */

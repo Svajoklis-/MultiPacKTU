@@ -50,4 +50,6 @@ private:
                             const char* value);
 };
 
+#include "INIreader.cpp"
+
 #endif  // __INIREADER_H__

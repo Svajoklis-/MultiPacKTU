@@ -14,7 +14,7 @@ State_menu::State_menu()
 	menu_items = new string[menu_item_count];
 	menu_items[0] = "REPLAY INTRO";
 	menu_items[1] = "MAP RENDER DEMO";
-	menu_items[2] = "MAP MOVEMENT TEST";
+	menu_items[2] = "CONNECT TO SERVER";
 
 	for (int i = 0; i < menu_item_count; i++)
 	{
@@ -64,7 +64,7 @@ void State_menu::events()
 					state = st_map;
 					break;
 				case 2:
-					state = st_map_movement;
+					state = st_game;
 					break;
 				default:
 					break;

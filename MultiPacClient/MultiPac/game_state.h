@@ -10,7 +10,7 @@ enum game_states
 	st_menu,
 	st_server_test,
 	st_map,
-	st_map_movement
+	st_game
 };
 
 class Game_state

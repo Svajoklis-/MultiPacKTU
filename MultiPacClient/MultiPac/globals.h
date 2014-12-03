@@ -34,6 +34,9 @@ extern Font_renderer *font_renderer;
 
 const int scr_fps = 50;
 
+extern char *g_connectionstring;
+extern int g_fullscreen;
+
 // loads an image to SDL_Texture
 // second version loads an image with single color alpha channel (e.g. magenta background)
 SDL_Texture* load_image(SDL_Renderer* ren, std::string name);

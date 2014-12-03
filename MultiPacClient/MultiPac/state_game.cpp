@@ -1,6 +1,6 @@
-#include "state_map_movement.h"
+#include "state_game.h"
 
-State_map_movement::State_map_movement()
+State_game::State_game()
 {
 	int **server_map = new int*[connection.mapheight];
 	for (int i = 0; i < connection.mapheight; i++)
@@ -29,7 +29,8 @@ State_map_movement::State_map_movement()
 	delete[] buffer;
 
 
-	snd_chomping = Mix_LoadWAV("res\\snd\\chomping.wav");
+	snd_ghosts_active = Mix_LoadWAV("res\\snd\\active.wav");
+	snd_ghosts_scared = Mix_LoadWAV("res\\snd\\scared.wav");
 	snd_pause = Mix_LoadWAV("res\\snd\\pause.wav");
 	snd_eat_low = Mix_LoadWAV("res\\snd\\eat_low.wav");
 	snd_eat_high = Mix_LoadWAV("res\\snd\\eat_high.wav");
@@ -37,7 +38,7 @@ State_map_movement::State_map_movement()
 	connection.ready();
 }
 
-void State_map_movement::events()
+void State_game::events()
 {
 	SDL_Event e;
 
@@ -51,19 +52,6 @@ void State_map_movement::events()
 			{
 			case SDLK_ESCAPE:
 				state = st_menu;
-				break;
-			case SDLK_a:
-				if (!chomping) {
-					chomp_channel = Mix_PlayChannel(-1, snd_chomping, -1);
-					chomping = true;
-				}
-				break;
-			case SDLK_s:
-				if (chomping)
-				{
-					Mix_FadeOutChannel(chomp_channel, 1000);
-					chomping = false;
-				}
 				break;
 			case SDLK_d:
 				Mix_PlayChannel(-1, snd_pause, 0);
@@ -114,7 +102,7 @@ void State_map_movement::events()
 	}
 }
 
-void State_map_movement::logic()
+void State_game::logic()
 {
 	//connection.get_coords(coords, &data.player_count, &ping);
 				//cia visi duomenys gal dar visu neatsiunci bet bus
@@ -150,6 +138,63 @@ void State_map_movement::logic()
 		ghost[i].set_ghost_id(data.ghostmodel[i]);
 	}
 
+	if (data.ghost_count > 0)
+	{
+		int active = 0;
+		int scared = 0;
+		for (int i = 0; i < data.ghost_count; i++)
+		{
+			if (data.ghostmodel[i] < 4) active++;
+			if ((data.ghostmodel[i] == 4) || (data.ghostmodel[i] == 5)) scared++;
+		}
+
+		if (!ghosts_active && !ghosts_scared && active > 0 && scared == 0)
+		{
+			ghosts_active_channel = Mix_PlayChannel(-1, snd_ghosts_active, -1);
+			ghosts_active = true;
+		}
+		else if (ghosts_active && scared > 0)
+		{
+			Mix_FadeOutChannel(ghosts_active_channel, 100);
+			ghosts_active = false;
+			ghosts_scared_channel = Mix_PlayChannel(-1, snd_ghosts_scared, -1);
+			ghosts_scared = true;
+		}
+		else if (ghosts_scared && scared == 0 && active > 0)
+		{
+			Mix_FadeOutChannel(ghosts_scared_channel, 100);
+			ghosts_scared = false;
+			ghosts_active_channel = Mix_PlayChannel(-1, snd_ghosts_active, -1);
+			ghosts_active = true;
+		}
+		
+		if (ghosts_active && active == 0)
+		{
+			Mix_FadeOutChannel(ghosts_active_channel, 100);
+			ghosts_active = false;
+		}
+
+		if (ghosts_scared && scared == 0)
+		{
+			Mix_FadeOutChannel(ghosts_scared_channel, 100);
+			ghosts_scared = false;
+		}
+	}
+	else
+	{
+		if (ghosts_active)
+		{
+			Mix_FadeOutChannel(ghosts_active_channel, 1000);
+			ghosts_active = false;
+		}
+
+		if (ghosts_scared)
+		{
+			Mix_FadeOutChannel(ghosts_scared_channel, 1000);
+			ghosts_scared = false;
+		}
+	}
+
 	if (score.get_score() < data.score)
 	{
 		if (!played_low)
@@ -167,7 +212,7 @@ void State_map_movement::logic()
 	score.set_score(data.score, data.lives);
 }
 
-void State_map_movement::render()
+void State_game::render()
 {
 	SDL_SetRenderDrawColor(ren, 0, 0, 0, 255);
 	SDL_RenderClear(ren);
@@ -186,8 +231,20 @@ void State_map_movement::render()
 	SDL_RenderPresent(ren);
 }
 
-State_map_movement::~State_map_movement()
+State_game::~State_game()
 {
+	if (ghosts_active)
+	{
+		Mix_FadeOutChannel(ghosts_active_channel, 1000);
+		ghosts_active = false;
+	}
+
+	if (ghosts_scared)
+	{
+		Mix_FadeOutChannel(ghosts_scared_channel, 1000);
+		ghosts_scared = false;
+	}
+
 	try{connection.disconnect();}
 	catch (const runtime_error& error){}
 }

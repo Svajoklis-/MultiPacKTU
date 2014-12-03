@@ -12,8 +12,9 @@
 #include "state_menu.h"
 #include "state_server_test.h"
 #include "state_map.h"
-#include "state_map_movement.h"
+#include "state_game.h"
 #include <INIReader.h>
+#include <iostream>
 
 #include "timer.h"
 
@@ -41,7 +42,7 @@ int main(int argc, char *argv[])
 		return 3;
 
 	// you can set initial state here
-	current_state = new State_intro();
+	current_state = new State_game();
 
 	while (state != st_exit)
 	{
@@ -93,10 +94,10 @@ int main(int argc, char *argv[])
 				delete current_state;
 				current_state = new State_map();
 				break;
-			case st_map_movement:
+			case st_game:
 				delete current_state;
 				try{
-					current_state = new State_map_movement();
+					current_state = new State_game();
 				}
 				catch (const runtime_error& error){
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Unexpected error", error.what(), NULL);
@@ -121,8 +122,30 @@ int main(int argc, char *argv[])
 
 int init()
 {
+	INIReader iniread("config.ini");
+
+	if (iniread.ParseError() < 0) {
+		printf("Can't load 'config.ini'\n");
+		return 1;
+	}
+
+	int fullscreen = iniread.GetInteger("system", "fullscreen", 0);
+	g_connectionstring = (char *)malloc(20 * sizeof(char));
+	strcpy(g_connectionstring, iniread.Get("connection", "address", "192.168.0.1").c_str());
+
 	win = SDL_CreateWindow("MultiPac", 100, 100, scr_w * scr_scale, scr_h * scr_scale,
 		SDL_WINDOW_SHOWN);
+
+	if (fullscreen == 1)
+	{
+		g_fullscreen = 1;
+		SDL_SetWindowFullscreen(win, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		SDL_DisplayMode display_mode;
+		SDL_GetCurrentDisplayMode(0, &display_mode);
+		int new_w = scr_w * ((float)display_mode.h / scr_h);
+		int new_x = (display_mode.w - new_w) / 2;
+		win_rect = { new_x, 0, new_w, display_mode.h };
+	}
 
 	if (win == nullptr)
 		return 1;

@@ -50,7 +50,6 @@ void Map::read_from_file()
 
 void Map::load_tiles()
 {
-
 	tile_sprite_sheet = load_image(ren, "res\\img\\tiles.bmp", 255, 0, 255);
 
 	int row_y = 8;
@@ -69,6 +68,10 @@ void Map::load_tiles()
 		tile_sprite_clips[i + 8].w = 8;
 		tile_sprite_clips[i + 8].h = 8;
 	}
+
+	tile_sprite_clips[TILE_GATE_LEFT] = { 0, 24, 8, 8 };
+	tile_sprite_clips[TILE_GATE_CENTER] = { 8, 24, 8, 8 };
+	tile_sprite_clips[TILE_GATE_RIGHT] = { 16, 24, 8, 8 };
 }
 
 void Map::assign_tiles()
@@ -78,6 +81,7 @@ void Map::assign_tiles()
 	for (int i = 0; i < 29; i++)
 	for (int j = 0; j < 23; j++)
 		map_with_tiles[i][j] = map_array[i][j];
+
 	for (int i = 1; i < 28; i++)
 	{
 		for (int j = 1; j < 22; j++)
@@ -286,6 +290,11 @@ void Map::assign_tiles()
 				map_with_tiles[i][j] = TILE_FREE;
 		}
 	}
+
+	map_with_tiles[12][10] = TILE_GATE_LEFT;
+	map_with_tiles[12][11] = TILE_GATE_CENTER;
+	map_with_tiles[12][12] = TILE_GATE_RIGHT;
+
 	for (int i = 1; i < 28; i++)
 	for (int j = 1; j < 22; j++)
 		map_array[i][j] = map_with_tiles[i][j];

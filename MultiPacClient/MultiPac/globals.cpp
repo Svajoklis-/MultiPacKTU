@@ -8,6 +8,9 @@ SDL_Rect scr_rect{ 0, 0, scr_w, scr_h };
 SDL_Rect win_rect{ 0, 0, scr_w * scr_scale, scr_h * scr_scale };
 Font_renderer *font_renderer = nullptr;
 
+char *g_connectionstring = nullptr;
+int g_fullscreen = 0;
+
 SDL_Texture* load_image(SDL_Renderer* ren, std::string name)
 {
 	SDL_Texture* ret;

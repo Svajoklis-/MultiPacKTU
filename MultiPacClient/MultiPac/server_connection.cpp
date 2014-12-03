@@ -1,6 +1,10 @@
 #include "server_connection.h"
+#include "globals.h"
 
 Server_connection::Server_connection(){
+
+	this->connectionstring = g_connectionstring;
+
 	if (SDLNet_Init() < 0)
 	{
 		std::string error(SDLNet_GetError());

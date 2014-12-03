@@ -13,21 +13,20 @@ using namespace std;
 #include "ghost.h"
 #include "score.h"
 
-#ifndef H_STATE_MAP_MOVEMENT
-#define H_STATE_MAP_MOVEMENT
+#ifndef H_STATE_GAME
+#define H_STATE_GAME
 
-class State_map_movement : public Game_state
+class State_game : public Game_state
 {
 public:
-	State_map_movement();
+	State_game();
 	void events();
 	void logic();
 	void render();
 
-	~State_map_movement();
+	~State_game();
 
 private:
-
 	Server_connection connection;
 	Server_connection::Coords coords[4];	//deprecated?
 	int coord_count = 0;					//deprecated?
@@ -49,12 +48,17 @@ private:
 
 	// sounds
 
-	Mix_Chunk *snd_chomping;
-	bool chomping = false;
-	int chomp_channel;
+	Mix_Chunk *snd_ghosts_active;
+	bool ghosts_active = false;
+	int ghosts_active_channel;
+
+	Mix_Chunk *snd_ghosts_scared;
+	bool ghosts_scared = false;
+	int ghosts_scared_channel;
+
 	Mix_Chunk *snd_pause;
 	Mix_Chunk *snd_eat_low, *snd_eat_high;
 	bool played_low = false;
 };
 
-#endif // H_STATE_MAP_MOVEMENT
+#endif // H_STATE_GAME
