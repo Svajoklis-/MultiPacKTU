@@ -125,7 +125,7 @@ void State_game::logic()
 	for (int i = 0; i < data.player_count; i++)
 	{
 		pacman[i].set_coords(data.players[i].x, data.players[i].y, data.players[i].way);
-		pacman[i].set_state(data.playing);
+		pacman[i].set_state(data.playing[i]);
 		//pacman[i].set_state(data.players[i].state);
 		//reikia per state packet paduot death state
 		//jei 0, pacman alive
@@ -138,60 +138,55 @@ void State_game::logic()
 		ghost[i].set_ghost_id(data.ghostmodel[i]);
 	}
 
-	if (data.ghost_count > 0)
+	if (g_mute != 1)
 	{
-		int active = 0;
-		int scared = 0;
-		for (int i = 0; i < data.ghost_count; i++)
+		if (data.ghost_count > 0)
 		{
-			if (data.ghostmodel[i] < 4) active++;
-			if ((data.ghostmodel[i] == 4) || (data.ghostmodel[i] == 5)) scared++;
-		}
+			int active = 0;
+			int scared = 0;
 
-		if (!ghosts_active && !ghosts_scared && active > 0 && scared == 0)
-		{
-			ghosts_active_channel = Mix_PlayChannel(-1, snd_ghosts_active, -1);
-			ghosts_active = true;
-		}
-		else if (ghosts_active && scared > 0)
-		{
-			Mix_FadeOutChannel(ghosts_active_channel, 100);
-			ghosts_active = false;
-			ghosts_scared_channel = Mix_PlayChannel(-1, snd_ghosts_scared, -1);
-			ghosts_scared = true;
-		}
-		else if (ghosts_scared && scared == 0 && active > 0)
-		{
-			Mix_FadeOutChannel(ghosts_scared_channel, 100);
-			ghosts_scared = false;
-			ghosts_active_channel = Mix_PlayChannel(-1, snd_ghosts_active, -1);
-			ghosts_active = true;
-		}
-		
-		if (ghosts_active && active == 0)
-		{
-			Mix_FadeOutChannel(ghosts_active_channel, 100);
-			ghosts_active = false;
-		}
+			for (int i = 0; i < data.ghost_count; i++)
+			{
+				if (data.ghostmodel[i] < 4) active++;
+				if ((data.ghostmodel[i] == 4) || (data.ghostmodel[i] == 5)) scared++;
+			}
 
-		if (ghosts_scared && scared == 0)
-		{
-			Mix_FadeOutChannel(ghosts_scared_channel, 100);
-			ghosts_scared = false;
-		}
-	}
-	else
-	{
-		if (ghosts_active)
-		{
-			Mix_FadeOutChannel(ghosts_active_channel, 1000);
-			ghosts_active = false;
-		}
+			if (!ghosts_active && active >= 0 && scared == 0)
+			{
+				ghosts_active_channel = Mix_PlayChannel(-1, snd_ghosts_active, -1);
+				ghosts_active = true;
+			}
+			else if (!ghosts_scared && scared > 0)
+			{
+				ghosts_scared_channel = Mix_PlayChannel(-1, snd_ghosts_scared, -1);
+				ghosts_scared = true;
+			}
 
-		if (ghosts_scared)
+			if (ghosts_active && (active == 0 || scared > 0))
+			{
+				Mix_FadeOutChannel(ghosts_active_channel, 10);
+				ghosts_active = false;
+			}
+
+			if (ghosts_scared && scared == 0)
+			{
+				Mix_FadeOutChannel(ghosts_scared_channel, 10);
+				ghosts_scared = false;
+			}
+		}
+		else
 		{
-			Mix_FadeOutChannel(ghosts_scared_channel, 1000);
-			ghosts_scared = false;
+			if (ghosts_active)
+			{
+				Mix_FadeOutChannel(ghosts_active_channel, 10);
+				ghosts_active = false;
+			}
+
+			if (ghosts_scared)
+			{
+				Mix_FadeOutChannel(ghosts_scared_channel, 10);
+				ghosts_scared = false;
+			}
 		}
 	}
 

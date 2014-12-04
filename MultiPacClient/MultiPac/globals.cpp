@@ -10,6 +10,7 @@ Font_renderer *font_renderer = nullptr;
 
 char *g_connectionstring = nullptr;
 int g_fullscreen = 0;
+int g_mute = 0;
 
 SDL_Texture* load_image(SDL_Renderer* ren, std::string name)
 {

@@ -8,7 +8,7 @@ public:
 	static const int mapheight = 27;
 	static const int mapwidth = 21;
 	static const int maxplayercount = 4;
-	static const int maxghostcount = 8;
+	static const int maxghostcount = 4;
 	static const int tile = 8;
 
 	struct State_Packet{
@@ -16,7 +16,7 @@ public:
 		int ghost_count;
 		int score;
 		int lives;
-		bool playing;
+		bool playing[maxplayercount];
 		Entity::Coords players[maxplayercount];
 		Entity::Coords ghosts[maxghostcount];
 		Ghost::Personality ghostmodel[maxghostcount];

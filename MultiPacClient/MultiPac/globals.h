@@ -36,6 +36,7 @@ const int scr_fps = 50;
 
 extern char *g_connectionstring;
 extern int g_fullscreen;
+extern int g_mute;
 
 // loads an image to SDL_Texture
 // second version loads an image with single color alpha channel (e.g. magenta background)

@@ -11,6 +11,10 @@ Game::Game(){
 		}
 	file.close();
 	UpdateMap();
+	for (int i = 0; i < maxghostcount; i++){
+		Ghost *ghost = new Ghost((Ghost::Personality)i);
+		ghosts.push_back(ghost);
+	}
 }
 
 void Game::GetMap(int map[][mapwidth]){
@@ -28,8 +32,7 @@ void Game::UpdateMap(){
 
 void Game::AddPlayer(Player *player){
 	//add some ghosts
-	Ghost *ghost = new Ghost((Ghost::Personality)players.size());
-	ghosts.push_back(ghost);
+	
 	//add player
 	players.push_back(player);
 }
@@ -270,6 +273,7 @@ void Game::Update(){
 		{
 			data.players[data.player_count] = scoords;
 		}
+		data.playing[data.player_count] = player->IsAlive();
 		data.player_count++;
 		//-------------------------------------
 		player->Tick();

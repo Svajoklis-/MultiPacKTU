@@ -23,7 +23,8 @@ private:
 	int ghost_id;
 
 	Timer timer;
-	int frame = 0, frame_count = 2, frame_interval = 100;
+	int frame = 0, frame_count = 2;
+	const int frame_interval = 100;
 	SDL_Texture *sprite_sheet;
 	SDL_Texture *blink_sheet;
 	SDL_Texture *eyes_sheet;

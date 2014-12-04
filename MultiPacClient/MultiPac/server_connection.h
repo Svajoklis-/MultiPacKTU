@@ -42,7 +42,7 @@ public:
 	static const int mapheight = 27;
 	static const int mapwidth = 21;
 	static const int maxplayercount = 4;
-	static const int maxghostcount = 8;
+	static const int maxghostcount = 4;
 	enum Way{ Right, Bottom, Left, Top };
 	enum Personality{ Blinky, Pinky, Inky, Sue, FrightBlue, FrigtWhite, Eyes };
 	struct Coords{ int x; int y; Way way; };
@@ -51,7 +51,7 @@ public:
 		int ghost_count;
 		int score;
 		int lives;
-		bool playing;
+		bool playing[maxplayercount];
 		Coords players[maxplayercount];
 		Coords ghosts[maxghostcount];
 		Personality ghostmodel[maxghostcount];
