@@ -173,7 +173,6 @@ int ClientService(void *data){
 				packet = game->GetStatePacket();
 				packet.lives = player->GetLives();
 				packet.score = player->GetScore();
-				packet.playing = player->IsAlive();
 				SDLNet_TCP_Send(player->GetSocket(), (void *)&packet, sizeof(Game::State_Packet));
 				break;
 			case GoingTop:

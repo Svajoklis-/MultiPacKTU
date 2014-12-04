@@ -44,20 +44,19 @@ int Entity::ManhattansDistance(Coords from, Coords to){
 	return abs(from.x - to.x) + abs(from.y - to.y);
 }
 
-Entity::Coords Entity::CoordsAfterMoving(Entity *entity, int turns){
-	Coords coords = entity->GetCoords();
+Entity::Coords Entity::CoordsAfterMoving(Coords coords, int distance){
 	switch (coords.way){
 	case Top:
-		coords.y -= turns*entity->GetSpeed();
+		coords.y -= distance;
 		break;
 	case Right:
-		coords.x += turns*entity->GetSpeed();
+		coords.x += distance;
 		break;
 	case Bottom:
-		coords.y += turns*entity->GetSpeed();
+		coords.y += distance;
 		break;
 	case Left:
-		coords.x -= turns*entity->GetSpeed();
+		coords.x -= distance;
 		break;
 	}
 	return coords;

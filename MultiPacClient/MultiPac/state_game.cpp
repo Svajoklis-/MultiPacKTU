@@ -125,7 +125,7 @@ void State_game::logic()
 	for (int i = 0; i < data.player_count; i++)
 	{
 		pacman[i].set_coords(data.players[i].x, data.players[i].y, data.players[i].way);
-		pacman[i].set_state(data.playing);
+		pacman[i].set_state(data.playing[i]);
 		//pacman[i].set_state(data.players[i].state);
 		//reikia per state packet paduot death state
 		//jei 0, pacman alive

@@ -16,7 +16,7 @@ public:
 		int ghost_count;
 		int score;
 		int lives;
-		bool playing;
+		bool playing[maxplayercount];
 		Entity::Coords players[maxplayercount];
 		Entity::Coords ghosts[maxghostcount];
 		Ghost::Personality ghostmodel[maxghostcount];

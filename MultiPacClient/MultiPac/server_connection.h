@@ -51,7 +51,7 @@ public:
 		int ghost_count;
 		int score;
 		int lives;
-		bool playing;
+		bool playing[maxplayercount];
 		Coords players[maxplayercount];
 		Coords ghosts[maxghostcount];
 		Personality ghostmodel[maxghostcount];

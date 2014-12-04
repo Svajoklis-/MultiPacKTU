@@ -81,6 +81,7 @@ void Game::CheckCollision(Entity *entity){
 			if (typeid(*entity) == typeid(Player)){												//if its a player
 				Player *collider = (Player *)entity;
 				if (collider != player && collider->IsActive() && player->IsActive() &&	//if not the same player and both active
+					collider->IsAlive() && player->IsAlive() &&							//and alive(no corpses pushed around)
 					(!(target.x == Player::startingx && target.y == Player::startingy) &&		//and target isnt at starting position
 					!(host.x == Player::startingx && host.y == Player::startingy))){			//and collider isnt at the starting position
 					if (host.way != target.way) target.way = Entity::ReverseWay(target.way);	//if it comes from behind do not flip
@@ -96,11 +97,11 @@ void Game::CheckCollision(Entity *entity){
 			else{
 				Ghost *collider = (Ghost *)entity;
 				Ghost::Personality current = collider->GetPersonality();
-				if (current != Ghost::Eyes){	//if ghost isnt dead
+				if (current != Ghost::Eyes && player->IsAlive()){	//if ghost isnt dead and not pacman corpse
 					//if ghosts are not frightened
 					if (current != Ghost::FrightBlue && current != Ghost::FrightWhite){
 						//kill pacman
-						if (player->IsAlive()) player->Kill();
+						player->Kill();
 					}
 					else{
 						//ghost dies
@@ -119,27 +120,27 @@ void Game::CheckGhostBrain(Ghost *ghost){
 	if (coords.x % tile == 0 && coords.y % tile == 0 && coords.y != Player::startingy){		
 		Entity::Way banned = Entity::ReverseWay(coords.way);	//ghost (almost) never turn back
 		std::vector<Entity::Way> selection;
-		int choice;
+		int choice = -1;
 		int mindistance = (mapheight + mapwidth) * tile;
 		Ghost::Personality current = ghost->GetPersonality();
 		bool homebanned = coords.x == 80 && current != Ghost::Eyes; //cant go home if ure not dead
+		
 		if (CheckMap(ghost, Entity::Top) && banned != Entity::Top) selection.push_back(Entity::Top);
 		if (CheckMap(ghost, Entity::Bottom) && banned != Entity::Bottom && !homebanned) selection.push_back(Entity::Bottom);
 		if (CheckMap(ghost, Entity::Right) && banned != Entity::Right) selection.push_back(Entity::Right);
 		if (CheckMap(ghost, Entity::Left) && banned != Entity::Left) selection.push_back(Entity::Left);
-		
+
 		switch (current)
 		{
 		case Ghost::Blinky:
 		case Ghost::Pinky:
 		case Ghost::Inky:
 			for (unsigned i = 0; i < selection.size(); i++){
+				int distance;
 				Entity::Coords temp = coords;
 				temp.way = selection[i];
-				ghost->SetCoords(temp);
-				temp = Entity::CoordsAfterMoving(ghost, tile);
+				temp = Entity::CoordsAfterMoving(temp, tile);
 				for each(Player *player in players){
-					int distance;
 					Entity::Coords pacman = player->GetCoords();
 					switch (current)
 					{
@@ -147,7 +148,7 @@ void Game::CheckGhostBrain(Ghost *ghost){
 						distance = Entity::ManhattansDistance(temp, pacman);
 						break;
 					case Ghost::Pinky:		//goes to closest pacman location after 4 turns
-						pacman = Entity::CoordsAfterMoving(player, 4*tile);
+						pacman = Entity::CoordsAfterMoving(player->GetCoords(), 4*tile*player->GetSpeed());
 						distance = Entity::ManhattansDistance(temp, pacman);
 						break;
 					case Ghost::Inky:		//if its further than 6 tiles goes to closest pacman otherwise random
@@ -158,12 +159,12 @@ void Game::CheckGhostBrain(Ghost *ghost){
 						}
 						break;
 					}
-					if (distance < mindistance){
+					if (distance < mindistance && player->IsAlive() &&		//try to follow pacmen who arent at home and is alive
+						!(pacman.x == Player::startingx && pacman.y == Player::startingy)){
 						mindistance = distance;
 						choice = i;
 					}
 				}
-				ghost->SetCoords(coords);
 			}
 			break;
 		case Ghost::Eyes:		//goes to the ghost house
@@ -171,14 +172,12 @@ void Game::CheckGhostBrain(Ghost *ghost){
 				Entity::Coords home = { Ghost::homex, Ghost::homey, Entity::Top };
 				Entity::Coords temp = coords;
 				temp.way = selection[i];
-				ghost->SetCoords(temp);
-				temp = Entity::CoordsAfterMoving(ghost, 1);
+				temp = Entity::CoordsAfterMoving(temp, tile);
 				int distance = Entity::ManhattansDistance(temp, home);
 				if (distance < mindistance){
 					mindistance = distance;
 					choice = i;
 				}
-				ghost->SetCoords(coords);
 			}
 			break;
 		case Ghost::Sue:		//roams randomly
@@ -187,6 +186,7 @@ void Game::CheckGhostBrain(Ghost *ghost){
 			choice = std::rand() % selection.size();
 			break;	
 		}
+		if (choice == -1) choice = std::rand() % selection.size();
 		coords.way = selection[choice];
 		ghost->SetCoords(coords);
 	}
@@ -270,6 +270,7 @@ void Game::Update(){
 		{
 			data.players[data.player_count] = scoords;
 		}
+		data.playing[data.player_count] = player->IsAlive();
 		data.player_count++;
 		//-------------------------------------
 		player->Tick();

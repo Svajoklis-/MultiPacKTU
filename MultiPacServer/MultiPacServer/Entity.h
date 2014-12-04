@@ -24,7 +24,7 @@ public:
 
 	static Way ReverseWay(Way input);
 	static int ManhattansDistance(Coords from, Coords to);
-	static Coords CoordsAfterMoving(Entity *entity, int turns);
+	static Coords CoordsAfterMoving(Coords coords, int distance);
 };
 
 #endif
