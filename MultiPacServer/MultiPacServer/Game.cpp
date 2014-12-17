@@ -11,6 +11,11 @@ Game::Game(){
 		}
 	file.close();
 	UpdateMap();
+	//add ghosts
+	for (int i = 0; i < maxghostcount; i++){
+		Ghost *ghost = new Ghost((Ghost::Personality)i);
+		ghosts.push_back(ghost);
+	}
 }
 
 void Game::GetMap(int map[][mapwidth]){
@@ -27,10 +32,6 @@ void Game::UpdateMap(){
 }
 
 void Game::AddPlayer(Player *player){
-	//add some ghosts
-	Ghost *ghost = new Ghost((Ghost::Personality)players.size());
-	ghosts.push_back(ghost);
-	//add player
 	players.push_back(player);
 }
 

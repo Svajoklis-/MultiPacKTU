@@ -133,6 +133,8 @@ int init()
 	g_connectionstring = (char *)malloc(20 * sizeof(char));
 	strcpy(g_connectionstring, iniread.Get("connection", "address", "192.168.0.1").c_str());
 
+	g_mute = iniread.GetInteger("system", "mute", 0);
+
 	win = SDL_CreateWindow("MultiPac", 100, 100, scr_w * scr_scale, scr_h * scr_scale,
 		SDL_WINDOW_SHOWN);
 
